@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Pilgaard.CronJobs
 {
-    public class CronBackgroundServiceOptions
+    public class CronJobOptions
     {
         /// <summary>
         /// Whether to include seconds when parsing Cron strings.
@@ -15,7 +15,7 @@ namespace Pilgaard.CronJobs
 
         /// <summary>
         /// Gets or sets the service lifetime of the 
-        /// <see cref="ICronService"/> passed into the 
+        /// <see cref="ICronJob"/> passed into the 
         /// <see cref="CronBackgroundService"/>.
         /// </summary>
         /// <value>

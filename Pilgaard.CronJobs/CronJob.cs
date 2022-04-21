@@ -3,13 +3,13 @@ using Cronos;
 
 namespace Pilgaard.CronJobs;
 
-public class CronService : ICronService
+public class CronJob : ICronJob
 {
-    public CronService(CronExpression cronExpression)
+    public CronJob(CronExpression cronExpression)
     {
         CronSchedule = cronExpression;
     }
-    public CronService(string cronExpression)
+    public CronJob(string cronExpression)
     {
         CronSchedule = CronExpression.Parse(cronExpression);
     }

@@ -2,7 +2,7 @@
 
 namespace Pilgaard.CronJobs;
 
-public interface ICronService
+public interface ICronJob
 {
     Task ExecuteAsync(CancellationToken cancellationToken = default);
     CronExpression CronSchedule { get; }

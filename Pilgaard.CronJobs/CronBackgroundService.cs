@@ -4,28 +4,28 @@ using Microsoft.Extensions.Hosting;
 
 namespace Pilgaard.CronJobs;
 
-public class CronBackgroundService<TCronService> : BackgroundService
-    where TCronService : ICronService
+public class CronBackgroundService<TCronJob> : BackgroundService
+    where TCronJob : ICronJob
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly TCronService _cronService;
-    private readonly CronBackgroundServiceOptions _options;
+    private readonly TCronJob _cronJob;
+    private readonly CronJobOptions _options;
     private readonly CronExpression _cronSchedule;
 
     public CronBackgroundService(
         IServiceScopeFactory serviceScopeFactory,
-        Action<CronBackgroundServiceOptions>? configuration = null)
+        Action<CronJobOptions>? configuration = null)
     {
-        _options = new CronBackgroundServiceOptions();
+        _options = new CronJobOptions();
         configuration?.Invoke(_options);
 
         _serviceScopeFactory = serviceScopeFactory;
 
-        // Lookup CronService to get it's schedule without compromising its lifecycle
-        // If lifetime is set to Singleton, the CronService remains un-disposed.
+        // Lookup CronJob to get it's schedule without compromising its lifecycle
+        // If lifetime is set to Singleton, the CronJob remains un-disposed.
         using var scope = _serviceScopeFactory.CreateScope();
-        _cronService = scope.ServiceProvider.GetRequiredService<TCronService>();
-        _cronSchedule = _cronService.CronSchedule;
+        _cronJob = scope.ServiceProvider.GetRequiredService<TCronJob>();
+        _cronSchedule = _cronJob.CronSchedule;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -50,18 +50,18 @@ public class CronBackgroundService<TCronService> : BackgroundService
         await Task.Delay(dormantTimeSpan, stoppingToken);
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
-        // CronService from the ServiceProvider on every execution.
+        // CronJob from the ServiceProvider on every execution.
         if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
         {
             await using var scope = _serviceScopeFactory.CreateAsyncScope();
 
-            var cronService = scope.ServiceProvider.GetRequiredService<TCronService>();
+            var cronService = scope.ServiceProvider.GetRequiredService<TCronJob>();
 
             await cronService.ExecuteAsync(stoppingToken);
             return;
         }
 
-        await _cronService.ExecuteAsync(stoppingToken);
+        await _cronJob.ExecuteAsync(stoppingToken);
     }
 
     public virtual DateTime? GetNextOccurrence() =>

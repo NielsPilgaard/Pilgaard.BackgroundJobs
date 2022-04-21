@@ -12,24 +12,24 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services, params Assembly[] assembliesToScan) =>
         services.AddSimpleCronJobs(assembliesToScan, null);
     public static IServiceCollection AddSimpleCronJobs(
-        this IServiceCollection services, Action<CronBackgroundServiceOptions> configuration, params Type[] types) =>
+        this IServiceCollection services, Action<CronJobOptions> configuration, params Type[] types) =>
         services.AddSimpleCronJobs(types.Select(e => e.Assembly), configuration);
     public static IServiceCollection AddSimpleCronJobs(
-        this IServiceCollection services, Action<CronBackgroundServiceOptions> configuration, params Assembly[] assembliesToScan) =>
+        this IServiceCollection services, Action<CronJobOptions> configuration, params Assembly[] assembliesToScan) =>
         services.AddSimpleCronJobs(assembliesToScan, configuration);
 
     public static IServiceCollection AddSimpleCronJobs(
-        this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronBackgroundServiceOptions>? configuration)
+        this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration)
     {
         if (!assembliesToScan.Any())
         {
             throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for Cron Services.");
         }
 
-        var cronBackgroundServiceOptions = new CronBackgroundServiceOptions();
+        var cronBackgroundServiceOptions = new CronJobOptions();
         configuration?.Invoke(cronBackgroundServiceOptions);
 
-        var typesToMatch = new[] { typeof(ICronService) };
+        var typesToMatch = new[] { typeof(ICronJob) };
 
         foreach (var assembly in assembliesToScan)
         {
@@ -53,8 +53,8 @@ public static class ServiceCollectionExtensions
     }
     public static IServiceCollection AddCronBackgroundService<TCronService>(
         this IServiceCollection services,
-        Action<CronBackgroundServiceOptions>? configure = null)
-        where TCronService : ICronService
+        Action<CronJobOptions>? configure = null)
+        where TCronService : ICronJob
     {
         return services.AddHostedService(serviceProvider =>
             new CronBackgroundService<TCronService>(
