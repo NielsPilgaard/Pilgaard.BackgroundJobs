@@ -6,6 +6,8 @@
 		<Description>Convenient methods for finding, registering and starting CronJobs.</Description>
 		<Copyright>Copyright Niels Pilgaard</Copyright>
 		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling;dependencyinjection;di</PackageTags>
+		<RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</PackageProjectUrl>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
