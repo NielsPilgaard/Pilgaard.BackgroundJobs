@@ -16,7 +16,7 @@ namespace Pilgaard.CronJobs
         /// <summary>
         /// Gets or sets the service lifetime of the 
         /// <see cref="ICronJob"/> passed into the 
-        /// <see cref="CronBackgroundService"/>.
+        /// <see cref="CronBackgroundService{TCronJob}"/>.
         /// </summary>
         /// <value>
         /// The service lifetime.

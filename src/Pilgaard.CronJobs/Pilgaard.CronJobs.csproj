@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Authors>Niels Pilgaard</Authors>
-		<Description>Convenient methods for finding, registering and starting CronJobs.</Description>
+		<Description>Easily create jobs that execute based on Cron expressions.</Description>
 		<Copyright>Copyright Niels Pilgaard</Copyright>
-		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling;dependencyinjection;di</PackageTags>
+		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -19,8 +19,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MinVer" Version="2.5.0" PrivateAssets="All" />
+		<PackageReference Include="Cronos" Version="0.7.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.18" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.18" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.18" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.18" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="MinVer" Version="2.5.0" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,7 @@
-﻿using Cronos;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -53,7 +56,7 @@ public class CronBackgroundService<TCronJob> : BackgroundService
         // CronJob from the ServiceProvider on every execution.
         if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            using var scope = _serviceScopeFactory.CreateScope();
 
             var cronService = scope.ServiceProvider.GetRequiredService<TCronJob>();
 

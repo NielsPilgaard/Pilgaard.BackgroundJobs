@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3CB57F2-AED9-4734-BC31-C08A9AB8DF70}"
-	ProjectSection(SolutionItems) = preProject
-		Directory.Build.props = Directory.Build.props
-		Pilgaard.CronJobs.sln.DotSettings = Pilgaard.CronJobs.sln.DotSettings
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4D02AC2C-534F-4ACE-97D7-71F1A2773279}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs", "Pilgaard.CronJobs\Pilgaard.CronJobs.csproj", "{6D11C05C-4E91-4904-9928-AE56003DB4C7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.IntegrationTests", "Pilgaard.CronJobs.IntegrationTests\Pilgaard.CronJobs.IntegrationTests.csproj", "{B52D9F1F-9461-4ECF-A9C1-34C6091F97CF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{FBC5473F-AA1B-4DF8-9AD9-64B6705797FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Tests", "Pilgaard.CronJobs.Tests\Pilgaard.CronJobs.Tests.csproj", "{1E4047E4-EC64-4153-B653-C3C9EAF97E1D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{F80C4EC1-D73B-4602-9B01-BD98ECDE3905}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection", "Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection.csproj", "{D1D81FE1-3DED-416D-A044-25CC7C8050D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs", "src\Pilgaard.CronJobs\Pilgaard.CronJobs.csproj", "{B3362204-D247-446E-B499-AB8E12057A24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection", "src\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection.csproj", "{034ED42F-C9B0-447B-999D-627EE9F0585E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Tests", "tests\Pilgaard.CronJobs.Tests\Pilgaard.CronJobs.Tests.csproj", "{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,25 +23,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6D11C05C-4E91-4904-9928-AE56003DB4C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D11C05C-4E91-4904-9928-AE56003DB4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D11C05C-4E91-4904-9928-AE56003DB4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D11C05C-4E91-4904-9928-AE56003DB4C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B52D9F1F-9461-4ECF-A9C1-34C6091F97CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B52D9F1F-9461-4ECF-A9C1-34C6091F97CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B52D9F1F-9461-4ECF-A9C1-34C6091F97CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B52D9F1F-9461-4ECF-A9C1-34C6091F97CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E4047E4-EC64-4153-B653-C3C9EAF97E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E4047E4-EC64-4153-B653-C3C9EAF97E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E4047E4-EC64-4153-B653-C3C9EAF97E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E4047E4-EC64-4153-B653-C3C9EAF97E1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1D81FE1-3DED-416D-A044-25CC7C8050D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1D81FE1-3DED-416D-A044-25CC7C8050D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1D81FE1-3DED-416D-A044-25CC7C8050D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1D81FE1-3DED-416D-A044-25CC7C8050D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3362204-D247-446E-B499-AB8E12057A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3362204-D247-446E-B499-AB8E12057A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3362204-D247-446E-B499-AB8E12057A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3362204-D247-446E-B499-AB8E12057A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{034ED42F-C9B0-447B-999D-627EE9F0585E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{034ED42F-C9B0-447B-999D-627EE9F0585E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{034ED42F-C9B0-447B-999D-627EE9F0585E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{034ED42F-C9B0-447B-999D-627EE9F0585E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3362204-D247-446E-B499-AB8E12057A24} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
+		{034ED42F-C9B0-447B-999D-627EE9F0585E} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
+		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
