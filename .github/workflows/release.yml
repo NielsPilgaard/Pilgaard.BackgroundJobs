@@ -23,9 +23,10 @@ jobs:
       
       - name: Restore NuGet packages
         run: dotnet restore
-
+        working-directory: src/
       - name: Build
         run: dotnet build -c Release --no-restore
+        working-directory: src/
         
   test:
     name: Run Tests
@@ -34,6 +35,7 @@ jobs:
     steps:
       - name: Test
         run: dotnet test -c Release --no-build --no-restore
+        working-directory: tests/
         
   publish:
     name: Package & Publish NuGets
@@ -44,5 +46,6 @@ jobs:
     steps:
       - name: Package Nugets
         run: dotnet pack -c Release --no-build --no-restore --include-source --include-symbols
+        working-directory: src/
       - name: Push Nugets
         run: dotnet nuget push "*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }}
