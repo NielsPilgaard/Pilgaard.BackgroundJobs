@@ -10,6 +10,7 @@
 		<PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</PackageProjectUrl>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<DebugType>embedded</DebugType>
