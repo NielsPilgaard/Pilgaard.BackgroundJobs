@@ -13,11 +13,7 @@
 		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection.csproj" />
-		<ProjectReference Include="..\..\src\Pilgaard.CronJobs\Pilgaard.CronJobs.csproj" />
+		<PackageReference Include="Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection" Version="0.2.4" />
 	</ItemGroup>
 
 </Project>

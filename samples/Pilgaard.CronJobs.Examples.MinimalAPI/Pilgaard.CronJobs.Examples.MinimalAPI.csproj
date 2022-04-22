@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection\Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection.csproj" />
+		<PackageReference Include="Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection" Version="0.2.4" />
 	</ItemGroup>
 
 </Project>
