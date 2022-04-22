@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+    - '*.*.*'
+
+jobs:
+  build:
+    name: Build Projects
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup dotnet 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+        
+  test:
+    name: Run Tests
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: dotnet test -c Release --no-build --no-restore
+        
+  publish:
+    name: Package & Publish NuGets
+    needs: 
+    - [build]
+    - [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Package Nugets
+        run: dotnet pack -c Release --no-build --no-restore --include-source --include-symbols
+      - name: Push Nugets
+        run: dotnet nuget push "*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
