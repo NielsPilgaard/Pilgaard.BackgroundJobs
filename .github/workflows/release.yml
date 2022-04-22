@@ -6,7 +6,7 @@ on:
     - '*.*.*'
 
 jobs:
-  build:
+  release:
     name: Build Projects
     runs-on: ubuntu-latest
 
@@ -26,22 +26,10 @@ jobs:
         
       - name: Build
         run: dotnet build -c Release --no-restore
-        
-  test:
-    name: Run Tests
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
+
+      - name: Run Test
         run: dotnet test -c Release --no-build --no-restore
-        
-  publish:
-    name: Package & Publish NuGets
-    needs: 
-    - build
-    - test
-    runs-on: ubuntu-latest
-    steps:
+    
       - name: Package Nugets
         run: dotnet pack -c Release --no-build --no-restore --include-source --include-symbols
 
