@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.DependencyInjection;
-using Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection;
+using Pilgaard.CronJobs.Extensions;
 
 namespace Pilgaard.CronJobs.Benchmarks;
 

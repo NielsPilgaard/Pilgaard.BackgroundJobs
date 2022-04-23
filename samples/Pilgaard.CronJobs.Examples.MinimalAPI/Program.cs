@@ -1,5 +1,5 @@
 using Pilgaard.CronJobs.Examples.MinimalAPI;
-using Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection;
+using Pilgaard.CronJobs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
