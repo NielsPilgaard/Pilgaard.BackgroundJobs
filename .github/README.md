@@ -86,8 +86,7 @@ services.AddCronJobs(options =>
 
 ## Roadmap
 
-
-
+- More readable assembly scanning implementation
 - Summaries for all the things
 - Actual tests
 - More (realistic) samples
