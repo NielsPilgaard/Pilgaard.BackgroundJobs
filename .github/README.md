@@ -93,7 +93,7 @@ services.AddCronJobs(options =>
 - More (realistic) samples
   - Using Blazor
   - Using a Worker Service
-  - Registering `CronJobs` from an external assembly, such as a class library
+  - Registering `ICronJob`s from an external assembly, such as a class library
 
 
 
