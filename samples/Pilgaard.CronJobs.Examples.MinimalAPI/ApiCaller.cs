@@ -1,6 +1,6 @@
 ﻿using Cronos;
 
-namespace Pilgaard.CronJobs.Examples.AspNet;
+namespace Pilgaard.CronJobs.Examples.MinimalAPI;
 
 public class ApiCaller : ICronJob
 {
