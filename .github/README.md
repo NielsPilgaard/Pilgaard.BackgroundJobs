@@ -63,7 +63,7 @@ services.AddCronJobs(typeof(Program));
 
 This will scan the assembly for all classes that implement `ICronJob`, and add them to the container.
 
-Each `ICronJob` found is then hosted in a `CronBackgroundService`.
+Each `ICronJob` found is then hosted in a [CronBackgroundService](https://github.com/NielsPilgaard/Pilgaard.CronJobs/blob/master/src/Pilgaard.CronJobs/CronBackgroundService.cs).
 
 
 
@@ -71,7 +71,7 @@ Each `ICronJob` found is then hosted in a `CronBackgroundService`.
 
 ### Configuration
 
-The following options are available for you to customize:
+The following options are available for customizing `ICronJob` behaviour:
 
 ```csharp
 services.AddCronJobs(options =>
