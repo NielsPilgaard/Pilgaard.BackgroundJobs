@@ -1,20 +1,21 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pilgaard.CronJobs.Configuration;
 
-namespace Pilgaard.CronJobs.Extensions.Microsoft.DependencyInjection;
+namespace Pilgaard.CronJobs.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCronJobs(
         this IServiceCollection services, params Type[] types) =>
-        services.AddCronJobs(types.Select(e => e.Assembly), null);
+        services.AddCronJobs(types.Select(e => e.GetTypeInfo().Assembly), null);
     public static IServiceCollection AddCronJobs(
         this IServiceCollection services, params Assembly[] assembliesToScan) =>
         services.AddCronJobs(assembliesToScan, null);
     public static IServiceCollection AddCronJobs(
         this IServiceCollection services, Action<CronJobOptions> configuration, params Type[] types) =>
-        services.AddCronJobs(types.Select(e => e.Assembly), configuration);
+        services.AddCronJobs(types.Select(e => e.GetTypeInfo().Assembly), configuration);
     public static IServiceCollection AddCronJobs(
         this IServiceCollection services, Action<CronJobOptions> configuration, params Assembly[] assembliesToScan) =>
         services.AddCronJobs(assembliesToScan, configuration);
