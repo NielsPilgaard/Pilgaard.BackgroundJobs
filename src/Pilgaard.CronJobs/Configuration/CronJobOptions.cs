@@ -1,7 +1,7 @@
 ﻿using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Pilgaard.CronJobs;
+namespace Pilgaard.CronJobs.Configuration;
 
 public class CronJobOptions
 {
