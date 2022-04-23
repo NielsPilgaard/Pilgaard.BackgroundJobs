@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pilgaard.CronJobs.Configuration;
 
@@ -31,42 +32,46 @@ public static class ServiceCollectionExtensions
         var cronJobOptions = new CronJobOptions();
         configuration?.Invoke(cronJobOptions);
 
-        var typesToMatch = new[] { typeof(ICronJob) };
-
         foreach (var assembly in assembliesToScan)
         {
-            var classes = assembly.ExportedTypes.Where(type => !type.IsAbstract && type.GetInterfaces().Any());
-            foreach (var @class in classes)
+            var implementsICronJob = assembly.ExportedTypes.Where(type =>
+                !type.IsAbstract &&
+                type.GetInterfaces().Contains(typeof(ICronJob)));
+
+            foreach (var cronJob in implementsICronJob)
             {
-                foreach (var @interface in @class.GetInterfaces())
-                {
-                    foreach (var typeToMatch in typesToMatch)
-                    {
-                        if (@interface != typeToMatch)
-                        {
-                            continue;
-                        }
-
-                        services.Add(new ServiceDescriptor(
-                            typeToMatch,
-                            @class,
-                            cronJobOptions.ServiceLifetime));
-
-                        services.Add(new ServiceDescriptor(
-                            @class,
-                            @class,
-                            cronJobOptions.ServiceLifetime));
-
-                        services.AddHostedService(serviceProvider =>
-                            new CronBackgroundService((ICronJob)serviceProvider.GetRequiredService(@class),
-                                serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-                                serviceProvider.GetRequiredService<ILogger<CronBackgroundService>>(),
-                                configuration));
-                    }
-                }
+                RegisterCronJob(services, cronJobOptions, cronJob);
+                AddHostedCronBackgroundService(services, cronJob, configuration);
             }
         }
 
         return services;
+    }
+
+    private static void RegisterCronJob(IServiceCollection services,
+        CronJobOptions cronJobOptions,
+        Type concreteClass)
+    {
+        services.Add(new ServiceDescriptor(
+            typeof(ICronJob),
+            concreteClass,
+            cronJobOptions.ServiceLifetime));
+
+        services.Add(new ServiceDescriptor(
+            concreteClass,
+            concreteClass,
+            cronJobOptions.ServiceLifetime));
+    }
+
+    private static void AddHostedCronBackgroundService(
+        IServiceCollection services,
+        Type @class,
+        Action<CronJobOptions>? configuration)
+    {
+        services.AddSingleton<IHostedService>(serviceProvider =>
+            new CronBackgroundService((ICronJob)serviceProvider.GetRequiredService(@class),
+                serviceProvider.GetRequiredService<IServiceScopeFactory>(),
+                serviceProvider.GetRequiredService<ILogger<CronBackgroundService>>(),
+                configuration));
     }
 }
