@@ -10,17 +10,23 @@ Easily schedule jobs to run at specific times, based on Cron expressions.
 
 
 
-## Installing Pilgaard.CronJobs
 
-You should install [Pilgaard.CronJobs with NuGet](https://www.nuget.org/packages/Pilgaard.CronJobs):
+
+## Installing
+
+With NuGet:
 
     Install-Package Pilgaard.CronJobs
 
-Or via the .NET Core command line interface:
+With the .NET CLI:
 
     dotnet add package Pilgaard.CronJobs
 
 Or through Package Manager Console.
+
+
+
+
 
 ## Usage
 
@@ -43,6 +49,8 @@ public class CronJob : ICronJob
 
 
 
+
+
 ### Registration
 
 Register all CronJobs with an `IServiceCollection` instance:
@@ -56,6 +64,8 @@ services.AddCronJobs(typeof(Program));
 This will scan the assembly for all classes that implement `ICronJob`, and add them to the container.
 
 Each `ICronJob` found is then hosted in a `CronBackgroundService`.
+
+
 
 
 
@@ -74,9 +84,7 @@ services.AddCronJobs(options =>
 
 
 
-## Dependencies
-
-Please see the [Nuget page](https://www.nuget.org/packages/Pilgaard.CronJobs/) for a handy list of dependencies.
+---
 
 
 
