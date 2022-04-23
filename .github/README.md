@@ -84,6 +84,19 @@ services.AddCronJobs(options =>
 
 
 
+## Roadmap
+
+
+
+- Summaries for all the things
+- Actual tests
+- More (realistic) samples
+  - Using Blazor
+  - Using a Worker Service
+  - Registering `CronJobs` from an external assembly, such as a class library
+
+
+
 ---
 
 
