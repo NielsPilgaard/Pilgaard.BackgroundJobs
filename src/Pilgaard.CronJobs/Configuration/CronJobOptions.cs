@@ -15,8 +15,8 @@ public class CronJobOptions
 
     /// <summary>
     /// Gets or sets the service lifetime of the 
-    /// <see cref="ICronJob"/> passed into the 
-    /// <see cref="CronBackgroundService"/>.
+    /// <see cref="ICronJob"/>s passed into 
+    /// <see cref="CronBackgroundService"/>s.
     /// </summary>
     /// <value>
     /// The service lifetime.

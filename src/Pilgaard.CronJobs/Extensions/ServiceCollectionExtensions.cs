@@ -8,21 +8,27 @@ namespace Pilgaard.CronJobs.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCronJobs(
-        this IServiceCollection services, params Type[] types) =>
-        services.AddCronJobs(types.Select(e => e.GetTypeInfo().Assembly), null);
-    public static IServiceCollection AddCronJobs(
-        this IServiceCollection services, params Assembly[] assembliesToScan) =>
-        services.AddCronJobs(assembliesToScan, null);
-    public static IServiceCollection AddCronJobs(
-        this IServiceCollection services, Action<CronJobOptions> configuration, params Type[] types) =>
-        services.AddCronJobs(types.Select(e => e.GetTypeInfo().Assembly), configuration);
-    public static IServiceCollection AddCronJobs(
-        this IServiceCollection services, Action<CronJobOptions> configuration, params Assembly[] assembliesToScan) =>
-        services.AddCronJobs(assembliesToScan, configuration);
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, params Type[] types)
+    {
+        return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), null);
+    }
 
-    public static IServiceCollection AddCronJobs(
-        this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration)
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, params Assembly[] assembliesToScan)
+    {
+        return services.AddCronJobs(assembliesToScan, null);
+    }
+
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions> configuration, params Type[] types)
+    {
+        return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), configuration);
+    }
+
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions> configuration, params Assembly[] assembliesToScan)
+    {
+        return services.AddCronJobs(assembliesToScan, configuration);
+    }
+
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration)
     {
         if (!assembliesToScan.Any())
         {
@@ -30,6 +36,7 @@ public static class ServiceCollectionExtensions
         }
 
         var cronJobOptions = new CronJobOptions();
+
         configuration?.Invoke(cronJobOptions);
 
         foreach (var assembly in assembliesToScan)
