@@ -6,6 +6,17 @@ using Pilgaard.CronJobs.Configuration;
 
 namespace Pilgaard.CronJobs;
 
+/// <summary>
+/// This class is responsible for running a <see cref="ICronJob"/>,
+/// by hosting it as a <see cref="BackgroundService"/>,
+/// <para>
+/// The <see cref="CronBackgroundService"/> runs <see cref="ICronJob.ExecuteAsync"/>
+/// whenever <see cref="ICronJob.CronSchedule"/> triggers.
+/// </para>
+/// </summary>
+/// <remarks>
+/// See also: <seealso cref="BackgroundService" />
+/// </remarks>
 public class CronBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -15,6 +26,13 @@ public class CronBackgroundService : BackgroundService
     private readonly CronExpression _cronSchedule;
     private readonly string _cronJobName;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.
+    /// </summary>
+    /// <param name="cronJob">The cron job.</param>
+    /// <param name="serviceScopeFactory">The service scope factory.</param>
+    /// <param name="logger">The logger.</param>
+    /// <param name="configuration">The configuration.</param>
     public CronBackgroundService(
         ICronJob cronJob,
         IServiceScopeFactory serviceScopeFactory,
@@ -30,7 +48,7 @@ public class CronBackgroundService : BackgroundService
         // Lookup CronJob to get it's schedule without compromising its lifecycle
         // If lifetime is set to Singleton, the CronJob remains un-disposed.
         using var scope = _serviceScopeFactory.CreateScope();
-        _cronJob = (ICronJob)scope.ServiceProvider.GetRequiredService(cronJob.GetType());
+        _cronJob = (ICronJob)scope.ServiceProvider.GetService(cronJob.GetType());
         _cronJobName = _cronJob.GetType().Name;
         _cronSchedule = _cronJob.CronSchedule;
 
@@ -51,7 +69,12 @@ public class CronBackgroundService : BackgroundService
         }
     }
 
-    public virtual async Task PerformTaskOnNextOccurrence(
+    /// <summary>
+    /// Performs the task on next occurrence.
+    /// </summary>
+    /// <param name="nextTaskExecution">The next task execution.</param>
+    /// <param name="stoppingToken">The stopping token.</param>
+    private async Task PerformTaskOnNextOccurrence(
         DateTime? nextTaskExecution,
         CancellationToken stoppingToken)
     {
@@ -76,6 +99,23 @@ public class CronBackgroundService : BackgroundService
         await _cronJob.ExecuteAsync(stoppingToken);
     }
 
+    /// <summary>
+    ///     Gets the <see cref="DateTime"/> of the next time
+    ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
+    /// </summary>
+    /// <returns>
+    ///     The <see cref="DateTime"/> of the next time
+    ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
+    /// </returns>
+    private DateTime? GetNextOccurrence()
+    {
+        return _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
+    }
+
+    /// <summary>
+    ///     Gets the scoped <see cref="ICronJob"/> and executes it.
+    /// </summary>
+    /// <param name="stoppingToken">The stopping token.</param>
     private async Task GetScopedJobAndExecute(CancellationToken stoppingToken)
     {
         _logger.LogDebug(
@@ -84,25 +124,38 @@ public class CronBackgroundService : BackgroundService
 
         using var scope = _serviceScopeFactory.CreateScope();
 
-        var cronJob = (ICronJob)scope.ServiceProvider.GetRequiredService(_cronJob.GetType());
+        var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType());
 
         await cronJob.ExecuteAsync(stoppingToken);
 
         _logger.LogDebug("Successfully executed the CronJob {cronJobName}", _cronJobName);
     }
 
+    /// <summary>
+    ///     Checks whether the <paramref name="nextTaskExecution"/> is before
+    ///     <see cref="DateTime.UtcNow"/>.
+    /// </summary>
+    /// <param name="nextTaskExecution">The next task execution.</param>
+    /// <returns>
+    ///     <c>true</c> if <paramref name="nextTaskExecution"/>
+    ///     is before <see cref="DateTime.UtcNow"/>, otherwise <c>false</c>
+    /// </returns>
     private static bool NextOccurrenceIsInThePast(DateTime? nextTaskExecution)
     {
         return DateTime.UtcNow > nextTaskExecution.GetValueOrDefault();
     }
 
-    private static TimeSpan TimeUntilNextOccurrence(DateTime? nextTaskExecution)
+    /// <summary>
+    ///     Gets the <see cref="TimeSpan"/> until the next
+    ///     <see cref="ICronJob.ExecuteAsync"/> should be triggered.
+    /// </summary>
+    /// <param name="nextTaskExecutionTime">The next task execution.</param>
+    /// <returns>
+    ///     The <see cref="TimeSpan"/> until the next
+    ///     <see cref="ICronJob.ExecuteAsync"/> should be triggered.
+    /// </returns>
+    private static TimeSpan TimeUntilNextOccurrence(DateTime? nextTaskExecutionTime)
     {
-        return nextTaskExecution.GetValueOrDefault() - DateTime.UtcNow;
-    }
-
-    public virtual DateTime? GetNextOccurrence()
-    {
-        return _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
+        return nextTaskExecutionTime.GetValueOrDefault() - DateTime.UtcNow;
     }
 }
