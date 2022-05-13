@@ -6,14 +6,6 @@ namespace Pilgaard.CronJobs.Configuration;
 public class CronJobOptions
 {
     /// <summary>
-    /// Whether to include seconds when parsing Cron strings.
-    /// </summary>
-    /// <value>
-    /// The cron format.
-    /// </value>
-    public CronFormat CronFormat { get; set; } = CronFormat.Standard;
-
-    /// <summary>
     /// Gets or sets the service lifetime of the 
     /// <see cref="ICronJob"/>s passed into 
     /// <see cref="CronBackgroundService"/>s.
