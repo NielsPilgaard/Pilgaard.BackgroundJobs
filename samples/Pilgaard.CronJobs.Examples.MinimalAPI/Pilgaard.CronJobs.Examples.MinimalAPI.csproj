@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Pilgaard.CronJobs" Version="1.0.0" />
+	  <ProjectReference Include="..\..\src\Pilgaard.CronJobs\Pilgaard.CronJobs.csproj" />
 	</ItemGroup>
 
 </Project>
