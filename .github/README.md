@@ -86,9 +86,9 @@ services.AddCronJobs(options =>
 
 ## Roadmap
 
-- More readable assembly scanning implementation
-- Summaries for all the things
-- Actual tests
+- ~~More readable assembly scanning implementation~~
+- ~~Summaries for all the things~~
+- ~~Actual tests~~
 - More (realistic) samples
   - Using Blazor
   - Using a Worker Service
