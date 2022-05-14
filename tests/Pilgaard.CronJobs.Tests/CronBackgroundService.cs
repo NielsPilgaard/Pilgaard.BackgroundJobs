@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.Exceptions;
+using NSubstitute.ReceivedExtensions;
 using Pilgaard.CronJobs.Configuration;
 using Xunit;
 
@@ -76,10 +77,13 @@ public class CronBackgroundServiceTests : IAsyncDisposable
 
         // Assert - ExecuteAsync has been received at least once, after 3 seconds.
         await AssertWithTimeout(async () =>
-            await _cronJobMock.Received().ExecuteAsync(Arg.Any<CancellationToken>()),
+            await _cronJobMock.Received(Quantity.AtLeastOne()).ExecuteAsync(Arg.Any<CancellationToken>()),
             TimeSpan.FromSeconds(3));
     }
 
+    /// <summary>
+    /// This test is flaky, there's no way of knowing for how long it'll run on GitHub Actions.
+    /// </summary>
     [Fact]
     public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsExecuted_TheRightNumberOfTimes()
     {
@@ -91,10 +95,11 @@ public class CronBackgroundServiceTests : IAsyncDisposable
         await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock)
             .StartAsync(Token);
 
-        // Assert - ExecuteAsync has been received at least 5 times, after 6 seconds.
+        // Assert - ExecuteAsync has been received at least 5 times, after 5 seconds.
+        // In CI, this might span over far more than 5 seconds, so the quantity just has to be 5-30
         await AssertWithTimeout(async () =>
-                await _cronJobMock.Received(5).ExecuteAsync(Arg.Any<CancellationToken>()),
-            TimeSpan.FromSeconds(6));
+                await _cronJobMock.Received(Quantity.Within(5, 30)).ExecuteAsync(Arg.Any<CancellationToken>()),
+            TimeSpan.FromSeconds(5));
     }
 
 
