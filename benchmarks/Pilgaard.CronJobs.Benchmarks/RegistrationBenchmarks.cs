@@ -7,9 +7,11 @@ namespace Pilgaard.CronJobs.Benchmarks;
 [MemoryDiagnoser]
 public class RegistrationBenchmarks
 {
+    private readonly ServiceCollection _serviceCollection = new();
+    
     [Benchmark]
     public void AddCronJobs()
     {
-        new ServiceCollection().AddCronJobs(typeof(RegistrationBenchmarks));
+        _serviceCollection.AddCronJobs(typeof(RegistrationBenchmarks));
     }
 }
