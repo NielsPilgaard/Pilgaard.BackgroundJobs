@@ -61,7 +61,7 @@ services.AddCronJobs(typeof(Program));
 
 
 
-This will scan the assembly for all classes that implement `ICronJob`, and add them to the container.
+This will scan the assembly of `Program` for all classes that implement `ICronJob`, and add them to the container.
 
 Each `ICronJob` found is then hosted in a [CronBackgroundService](https://github.com/NielsPilgaard/Pilgaard.CronJobs/blob/master/src/Pilgaard.CronJobs/CronBackgroundService.cs).
 
@@ -77,7 +77,6 @@ The following options are available for customizing `ICronJob` behaviour:
 services.AddCronJobs(options =>
 {
     options.ServiceLifetime = ServiceLifetime.Singleton;
-    options.CronFormat = CronFormat.IncludeSeconds;
     options.TimeZoneInfo = TimeZoneInfo.Utc;
 }, typeof(Program));
 ```
