@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Pilgaard.CronJobs.Configuration;
 
 namespace Pilgaard.CronJobs.Extensions;
@@ -49,7 +50,7 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
-    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions> configuration, params Type[] types)
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions>? configuration = null, params Type[] types)
     {
         return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), configuration);
     }
@@ -65,7 +66,7 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
-    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions> configuration, params Assembly[] assembliesToScan)
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions>? configuration = null, params Assembly[] assembliesToScan)
     {
         return services.AddCronJobs(assembliesToScan, configuration);
     }
@@ -81,12 +82,18 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
-    public static IServiceCollection AddCronJobs(this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration)
+    public static IServiceCollection AddCronJobs(this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration = null)
     {
         if (!assembliesToScan.Any())
         {
             throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for Cron Services.");
         }
+
+        // If no Action is supplied, use the default
+        configuration ??= _ => { };
+
+        // Allows using IOptions<CronJobOptions>
+        services.Configure(configuration);
 
         var cronJobOptions = new CronJobOptions();
 
@@ -100,8 +107,8 @@ public static class ServiceCollectionExtensions
 
             foreach (var cronJob in implementsICronJob)
             {
-                RegisterCronJob(services, cronJobOptions, cronJob);
-                AddHostedCronBackgroundService(services, cronJob, configuration);
+                RegisterCronJob(services, cronJobOptions.ServiceLifetime, cronJob);
+                AddHostedCronBackgroundService(services, cronJob);
             }
         }
 
@@ -112,21 +119,21 @@ public static class ServiceCollectionExtensions
     /// Registers the cron job through a <see cref="ServiceDescriptor"/>.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    /// <param name="cronJobOptions">The cron job options.</param>
+    /// <param name="serviceLifetime">The service life time.</param>
     /// <param name="concreteClass">The concrete class.</param>
     private static void RegisterCronJob(IServiceCollection services,
-        CronJobOptions cronJobOptions,
+        ServiceLifetime serviceLifetime,
         Type concreteClass)
     {
         services.Add(new ServiceDescriptor(
             typeof(ICronJob),
             concreteClass,
-            cronJobOptions.ServiceLifetime));
+            serviceLifetime));
 
         services.Add(new ServiceDescriptor(
             concreteClass,
             concreteClass,
-            cronJobOptions.ServiceLifetime));
+            serviceLifetime));
     }
 
     /// <summary>
@@ -134,16 +141,15 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="class">The concrete <see cref="ICronJob"/> to host.</param>
-    /// <param name="configuration">The configuration.</param>
     private static void AddHostedCronBackgroundService(
         IServiceCollection services,
-        Type @class,
-        Action<CronJobOptions>? configuration)
+        Type @class)
     {
-        services.AddSingleton<IHostedService>(serviceProvider =>
-            new CronBackgroundService((ICronJob)serviceProvider.GetRequiredService(@class),
-                serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-                serviceProvider.GetRequiredService<ILogger<CronBackgroundService>>(),
-                configuration));
+
+        services.AddSingleton<IHostedService>(provider =>
+            new CronBackgroundService((ICronJob)provider.GetRequiredService(@class),
+                provider.GetRequiredService<IServiceScopeFactory>(),
+                provider.GetRequiredService<ILogger<CronBackgroundService>>(),
+                provider.GetRequiredService<IOptions<CronJobOptions>>()));
     }
 }
