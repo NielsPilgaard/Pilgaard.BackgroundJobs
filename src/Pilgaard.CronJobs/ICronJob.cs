@@ -1,7 +1,15 @@
 ﻿using Cronos;
+using Microsoft.Extensions.DependencyInjection;
+using Pilgaard.CronJobs.Extensions;
 
 namespace Pilgaard.CronJobs;
 
+/// <summary>
+/// Implementing this interface and registering it in your <see cref="IServiceCollection"/> will give you a functional CronJob.
+/// <para>
+/// Use <see cref="ServiceCollectionExtensions.AddCronJobs(IServiceCollection, Type[])"/> or one of it's overloads to register the <see cref="ICronJob"/> correctly.
+/// </para>
+/// </summary>
 public interface ICronJob
 {
     /// <summary>
