@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NSubstitute;
 using NSubstitute.Exceptions;
 using NSubstitute.ReceivedExtensions;
@@ -20,7 +19,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
     private readonly ICronJob _cronJobMock;
     private readonly IServiceScope _serviceScopeMock;
     private readonly IServiceProvider _serviceProviderMock;
-    private readonly IOptions<CronJobOptions> _optionsMock;
+    private readonly CronJobOptions _options;
     private CronBackgroundService _sut = null!;
 
     private static readonly CancellationTokenSource Cts = new(TimeSpan.FromSeconds(5));
@@ -33,7 +32,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
         _serviceProviderMock = Substitute.For<IServiceProvider>();
         _loggerMock = Substitute.For<ILogger<CronBackgroundService>>();
         _cronJobMock = Substitute.For<ICronJob>();
-        _optionsMock = Options.Create(new CronJobOptions());
+        _options = new CronJobOptions();
     }
 
     [Fact]
@@ -47,7 +46,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
             _cronJobMock,
             _serviceScopeFactoryMock,
             _loggerMock,
-            _optionsMock);
+            _options);
 
         // Assert - CreateScope is called during construction
         _serviceScopeFactoryMock.Received(1).CreateScope();
@@ -61,7 +60,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
         RunCronJobEverySecond();
 
         // Act
-        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _optionsMock)
+        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _options)
             .StartAsync(Token);
 
         // Assert - ExecuteAsync has been received at least once, after 3 seconds.
@@ -81,7 +80,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
         RunCronJobEverySecond();
 
         // Act
-        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _optionsMock)
+        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _options)
             .StartAsync(Token);
 
         // Assert - ExecuteAsync has been received at least 5 times, after 5 seconds.
@@ -105,7 +104,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
             _cronJobMock,
             _serviceScopeFactoryMock,
             _loggerMock,
-            _optionsMock).StartAsync(Token);
+            _options).StartAsync(Token);
 
         await Task.Delay(TimeSpan.FromSeconds(2));
 

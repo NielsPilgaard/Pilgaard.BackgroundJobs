@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Pilgaard.CronJobs.Configuration;
 
 namespace Pilgaard.CronJobs.Extensions;
@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="types">The types to scan for <see cref="ICronJob"/>s through.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="System.ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
     public static IServiceCollection AddCronJobs(this IServiceCollection services, params Type[] types)
     {
         return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), null);
@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="ICronJob"/>s.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="System.ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
     public static IServiceCollection AddCronJobs(this IServiceCollection services, params Assembly[] assembliesToScan)
     {
         return services.AddCronJobs(assembliesToScan, null);
@@ -79,25 +79,23 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="ICronJob"/>s.</param>
-    /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
+    /// <param name="configurationAction">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
-    public static IServiceCollection AddCronJobs(this IServiceCollection services, IEnumerable<Assembly> assembliesToScan, Action<CronJobOptions>? configuration = null)
+    private static IServiceCollection AddCronJobs(this IServiceCollection services,
+        IEnumerable<Assembly> assembliesToScan,
+        Action<CronJobOptions>? configurationAction)
     {
         if (!assembliesToScan.Any())
         {
             throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for Cron Services.");
         }
 
-        // If no Action is supplied, use the default
-        configuration ??= _ => { };
-
-        // Allows using IOptions<CronJobOptions>
-        services.Configure(configuration);
-
         var cronJobOptions = new CronJobOptions();
 
-        configuration?.Invoke(cronJobOptions);
+        configurationAction?.Invoke(cronJobOptions);
+
+        services.TryAddSingleton(cronJobOptions);
 
         foreach (var assembly in assembliesToScan)
         {
@@ -145,11 +143,10 @@ public static class ServiceCollectionExtensions
         IServiceCollection services,
         Type @class)
     {
-
         services.AddSingleton<IHostedService>(provider =>
             new CronBackgroundService((ICronJob)provider.GetRequiredService(@class),
                 provider.GetRequiredService<IServiceScopeFactory>(),
                 provider.GetRequiredService<ILogger<CronBackgroundService>>(),
-                provider.GetRequiredService<IOptions<CronJobOptions>>()));
+                provider.GetRequiredService<CronJobOptions>()));
     }
 }
