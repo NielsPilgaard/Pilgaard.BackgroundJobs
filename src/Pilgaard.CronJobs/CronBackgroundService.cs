@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Pilgaard.CronJobs.Configuration;
 
 namespace Pilgaard.CronJobs;
@@ -33,14 +32,14 @@ public class CronBackgroundService : BackgroundService
     /// <param name="cronJob">The cron job.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
-    /// <param name="options">The configuration.</param>
+    /// <param name="options">The options.</param>
     public CronBackgroundService(
         ICronJob cronJob,
         IServiceScopeFactory serviceScopeFactory,
         ILogger<CronBackgroundService> logger,
-        IOptions<CronJobOptions> options)
+        CronJobOptions options)
     {
-        _options = options.Value;
+        _options = options;
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
 
