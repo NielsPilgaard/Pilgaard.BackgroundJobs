@@ -1,8 +1,8 @@
 # Pilgaard.CronJobs
 
 ![CI](https://github.com/NillerMedDild/Pilgaard.CronJobs/workflows/Release/badge.svg)
-[![NuGet](https://img.shields.io/nuget/dt/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/mediatr)
-[![NuGet](https://img.shields.io/nuget/vpre/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/mediatr)
+[![NuGet](https://img.shields.io/nuget/dt/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
+[![NuGet](https://img.shields.io/nuget/vpre/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
 
 
 
