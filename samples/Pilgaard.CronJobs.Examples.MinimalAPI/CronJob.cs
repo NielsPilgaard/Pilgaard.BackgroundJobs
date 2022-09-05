@@ -24,7 +24,7 @@ public class ApiCallerCronJob : ICronJob
     }
 
     /// <summary>
-    /// Executes once every 5 seconds
+    /// Executes once every second
     /// </summary>
     public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
 }
