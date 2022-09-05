@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Pilgaard.CronJobs.Configuration;
 
+/// <summary>
+/// Options that allow you to change the behaviour of your <see cref="ICronJob"/>s.
+/// </summary>
 public class CronJobOptions
 {
     /// <summary>
