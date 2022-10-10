@@ -9,7 +9,7 @@
 		<RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</PackageProjectUrl>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PackageIcon>logo_128x128.png</PackageIcon>
+		<PackageIcon>logo_256x256.png</PackageIcon>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
+		<None Include="..\..\assets\logo\logo_256x256.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
