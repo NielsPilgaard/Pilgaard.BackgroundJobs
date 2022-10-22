@@ -10,6 +10,7 @@
 		<PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</PackageProjectUrl>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageIcon>logo_128x128.png</PackageIcon>
+		<PackageReadmeFile>../../README.md</PackageReadmeFile>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
