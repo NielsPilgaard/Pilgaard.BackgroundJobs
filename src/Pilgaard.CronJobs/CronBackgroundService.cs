@@ -59,7 +59,7 @@ public class CronBackgroundService : BackgroundService
         while (nextTaskOccurrence is not null &&
                stoppingToken.IsCancellationRequested is false)
         {
-            _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence:}", _cronJobName, nextTaskOccurrence);
+            _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence}", _cronJobName, nextTaskOccurrence);
 
             await PerformTaskOnNextOccurrence(nextTaskOccurrence, stoppingToken);
 
