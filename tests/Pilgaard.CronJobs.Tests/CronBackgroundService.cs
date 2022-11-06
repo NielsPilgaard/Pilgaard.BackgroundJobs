@@ -20,7 +20,6 @@ public class CronBackgroundServiceTests
     private readonly IServiceScope _serviceScopeMock;
     private readonly IServiceProvider _serviceProviderMock;
     private readonly CronJobOptions _options;
-    private CronBackgroundService _sut = null!;
 
     private static readonly CancellationTokenSource Cts = new();
     private static readonly CancellationToken Token = Cts.Token;
@@ -42,7 +41,7 @@ public class CronBackgroundServiceTests
         MockCronJobAndServiceScope(_cronJobMock);
 
         // Act
-        _sut = new CronBackgroundService(
+        _ = new CronBackgroundService(
             _cronJobMock,
             _serviceScopeFactoryMock,
             _loggerMock,
