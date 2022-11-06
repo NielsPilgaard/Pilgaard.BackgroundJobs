@@ -1,0 +1,17 @@
+name: GitHub Release
+
+on:
+  push:
+    tags:
+    - '*.*.*'
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    steps:
+        - name: Release
+          uses: softprops/action-gh-release@v1
+          with:
+            generate_release_notes: true
+            fail_on_unmatched_files: true
+            token: ${{ secrets.GITHUB_TOKEN }}
