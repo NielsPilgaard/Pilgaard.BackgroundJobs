@@ -1,9 +1,10 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pilgaard.CronJobs.Configuration;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Pilgaard.CronJobs.Extensions;
 
@@ -19,6 +20,9 @@ public static class ServiceCollectionExtensions
     /// <param name="types">The types to scan for <see cref="ICronJob"/>s through.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+#endif
     public static IServiceCollection AddCronJobs(this IServiceCollection services, params Type[] types)
     {
         return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), null);
@@ -34,6 +38,9 @@ public static class ServiceCollectionExtensions
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="ICronJob"/>s.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+#endif
     public static IServiceCollection AddCronJobs(this IServiceCollection services, params Assembly[] assembliesToScan)
     {
         return services.AddCronJobs(assembliesToScan, null);
@@ -50,6 +57,9 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+#endif
     public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions>? configuration = null, params Type[] types)
     {
         return services.AddCronJobs(types.Select(type => type.GetTypeInfo().Assembly), configuration);
@@ -66,6 +76,9 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+#endif
     public static IServiceCollection AddCronJobs(this IServiceCollection services, Action<CronJobOptions>? configuration = null, params Assembly[] assembliesToScan)
     {
         return services.AddCronJobs(assembliesToScan, configuration);
@@ -82,8 +95,11 @@ public static class ServiceCollectionExtensions
     /// <param name="configurationAction">The configurator of <see cref="CronJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
     /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+#endif
     private static IServiceCollection AddCronJobs(this IServiceCollection services,
-        IEnumerable<Assembly> assembliesToScan,
+    IEnumerable<Assembly> assembliesToScan,
         Action<CronJobOptions>? configurationAction)
     {
         if (!assembliesToScan.Any())
