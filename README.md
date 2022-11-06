@@ -1,6 +1,6 @@
 # Pilgaard.CronJobs
 
-![CI](https://github.com/NillerMedDild/Pilgaard.CronJobs/workflows/Release/badge.svg)
+[![CI](https://github.com/NillerMedDild/Pilgaard.CronJobs/workflows/Release/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.CronJobs/actions/workflows/release.yml)
 [![NuGet](https://img.shields.io/nuget/dt/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
 [![NuGet](https://img.shields.io/nuget/vpre/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
 
