@@ -46,7 +46,12 @@ public class CronBackgroundService : BackgroundService
         // Lookup CronJob to get it's schedule without compromising its lifecycle
         // If lifetime is set to Singleton, the CronJob remains un-disposed.
         using var scope = _serviceScopeFactory.CreateScope();
-        _cronJob = (ICronJob)scope.ServiceProvider.GetService(cronJob.GetType());
+        var scopedCronJob = scope.ServiceProvider.GetService(cronJob.GetType());
+
+        _cronJob = (ICronJob?)scopedCronJob ?? throw new ArgumentNullException(
+            nameof(cronJob),
+            $"Failed to GetService of type {cronJob.GetType().FullName} from ServiceProvider. " +
+            "Remember to register it in the ServiceCollection.");
         _cronJobName = _cronJob.GetType().Name;
         _cronSchedule = _cronJob.CronSchedule;
 
@@ -122,7 +127,7 @@ public class CronBackgroundService : BackgroundService
 
         using var scope = _serviceScopeFactory.CreateScope();
 
-        var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType());
+        var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType())!;
 
         await cronJob.ExecuteAsync(stoppingToken);
 
