@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -8,11 +5,14 @@ using NSubstitute;
 using NSubstitute.Exceptions;
 using NSubstitute.ReceivedExtensions;
 using Pilgaard.CronJobs.Configuration;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Pilgaard.CronJobs.Tests;
 
-public class CronBackgroundServiceTests : IAsyncDisposable
+public class CronBackgroundServiceTests
 {
     private readonly IServiceScopeFactory _serviceScopeFactoryMock;
     private readonly ILogger<CronBackgroundService> _loggerMock;
@@ -22,7 +22,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
     private readonly CronJobOptions _options;
     private CronBackgroundService _sut = null!;
 
-    private static readonly CancellationTokenSource Cts = new(TimeSpan.FromSeconds(5));
+    private static readonly CancellationTokenSource Cts = new();
     private static readonly CancellationToken Token = Cts.Token;
 
     public CronBackgroundServiceTests()
@@ -113,13 +113,6 @@ public class CronBackgroundServiceTests : IAsyncDisposable
             await _cronJobMock.Received(5).ExecuteAsync(Arg.Any<CancellationToken>()));
     }
 
-    public async ValueTask DisposeAsync()
-    {
-        await _sut.StopAsync(Token);
-        _sut.Dispose();
-        GC.SuppressFinalize(this);
-    }
-
     private void MockCronJobAndServiceScope(ICronJob cronJob)
     {
         _serviceScopeFactoryMock.CreateScope().Returns(_serviceScopeMock);
@@ -131,7 +124,7 @@ public class CronBackgroundServiceTests : IAsyncDisposable
 
     private static async Task AssertWithTimeout(Func<Task> assertion, TimeSpan timeout)
     {
-        var cts = new CancellationTokenSource(timeout);
+        using var cts = new CancellationTokenSource(timeout);
         var token = cts.Token;
 
         while (!token.IsCancellationRequested)
