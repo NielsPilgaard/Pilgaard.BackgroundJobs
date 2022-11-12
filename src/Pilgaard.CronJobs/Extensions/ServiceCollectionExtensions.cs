@@ -137,7 +137,13 @@ public static class ServiceCollectionExtensions
     /// <param name="concreteClass">The concrete class.</param>
     private static void RegisterCronJob(IServiceCollection services,
         ServiceLifetime serviceLifetime,
-        Type concreteClass)
+#if NET7_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type concreteClass
+#endif
+#if NETSTANDARD2_0
+        Type concreteClass
+#endif
+    )
     {
         services.Add(new ServiceDescriptor(
             typeof(ICronJob),
