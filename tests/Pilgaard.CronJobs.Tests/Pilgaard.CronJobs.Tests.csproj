@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<Nullable>enable</Nullable>
+		<TargetFramework>$(NetVersion)</TargetFramework>
 
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
