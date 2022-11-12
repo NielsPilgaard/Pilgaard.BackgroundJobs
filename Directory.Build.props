@@ -1,7 +1,15 @@
 <Project>
-	<PropertyGroup>
-		<LangVersion>10.0</LangVersion>
+
+  <PropertyGroup Label="SDK Versions">
+    <NetVersion>net7.0</NetVersion>
+    <NetStandardVersion>netstandard2.0</NetStandardVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+		<LangVersion>latest</LangVersion>
 		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
+
 </Project>
