@@ -7,9 +7,10 @@
 
   <PropertyGroup>
 		<LangVersion>latest</LangVersion>
-		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001</NoWarn>
+		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001;IDE1006</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
 </Project>
