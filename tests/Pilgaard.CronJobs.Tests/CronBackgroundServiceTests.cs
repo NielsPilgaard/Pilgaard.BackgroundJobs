@@ -5,14 +5,11 @@ using NSubstitute;
 using NSubstitute.Exceptions;
 using NSubstitute.ReceivedExtensions;
 using Pilgaard.CronJobs.Configuration;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Pilgaard.CronJobs.Tests;
 
-public class CronBackgroundServiceTests
+public class CronBackgroundServiceTests : IAsyncLifetime
 {
     private readonly IServiceScopeFactory _serviceScopeFactoryMock;
     private readonly ILogger<CronBackgroundService> _loggerMock;
@@ -21,8 +18,8 @@ public class CronBackgroundServiceTests
     private readonly IServiceProvider _serviceProviderMock;
     private readonly CronJobOptions _options;
 
-    private static readonly CancellationTokenSource Cts = new();
-    private static readonly CancellationToken Token = Cts.Token;
+    private CancellationTokenSource? _cts;
+    private CronBackgroundService? _sut;
 
     public CronBackgroundServiceTests()
     {
@@ -35,35 +32,15 @@ public class CronBackgroundServiceTests
     }
 
     [Fact]
-    public void When_CronBackgroundService_IsConstructed_AScopeIsRetrieved()
-    {
-        // Arrange
-        MockCronJobAndServiceScope(_cronJobMock);
-
-        // Act
-        _ = new CronBackgroundService(
-            _cronJobMock,
-            _serviceScopeFactoryMock,
-            _loggerMock,
-            _options);
-
-        // Assert - CreateScope is called during construction
-        _serviceScopeFactoryMock.Received(1).CreateScope();
-    }
-
-    [Fact]
     public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsExecuted()
     {
         // Arrange
-        MockCronJobAndServiceScope(_cronJobMock);
         RunCronJobEverySecond();
 
         // Act
-        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _options)
-            .StartAsync(Token);
 
-        // Assert - ExecuteAsync has been received at least once, after 3 seconds.
-        await AssertWithTimeout(async () =>
+        // Assert that ExecuteAsync has been received at least once, after 3 seconds.
+        await AssertWithRetryAsync(async () =>
             await _cronJobMock.Received(Quantity.AtLeastOne()).ExecuteAsync(Arg.Any<CancellationToken>()),
             TimeSpan.FromSeconds(3));
     }
@@ -75,16 +52,13 @@ public class CronBackgroundServiceTests
     public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsExecuted_TheRightNumberOfTimes()
     {
         // Arrange
-        MockCronJobAndServiceScope(_cronJobMock);
         RunCronJobEverySecond();
 
         // Act
-        await new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _options)
-            .StartAsync(Token);
 
-        // Assert - ExecuteAsync has been received at least 5 times, after 5 seconds.
+        // Assert that ExecuteAsync has been received at least 5 times, after 5 seconds.
         // In CI, this might span over far more than 5 seconds, so the quantity just has to be 5-30
-        await AssertWithTimeout(async () =>
+        await AssertWithRetryAsync(async () =>
                 await _cronJobMock.Received(Quantity.Within(5, 30)).ExecuteAsync(Arg.Any<CancellationToken>()),
             TimeSpan.FromSeconds(5));
     }
@@ -95,19 +69,12 @@ public class CronBackgroundServiceTests
     public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsNotExecuted_MoreThanItShould()
     {
         // Arrange
-        MockCronJobAndServiceScope(_cronJobMock);
         RunCronJobEveryMinute();
 
         // Act
-        await new CronBackgroundService(
-            _cronJobMock,
-            _serviceScopeFactoryMock,
-            _loggerMock,
-            _options).StartAsync(Token);
-
         await Task.Delay(TimeSpan.FromSeconds(2));
 
-        // Assert - ExecuteAsync has not been received at least 5 times, after 2 seconds.
+        // Assert that ExecuteAsync has not been received at least 5 times, after 2 seconds.
         await Assert.ThrowsAsync<ReceivedCallsException>(async () =>
             await _cronJobMock.Received(5).ExecuteAsync(Arg.Any<CancellationToken>()));
     }
@@ -121,7 +88,7 @@ public class CronBackgroundServiceTests
             .ReturnsForAnyArgs(cronJob);
     }
 
-    private static async Task AssertWithTimeout(Func<Task> assertion, TimeSpan timeout)
+    private static async Task AssertWithRetryAsync(Func<Task> assertion, TimeSpan timeout)
     {
         using var cts = new CancellationTokenSource(timeout);
         var token = cts.Token;
@@ -144,4 +111,18 @@ public class CronBackgroundServiceTests
     private void RunCronJobEverySecond() => _cronJobMock.CronSchedule.Returns(CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds));
     private void RunCronJobEveryMinute() => _cronJobMock.CronSchedule.Returns(CronExpression.Parse("* * * * *"));
 
+    public async Task InitializeAsync()
+    {
+        MockCronJobAndServiceScope(_cronJobMock);
+        _cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        _sut = new CronBackgroundService(_cronJobMock, _serviceScopeFactoryMock, _loggerMock, _options);
+        await _sut.StartAsync(_cts!.Token);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _sut!.StopAsync(_cts!.Token);
+        _cts.Cancel();
+        _cts.Dispose();
+    }
 }
