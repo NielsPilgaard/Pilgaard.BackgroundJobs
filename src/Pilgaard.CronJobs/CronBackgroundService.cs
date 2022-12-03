@@ -1,4 +1,4 @@
-﻿using Cronos;
+using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -42,16 +42,7 @@ public class CronBackgroundService : BackgroundService
         _options = options;
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-
-        // Lookup CronJob to get it's schedule without compromising its lifecycle
-        // If lifetime is set to Singleton, the CronJob remains un-disposed.
-        using var scope = _serviceScopeFactory.CreateScope();
-        var scopedCronJob = scope.ServiceProvider.GetService(cronJob.GetType());
-
-        _cronJob = (ICronJob?)scopedCronJob ?? throw new ArgumentNullException(
-            nameof(cronJob),
-            $"Failed to GetService of type {cronJob.GetType().FullName} from ServiceProvider. " +
-            "Remember to register it in the ServiceCollection.");
+        _cronJob = cronJob;
         _cronJobName = _cronJob.GetType().Name;
         _cronSchedule = _cronJob.CronSchedule;
 
@@ -61,12 +52,13 @@ public class CronBackgroundService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var nextTaskOccurrence = GetNextOccurrence();
+
         while (nextTaskOccurrence is not null &&
                stoppingToken.IsCancellationRequested is false)
         {
             _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence}", _cronJobName, nextTaskOccurrence);
 
-            await PerformTaskOnNextOccurrence(nextTaskOccurrence, stoppingToken);
+            await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken);
 
             nextTaskOccurrence = GetNextOccurrence();
         }
@@ -77,7 +69,7 @@ public class CronBackgroundService : BackgroundService
     /// </summary>
     /// <param name="nextTaskExecution">The next task execution.</param>
     /// <param name="stoppingToken">The stopping token.</param>
-    private async Task PerformTaskOnNextOccurrence(
+    private async Task PerformTaskOnNextOccurrenceAsync(
         DateTime? nextTaskExecution,
         CancellationToken stoppingToken)
     {
@@ -95,7 +87,7 @@ public class CronBackgroundService : BackgroundService
         // CronJob from the ServiceProvider on every execution.
         if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-            await GetScopedJobAndExecute(stoppingToken);
+            await GetScopedJobAndExecuteAsync(stoppingToken);
             return;
         }
 
@@ -111,15 +103,13 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-    {
-        return _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
-    }
+        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
 
     /// <summary>
     ///     Gets the scoped <see cref="ICronJob"/> and executes it.
     /// </summary>
     /// <param name="stoppingToken">The stopping token.</param>
-    private async Task GetScopedJobAndExecute(CancellationToken stoppingToken)
+    private async Task GetScopedJobAndExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogDebug(
             "Fetching a {serviceLifetime} instance of {cronJobName} from the ServiceProvider.",
@@ -144,9 +134,7 @@ public class CronBackgroundService : BackgroundService
     ///     is before <see cref="DateTime.UtcNow"/>, otherwise <c>false</c>
     /// </returns>
     private static bool NextOccurrenceIsInThePast(DateTime? nextTaskExecution)
-    {
-        return DateTime.UtcNow > nextTaskExecution.GetValueOrDefault();
-    }
+        => DateTime.UtcNow > nextTaskExecution.GetValueOrDefault();
 
     /// <summary>
     ///     Gets the <see cref="TimeSpan"/> until the next
@@ -158,7 +146,5 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should be triggered.
     /// </returns>
     private static TimeSpan TimeUntilNextOccurrence(DateTime? nextTaskExecutionTime)
-    {
-        return nextTaskExecutionTime.GetValueOrDefault() - DateTime.UtcNow;
-    }
+        => nextTaskExecutionTime.GetValueOrDefault() - DateTime.UtcNow;
 }
