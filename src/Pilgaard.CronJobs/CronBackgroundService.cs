@@ -1,8 +1,10 @@
+using System.Diagnostics.Metrics;
 using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pilgaard.CronJobs.Configuration;
+using Pilgaard.CronJobs.Extensions;
 
 namespace Pilgaard.CronJobs;
 
@@ -25,6 +27,15 @@ public class CronBackgroundService : BackgroundService
     private readonly CronJobOptions _options;
     private readonly CronExpression _cronSchedule;
     private readonly string _cronJobName;
+
+    private static readonly Meter _meter = new(
+        name: typeof(CronBackgroundService).Assembly.GetName().Name!,
+        version: typeof(CronBackgroundService).Assembly.GetName().Version?.ToString());
+
+    private static readonly Histogram<double> _histogram =
+        _meter.CreateHistogram<double>("cronjob.executeasync",
+            "milliseconds",
+            "Histogram over duration and count of ICronJob.ExecuteAsync.");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.
@@ -82,6 +93,9 @@ public class CronBackgroundService : BackgroundService
         var delay = TimeUntilNextOccurrence(nextTaskExecution);
 
         await Task.Delay(delay, stoppingToken);
+
+        // Measure duration of ExecuteAsync
+        using var timer = _histogram.NewTimer();
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
