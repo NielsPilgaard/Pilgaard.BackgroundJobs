@@ -12,5 +12,5 @@ public static class HistogramExtensions
     /// Dispose of the returned instance to report the elapsed duration.
     /// </para>
     /// </summary>
-    public static ITimer NewTimer(this Histogram<double> histogram) => new Timer(histogram);
+    public static ITimer NewTimer(this Histogram<double> histogram, params KeyValuePair<string, object?>[] tags) => new Timer(histogram, tags);
 }

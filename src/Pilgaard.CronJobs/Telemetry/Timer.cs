@@ -7,9 +7,9 @@ internal sealed class Timer : ITimer
 {
     private readonly ValueStopwatch _stopwatch = ValueStopwatch.StartNew();
     private readonly Action<double> _observeDurationAction;
-    internal Timer(Histogram<double> histogram)
+    internal Timer(Histogram<double> histogram, params KeyValuePair<string, object?>[] tags)
     {
-        _observeDurationAction = histogram.Record;
+        _observeDurationAction = duration => histogram.Record(duration, tags);
     }
 
     public void Dispose() => ObserveDuration();

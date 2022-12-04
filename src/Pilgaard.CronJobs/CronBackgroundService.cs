@@ -95,7 +95,10 @@ public class CronBackgroundService : BackgroundService
         await Task.Delay(delay, stoppingToken);
 
         // Measure duration of ExecuteAsync
-        using var timer = _histogram.NewTimer();
+        using var timer = _histogram.NewTimer(tags:
+            new[]{
+                new KeyValuePair<string, object?>("job_name", _cronJobName)
+            });
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
