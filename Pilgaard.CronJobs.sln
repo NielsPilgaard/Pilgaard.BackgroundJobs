@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pilgaard.CronJobs.Examples.OpenTelemetry", "samples\Pilgaard.CronJobs.Examples.OpenTelemetry\Pilgaard.CronJobs.Examples.OpenTelemetry.csproj", "{6A2D35C0-DBF9-4467-900C-724313E3B15E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{C3724948-F508-4617-8EC1-38163FF38985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3724948-F508-4617-8EC1-38163FF38985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3724948-F508-4617-8EC1-38163FF38985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 		{C3724948-F508-4617-8EC1-38163FF38985} = {FBC5473F-AA1B-4DF8-9AD9-64B6705797FF}
+		{6A2D35C0-DBF9-4467-900C-724313E3B15E} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
