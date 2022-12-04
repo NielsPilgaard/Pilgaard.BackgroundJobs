@@ -1,13 +1,13 @@
-﻿using Cronos;
+using Cronos;
 
 namespace Pilgaard.CronJobs.Examples.MinimalAPI;
 
-public class ApiCallerCronJob : ICronJob
+public class CronJob : ICronJob
 {
-    private readonly ILogger<ApiCallerCronJob> _logger;
-    private static readonly HttpClient Client = new();
+    private readonly ILogger<CronJob> _logger;
+    private static readonly HttpClient _client = new();
 
-    public ApiCallerCronJob(ILogger<ApiCallerCronJob> logger)
+    public CronJob(ILogger<CronJob> logger)
     {
         _logger = logger;
     }
@@ -15,12 +15,12 @@ public class ApiCallerCronJob : ICronJob
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Executing CronJob {nameofApiCallerCronJob} at {timeNow}",
-            nameof(ApiCallerCronJob),
+            nameof(CronJob),
             DateTime.UtcNow.ToString("T"));
 
         const string endpoint = "https://localhost:7021/weatherforecast";
 
-        await Client.GetAsync(endpoint, cancellationToken);
+        await _client.GetAsync(endpoint, cancellationToken);
     }
 
     /// <summary>
