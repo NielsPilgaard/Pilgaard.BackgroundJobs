@@ -26,22 +26,23 @@
 		<None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Cronos" Version="0.7.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
-		<PackageReference Include="Cronos" Version="0.7.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetStandardVersion)'">
-		<PackageReference Include="Cronos" Version="0.7.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.18" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.18" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.18" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
-	</ItemGroup>
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.0" />
+  </ItemGroup>
 
 </Project>

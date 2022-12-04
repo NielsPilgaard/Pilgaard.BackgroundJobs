@@ -1,23 +1,23 @@
 namespace Pilgaard.CronJobs.Examples.MinimalAPI;
 
-public class WeatherForecasterEndpoint
+public class WeatherForecastEndpoint
 {
-    public static IEnumerable<WeatherForecast> Get(ILogger<WeatherForecasterEndpoint> logger)
+    public static IEnumerable<WeatherForecast> Get(ILogger<WeatherForecastEndpoint> logger)
     {
         logger.LogInformation("Received request at {timeNow}", DateTime.UtcNow.ToString("T"));
 
-        foreach (var index in Enumerable.Range(1, 5))
+        foreach (int index in Enumerable.Range(1, 5))
         {
             yield return new WeatherForecast
             (
                 DateTime.Now.AddDays(index),
                 Random.Shared.Next(-20, 55),
-                Summaries[Random.Shared.Next(Summaries.Length)]
+                _summaries[Random.Shared.Next(_summaries.Length)]
             );
         }
     }
 
-    private static readonly string[] Summaries = new[]
+    private static readonly string[] _summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };

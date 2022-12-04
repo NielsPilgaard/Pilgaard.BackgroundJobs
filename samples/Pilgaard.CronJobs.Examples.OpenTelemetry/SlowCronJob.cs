@@ -1,13 +1,12 @@
 using Cronos;
 
-namespace Pilgaard.CronJobs.Examples.MinimalAPI;
+namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
 
-public class CronJob : ICronJob
+public class SlowCronJob : ICronJob
 {
-    private readonly ILogger<CronJob> _logger;
-    private static readonly HttpClient _client = new();
+    private readonly ILogger<SlowCronJob> _logger;
 
-    public CronJob(ILogger<CronJob> logger)
+    public SlowCronJob(ILogger<SlowCronJob> logger)
     {
         _logger = logger;
     }
@@ -15,12 +14,10 @@ public class CronJob : ICronJob
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Executing CronJob {nameofApiCallerCronJob} at {timeNow}",
-            nameof(CronJob),
+            nameof(SlowCronJob),
             DateTime.UtcNow.ToString("T"));
 
-        const string endpoint = "https://localhost:7021/weatherforecast";
-
-        await _client.GetAsync(endpoint, cancellationToken);
+        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
     }
 
     /// <summary>

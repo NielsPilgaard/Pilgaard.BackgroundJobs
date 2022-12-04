@@ -10,6 +10,6 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", WeatherForecasterEndpoint.Get);
+app.MapGet("/weatherforecast", WeatherForecastEndpoint.Get);
 
 app.Run();

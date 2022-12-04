@@ -1,6 +1,6 @@
 using Cronos;
 
-namespace Pilgaard.CronJobs.Examples.MinimalAPI;
+namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
 
 public class CronJob : ICronJob
 {
@@ -18,7 +18,7 @@ public class CronJob : ICronJob
             nameof(CronJob),
             DateTime.UtcNow.ToString("T"));
 
-        const string endpoint = "https://localhost:7021/weatherforecast";
+        const string endpoint = "https://localhost:7243/weatherforecast";
 
         await _client.GetAsync(endpoint, cancellationToken);
     }
