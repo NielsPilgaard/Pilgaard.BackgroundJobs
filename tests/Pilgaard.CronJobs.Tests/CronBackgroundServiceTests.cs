@@ -1,3 +1,4 @@
+using Cronos;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -83,4 +84,17 @@ public class CronBackgroundServiceTests : IAsyncLifetime
         _cts.Cancel();
         _cts.Dispose();
     }
+}
+
+public class TestCronJob : ICronJob
+{
+    public int PersistentField { get; set; }
+
+    public Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        PersistentField++;
+        return Task.CompletedTask;
+    }
+
+    public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
 }
