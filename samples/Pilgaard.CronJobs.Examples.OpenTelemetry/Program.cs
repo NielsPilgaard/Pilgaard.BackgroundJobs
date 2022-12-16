@@ -1,6 +1,5 @@
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
-using Pilgaard.CronJobs;
 using Pilgaard.CronJobs.Examples.OpenTelemetry;
 using Pilgaard.CronJobs.Extensions;
 
@@ -22,25 +21,28 @@ app.MapGet("/weatherforecast", WeatherForecastEndpoint.Get);
 
 app.Run();
 
-internal static class OpenTelemetryExtensions
+namespace Pilgaard.CronJobs.Examples.OpenTelemetry
 {
-    public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder)
+    internal static class OpenTelemetryExtensions
     {
-        var resourceBuilder = ResourceBuilder.CreateDefault()
-            .AddService(
-                serviceName: builder.Environment.ApplicationName,
-                serviceNamespace: typeof(Program).Namespace,
-                serviceVersion: typeof(Program).Assembly.GetName().Version?.ToString());
-
-        builder.Services.AddOpenTelemetryMetrics(metrics =>
+        public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder)
         {
-            metrics
-                .AddPrometheusExporter()
-                .AddConsoleExporter()
-                .SetResourceBuilder(resourceBuilder)
-                .AddMeter(typeof(CronBackgroundService).Namespace);
-        });
+            var resourceBuilder = ResourceBuilder.CreateDefault()
+                .AddService(
+                    serviceName: builder.Environment.ApplicationName,
+                    serviceNamespace: typeof(Program).Namespace,
+                    serviceVersion: typeof(Program).Assembly.GetName().Version?.ToString());
 
-        return builder;
+            builder.Services.AddOpenTelemetryMetrics(metrics =>
+            {
+                metrics
+                    .AddPrometheusExporter()
+                    .AddConsoleExporter()
+                    .SetResourceBuilder(resourceBuilder)
+                    .AddMeter(typeof(CronBackgroundService).Namespace);
+            });
+
+            return builder;
+        }
     }
 }

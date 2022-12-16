@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
 		<Authors>Niels Pilgaard</Authors>
-		<Description>Easily create jobs that execute based on Cron expressions.</Description>
+		<Description>Easily create jobs that run based on Cron expressions.</Description>
 		<Copyright>Copyright Niels Pilgaard</Copyright>
 		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
 		<RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.CronJobs</RepositoryUrl>
