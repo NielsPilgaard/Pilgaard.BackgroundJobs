@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Pilgaard.CronJobs.Tests;
 
-public class CronBackgroundServiceTests : IAsyncLifetime
+public class cronbackgroundservice_should : IAsyncLifetime
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<CronBackgroundService> _logger;
@@ -20,13 +20,13 @@ public class CronBackgroundServiceTests : IAsyncLifetime
     private CancellationTokenSource? _cts;
     private CronBackgroundService? _sut;
 
-    public CronBackgroundServiceTests()
+    public cronbackgroundservice_should()
     {
         _options = new CronJobOptions();
 
         var services = new ServiceCollection()
             .AddCronJobs(options => options.ServiceLifetime = ServiceLifetime.Singleton,
-                typeof(CronBackgroundServiceTests));
+                typeof(cronbackgroundservice_should));
 
         _serviceProvider = services.BuildServiceProvider();
         _cronJob = _serviceProvider.GetRequiredService<TestCronJob>();
@@ -35,19 +35,19 @@ public class CronBackgroundServiceTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsExecuted()
+    public async Task execute_its_cronjob_when_it_triggers()
     {
         // Arrange
 
         // Act
         await Task.Delay(TimeSpan.FromSeconds(3));
 
-        // Assert - ExecuteAsync has been received at least once, after 3 seconds.
+        // Assert
         _cronJob.PersistentField.Should().BeGreaterThanOrEqualTo(1);
     }
 
     [Fact]
-    public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsExecuted_TheRightNumberOfTimes()
+    public async Task execute_its_cronjob_the_correct_number_of_times()
     {
         // Arrange
 
@@ -59,7 +59,7 @@ public class CronBackgroundServiceTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task When_CronBackgroundService_IsRunning_ItsCronJob_IsNotExecuted_MoreThanItShould()
+    public async Task not_execute_its_cronjob_more_often_than_its_schedule()
     {
         // Arrange
 
