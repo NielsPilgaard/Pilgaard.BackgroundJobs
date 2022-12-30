@@ -24,7 +24,7 @@ public class RecurringJobBackgroundService : BackgroundService
     private readonly ILogger<RecurringJobBackgroundService> _logger;
     private readonly string _jobName;
 
-    private Timer? _timer;
+    private System.Threading.Timer? _timer;
 
     private event Func<object, EventArgs, CancellationToken, Task>? TimerTriggered;
 
@@ -60,7 +60,7 @@ public class RecurringJobBackgroundService : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _timer = new Timer(_ => TimerTriggered?.Invoke(this, EventArgs.Empty, stoppingToken),
+        _timer = new System.Threading.Timer(_ => TimerTriggered?.Invoke(this, EventArgs.Empty, stoppingToken),
            state: null,
            dueTime: _job.InitialDelay,
            period: _job.Interval);

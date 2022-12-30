@@ -1,7 +1,5 @@
 using System.Diagnostics;
 
-namespace Pilgaard.CronJobs.Telemetry;
-
 // Copied from: https://github.com/dotnet/extensions/blob/master/src/Shared/src/ValueStopwatch/ValueStopwatch.cs
 internal readonly struct ValueStopwatch
 {
