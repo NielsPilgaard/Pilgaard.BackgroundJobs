@@ -1,14 +1,13 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Pilgaard.RecurringJobs.Extensions;
-using Xunit;
 
 namespace Pilgaard.RecurringJobs.Tests.DependencyInjection;
 
 public class recurringjob_registration_should
 {
     [Fact]
-    public async Task add_cronjob_when_properly_configured()
+    public async Task add_recurringjob_when_properly_configured()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -19,13 +18,13 @@ public class recurringjob_registration_should
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
 
-        var registeredCronJob = serviceProvider.GetRequiredService<TestCronJob>();
+        var registeredJob = serviceProvider.GetRequiredService<TestRecurringJob>();
 
-        registeredCronJob.Should().NotBeNull().And.BeOfType<TestCronJob>().And.BeAssignableTo<IRecurringJob>();
+        registeredJob.Should().NotBeNull().And.BeOfType<TestRecurringJob>().And.BeAssignableTo<IRecurringJob>();
     }
 
     [Fact]
-    public async Task register_cronjob_as_icronjob_when_properly_configured()
+    public async Task register_recurringjob_as_irecurringjob_when_properly_configured()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -36,13 +35,13 @@ public class recurringjob_registration_should
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
 
-        var registeredCronJob = serviceProvider.GetRequiredService<IRecurringJob>();
+        var registeredJob = serviceProvider.GetRequiredService<IRecurringJob>();
 
-        registeredCronJob.Should().NotBeNull().And.BeOfType<TestCronJob>().And.BeAssignableTo<IRecurringJob>();
+        registeredJob.Should().NotBeNull().And.BeOfType<TestRecurringJob>().And.BeAssignableTo<IRecurringJob>();
     }
 
     [Fact]
-    public async Task not_add_internal_cronjob_when_properly_configured()
+    public async Task not_add_internal_recurringjob_when_properly_configured()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -53,13 +52,13 @@ public class recurringjob_registration_should
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
 
-        object? internalCronJob = serviceProvider.GetService(typeof(InternalCronJob));
+        object? internalRecurringJob = serviceProvider.GetService(typeof(InternalCronJob));
 
-        internalCronJob.Should().BeNull();
+        internalRecurringJob.Should().BeNull();
     }
 }
 
-public class TestCronJob : IRecurringJob
+public class TestRecurringJob : IRecurringJob
 {
     public int PersistentField { get; set; }
 
