@@ -57,6 +57,7 @@ public class RecurringJobBackgroundService : BackgroundService
         _logger.LogInformation("Started {className} with Job {job}",
             nameof(RecurringJobBackgroundService), _jobName);
     }
+
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _timer = new Timer(_ => TimerTriggered?.Invoke(this, EventArgs.Empty, stoppingToken),
