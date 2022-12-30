@@ -5,7 +5,7 @@
     <NetStandardVersion>netstandard2.0</NetStandardVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="Package information">
 		<LangVersion>latest</LangVersion>
 		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001;IDE1006</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -22,10 +22,37 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
     <ImplicitUsings>enable</ImplicitUsings>
-    <IsTrimmable>true</IsTrimmable>
+    <Deterministic>true</Deterministic>
     <RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</RepositoryUrl>
     <PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</PackageProjectUrl>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsPackable)' == 'true'">
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName) == 'UnitTests'">
+    <PackageReference Include="FluentAssertions" Version="6.8.0" />
+    <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Shouldly" Version="4.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageReference Include="PublicApiGenerator" Version="10.3.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+
+    <Compile Include="../ApiApprovalTests.cs" Link="ApiApprovalTests.cs" />
+
+    <Using Include="Xunit" />
+  </ItemGroup>
 
 </Project>
