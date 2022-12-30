@@ -85,13 +85,13 @@ services.AddCronJobs(options =>
 
 ## Roadmap
 
-- ~~More readable assembly scanning implementation~~
-- ~~Summaries for all the things~~
-- ~~Actual tests~~
-- More (realistic) samples
+- More samples
   - Using Blazor
   - Using a Worker Service
-  - Registering `ICronJob`s from an external assembly, such as a class library
+  - Using IConfiguration in RecurringJobs
+  - Using ScheduledJobs to control feature flags
+  - Using RecurringJobs to manage data retention
+  - Registering Jobs from an external assembly
 
 
 
