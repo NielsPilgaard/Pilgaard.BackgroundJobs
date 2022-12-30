@@ -12,9 +12,10 @@ namespace Pilgaard.ScheduledJobs;
 public interface IScheduledJob
 {
     /// <summary>
-    /// This method is called whenever <see cref="CronSchedule"/> triggers.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns></returns>
     Task ExecuteAsync(CancellationToken cancellationToken = default);
+
+    DateTime ScheduledTimeUtc { get; }
 }
