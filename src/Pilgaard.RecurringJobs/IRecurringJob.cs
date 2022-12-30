@@ -12,9 +12,29 @@ namespace Pilgaard.RecurringJobs;
 public interface IRecurringJob
 {
     /// <summary>
-    /// This method is called whenever <see cref="CronSchedule"/> triggers.
+    /// This method is called whenever the <see cref="Interval"/> time has elapsed.
+    /// <para>
+    /// It is also called on startup.
+    /// </para>
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns></returns>
     Task ExecuteAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// The <see cref="TimeSpan"/> between each execution of the <see cref="IRecurringJob"/>.
+    /// </summary>
+    TimeSpan Interval { get; }
+
+    /// <summary>
+    /// The <see cref="ServiceLifetime"/> the Job should have.
+    /// </summary>
+    ServiceLifetime ServiceLifetime { get; }
+
+    /// <summary>
+    /// The initial delay before triggering <see cref="ExecuteAsync"/> the first time.
+    /// <para>
+    /// Set to <see cref="TimeSpan.Zero"/> to trigger <see cref="ExecuteAsync"/> on startup.
+    /// </para>
+    /// </summary>
+    TimeSpan InitialDelay { get; }
 }
