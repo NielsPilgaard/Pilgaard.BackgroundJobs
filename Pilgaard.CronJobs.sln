@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Examples.MinimalAPI", "samples\Pilgaard.RecurringJobs.Examples.MinimalAPI\Pilgaard.RecurringJobs.Examples.MinimalAPI.csproj", "{4741F157-499C-4EBB-91D5-0CB5FED28B9B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Tests", "tests\Pilgaard.RecurringJobs.Tests\Pilgaard.RecurringJobs.Tests.csproj", "{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +99,7 @@ Global
 		{4A99FD81-FA48-40D6-96CB-EA158905FA50} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
 		{159A0F23-706A-4757-84F1-6C77EA5ED7E1} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
 		{4741F157-499C-4EBB-91D5-0CB5FED28B9B} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
