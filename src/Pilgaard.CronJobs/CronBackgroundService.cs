@@ -69,7 +69,7 @@ public class CronBackgroundService : BackgroundService
         {
             _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence}", _cronJobName, nextTaskOccurrence);
 
-            await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken);
+            await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken).ConfigureAwait(false);
 
             nextTaskOccurrence = GetNextOccurrence();
         }
@@ -92,7 +92,7 @@ public class CronBackgroundService : BackgroundService
 
         var delay = TimeUntilNextOccurrence(nextTaskExecution);
 
-        await Task.Delay(delay, stoppingToken);
+        await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
 
         // Measure duration of ExecuteAsync
         using var timer = _histogram.NewTimer(tags:
@@ -104,11 +104,11 @@ public class CronBackgroundService : BackgroundService
         // CronJob from the ServiceProvider on every execution.
         if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-            await GetScopedJobAndExecuteAsync(stoppingToken);
+            await GetScopedJobAndExecuteAsync(stoppingToken).ConfigureAwait(false);
             return;
         }
 
-        await _cronJob.ExecuteAsync(stoppingToken);
+        await _cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class CronBackgroundService : BackgroundService
 
         var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType())!;
 
-        await cronJob.ExecuteAsync(stoppingToken);
+        await cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
 
         _logger.LogDebug("Successfully executed the CronJob {cronJobName}", _cronJobName);
     }
