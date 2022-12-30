@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="Cronos" Version="0.7.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
   </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">

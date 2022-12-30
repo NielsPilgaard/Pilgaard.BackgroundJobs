@@ -11,12 +11,7 @@
 		<None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
-  </ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
+  <ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />

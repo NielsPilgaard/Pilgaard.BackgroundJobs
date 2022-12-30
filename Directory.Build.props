@@ -32,6 +32,17 @@
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
+  
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <None Condition="Exists('$(ProjectDir)README.md')" Include="README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
+    <Compile Include="../ApiMarker.cs" Link="ApiMarker.cs" />
+    <Compile Include="../Timer.cs" Link="Timer.cs" />
+    <Compile Include="../ValueStopwatch.cs" Link="ValueStopwatch.cs" />
+
+  </ItemGroup>
+
   <ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName) == 'UnitTests'">
     <PackageReference Include="FluentAssertions" Version="6.8.0" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
