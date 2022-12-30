@@ -10,6 +10,8 @@ public class ApiApprovalTests
     [Trait("Category", "API Approval")]
     public void public_api_should_not_change_unintentionally()
     {
+        const string testFolderName = "tests";
+
         var executingAssembly = Assembly.GetExecutingAssembly();
         var dependencies = executingAssembly.GetReferencedAssemblies();
         string nameToFind = executingAssembly.GetName().Name!.Split('.')[1]; // 0 is always "Pilgaard"
@@ -25,9 +27,9 @@ public class ApiApprovalTests
             WhitelistedNamespacePrefixes = new[] { "Microsoft.Extensions.DependencyInjection" }
         });
 
-        string location = Assembly.GetExecutingAssembly().Location;
+        string location = executingAssembly.Location;
         string[] pathItems = location.Split(Path.DirectorySeparatorChar);
-        int index = Array.IndexOf(pathItems, "test");
+        int index = Array.IndexOf(pathItems, testFolderName);
         Debug.Assert(index > 0 && index < pathItems.Length - 1);
 
         // See: https://shouldly.readthedocs.io/en/latest/assertions/shouldMatchApproved.html
