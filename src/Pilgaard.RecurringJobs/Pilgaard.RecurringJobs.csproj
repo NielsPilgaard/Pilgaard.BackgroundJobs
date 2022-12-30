@@ -2,23 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
-		<Authors>Niels Pilgaard</Authors>
 		<Description>Easily create recurring jobs that run at intervals.</Description>
-		<Copyright>Copyright Niels Pilgaard</Copyright>
 		<PackageTags>interval;recurring;backgroundservice;backgroundworker;scheduling</PackageTags>
-		<RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.RecurringJobs</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.RecurringJobs</PackageProjectUrl>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PackageIcon>logo_128x128.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<MinVerTagPrefix>v</MinVerTagPrefix>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<DebugType>embedded</DebugType>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<IsTrimmable>true</IsTrimmable>
-		<ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 
 	<ItemGroup>

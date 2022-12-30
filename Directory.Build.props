@@ -11,6 +11,21 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Niels Pilgaard</Authors>
+    <Copyright>Copyright Niels Pilgaard</Copyright>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>logo_128x128.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsTrimmable>true</IsTrimmable>
+    <RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</PackageProjectUrl>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
 </Project>
