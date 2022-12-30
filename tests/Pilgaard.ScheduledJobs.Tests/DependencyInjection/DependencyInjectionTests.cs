@@ -37,7 +37,7 @@ public class scheduledjob_registration_should
 
         var registeredJob = serviceProvider.GetRequiredService<IScheduledJob>();
 
-        registeredJob.Should().NotBeNull().And.BeOfType<Tests.TestScheduledJob>().And.BeAssignableTo<IScheduledJob>();
+        registeredJob.Should().NotBeNull().And.BeOfType<TestScheduledJob>().And.BeAssignableTo<IScheduledJob>();
     }
 
     [Fact]
