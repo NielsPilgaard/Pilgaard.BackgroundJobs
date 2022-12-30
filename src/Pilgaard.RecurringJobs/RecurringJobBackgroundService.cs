@@ -90,7 +90,7 @@ public class RecurringJobBackgroundService : BackgroundService
             });
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
-        // CronJob from the ServiceProvider on every execution.
+        // RecurringJob from the ServiceProvider on every execution.
         if (_job.ServiceLifetime is not ServiceLifetime.Singleton)
         {
             _logger.LogDebug(

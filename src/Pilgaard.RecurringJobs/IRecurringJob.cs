@@ -4,7 +4,7 @@ using Pilgaard.RecurringJobs.Extensions;
 namespace Pilgaard.RecurringJobs;
 
 /// <summary>
-/// Implementing this interface and registering it in your <see cref="IServiceCollection"/> will give you a functional CronJob.
+/// Implementing this interface and registering it in your <see cref="IServiceCollection"/> will give you a functional RecurringJob.
 /// <para>
 /// Use <see cref="ServiceCollectionExtensions.AddRecurringJobs(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type[])"/> or one of it's overloads to register the <see cref="IRecurringJob"/> correctly.
 /// </para>

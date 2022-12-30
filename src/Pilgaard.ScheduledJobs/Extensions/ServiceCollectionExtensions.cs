@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="types">The types to scan for <see cref="IScheduledJob"/>s through.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="IScheduledJob"/>s.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -56,7 +56,7 @@ public static class ServiceCollectionExtensions
     /// <param name="types">The types to scan for <see cref="IScheduledJob"/>s through.</param>
     /// <param name="configuration">The configurator of <see cref="ScheduledJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -75,7 +75,7 @@ public static class ServiceCollectionExtensions
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="IScheduledJob"/>s.</param>
     /// <param name="configuration">The configurator of <see cref="ScheduledJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -94,7 +94,7 @@ public static class ServiceCollectionExtensions
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="IScheduledJob"/>s.</param>
     /// <param name="configurationAction">The configurator of <see cref="ScheduledJobOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -104,7 +104,7 @@ public static class ServiceCollectionExtensions
     {
         if (!assembliesToScan.Any())
         {
-            throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for Cron Services.");
+            throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for ScheduledJobs.");
         }
 
         var options = new ScheduledJobOptions();
@@ -130,7 +130,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers the cron job through a <see cref="ServiceDescriptor"/>.
+    /// Registers the <see cref="IScheduledJob"/> through a <see cref="ServiceDescriptor"/>.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="serviceLifetime">The service life time.</param>
@@ -157,7 +157,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds the hosted cron background services.
+    /// Adds the scheduled job in a hosted background service.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="class">The concrete <see cref="IScheduledJob"/> to host.</param>

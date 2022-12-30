@@ -3,7 +3,7 @@ using Pilgaard.RecurringJobs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add CronJobs to the container.
+// Add RecurringJobs to the container.
 builder.Services.AddRecurringJobs(typeof(Program));
 
 var app = builder.Build();

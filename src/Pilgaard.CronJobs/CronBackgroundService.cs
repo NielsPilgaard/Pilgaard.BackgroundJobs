@@ -33,9 +33,10 @@ public class CronBackgroundService : BackgroundService
         version: typeof(CronBackgroundService).Assembly.GetName().Version?.ToString());
 
     private static readonly Histogram<double> _histogram =
-        _meter.CreateHistogram<double>("cronjob.executeasync",
-            "milliseconds",
-            "Histogram over duration and count of ICronJob.ExecuteAsync.");
+        _meter.CreateHistogram<double>(
+            name: $"{nameof(ICronJob)}.{nameof(ExecuteAsync)}".ToLower(),
+            unit: "milliseconds",
+            description: $"Histogram over duration and count of {nameof(ICronJob)}.{nameof(ICronJob.ExecuteAsync)}.");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.

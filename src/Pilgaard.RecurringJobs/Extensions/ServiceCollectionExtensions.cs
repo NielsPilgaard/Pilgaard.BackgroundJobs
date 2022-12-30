@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="types">The types to scan for <see cref="IRecurringJob"/>s through.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for RecurringJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -35,7 +35,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="IRecurringJob"/>s.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for RecurringJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="assembliesToScan">The assemblies to scan for <see cref="IRecurringJob"/>s.</param>
     /// <returns>The <see cref="IServiceCollection"/> for further chaining.</returns>
-    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for Cron Services.</exception>
+    /// <exception cref="ArgumentException">No assemblies found to scan. Supply at least one assembly to scan for RecurringJobs.</exception>
 #if NET6_0_OR_GREATER
     [RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
 #endif
@@ -62,16 +62,16 @@ public static class ServiceCollectionExtensions
     {
         if (!assembliesToScan.Any())
         {
-            throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for Cron Services.");
+            throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for RecurringJobs.");
         }
 
         foreach (var assembly in assembliesToScan)
         {
-            var implementsICronJob = assembly.ExportedTypes.Where(type =>
+            var implementsIRecurringJob = assembly.ExportedTypes.Where(type =>
                 !type.IsAbstract &&
                 type.GetInterfaces().Contains(typeof(IRecurringJob)));
 
-            foreach (var job in implementsICronJob)
+            foreach (var job in implementsIRecurringJob)
             {
                 RegisterJob(services, job);
                 AddHostedService(services, job);
@@ -82,7 +82,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers the cron job through a <see cref="ServiceDescriptor"/>.
+    /// Registers the job through a <see cref="ServiceDescriptor"/>.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="concreteClass">The concrete class.</param>
@@ -107,7 +107,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds the hosted cron background services.
+    /// Adds the recurring job in a hosted background service.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="class">The concrete <see cref="IRecurringJob"/> to host.</param>
