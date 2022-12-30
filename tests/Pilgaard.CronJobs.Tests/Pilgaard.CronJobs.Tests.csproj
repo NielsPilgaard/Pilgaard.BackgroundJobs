@@ -2,8 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>$(NetVersion)</TargetFramework>
-    <NoWarn>$(NoWarn)</NoWarn>
-		<IsPackable>false</IsPackable>
+
+    <IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
