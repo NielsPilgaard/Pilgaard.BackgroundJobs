@@ -6,11 +6,6 @@
 		<PackageTags>interval;recurring;backgroundservice;backgroundworker;scheduling</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="" />
-		<None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
-	</ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />

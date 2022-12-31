@@ -6,11 +6,6 @@
 		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="" />
-		<None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
-	</ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Cronos" Version="0.7.1" />
   </ItemGroup>
