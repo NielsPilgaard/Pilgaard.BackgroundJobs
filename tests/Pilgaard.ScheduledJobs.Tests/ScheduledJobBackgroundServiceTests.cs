@@ -2,7 +2,6 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Pilgaard.ScheduledJobs.Configuration;
 using Pilgaard.ScheduledJobs.Extensions;
 
 namespace Pilgaard.ScheduledJobs.Tests;
@@ -14,17 +13,13 @@ public class scheduledjobbackgroundservice_should : IAsyncLifetime
     private readonly TestScheduledJob _job;
     private readonly ServiceProvider _serviceProvider;
 
-    private readonly ScheduledJobOptions _options;
     private CancellationTokenSource? _cts;
     private ScheduledJobBackgroundService? _sut;
 
     public scheduledjobbackgroundservice_should()
     {
-        _options = new ScheduledJobOptions();
-
         var services = new ServiceCollection()
-            .AddScheduledJobs(options => options.ServiceLifetime = ServiceLifetime.Singleton,
-                typeof(scheduledjobbackgroundservice_should));
+            .AddScheduledJobs(typeof(scheduledjobbackgroundservice_should));
 
         _serviceProvider = services.BuildServiceProvider();
         _job = _serviceProvider.GetRequiredService<TestScheduledJob>();
@@ -59,7 +54,7 @@ public class scheduledjobbackgroundservice_should : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        _sut = new ScheduledJobBackgroundService(_job, _serviceScopeFactory, _logger, _options);
+        _sut = new ScheduledJobBackgroundService(_job, _serviceScopeFactory, _logger);
         await _sut.StartAsync(_cts.Token);
     }
 
@@ -83,4 +78,5 @@ public class TestScheduledJob : IScheduledJob
     }
 
     public DateTime ScheduledTimeUtc => DateTime.UtcNow.AddSeconds(5);
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }

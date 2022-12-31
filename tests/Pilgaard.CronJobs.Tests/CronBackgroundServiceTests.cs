@@ -3,9 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Pilgaard.CronJobs.Configuration;
 using Pilgaard.CronJobs.Extensions;
-using Xunit;
 
 namespace Pilgaard.CronJobs.Tests;
 
@@ -16,17 +14,13 @@ public class cronbackgroundservice_should : IAsyncLifetime
     private readonly TestCronJob _cronJob;
     private readonly ServiceProvider _serviceProvider;
 
-    private readonly CronJobOptions _options;
     private CancellationTokenSource? _cts;
     private CronBackgroundService? _sut;
 
     public cronbackgroundservice_should()
     {
-        _options = new CronJobOptions();
-
         var services = new ServiceCollection()
-            .AddCronJobs(options => options.ServiceLifetime = ServiceLifetime.Singleton,
-                typeof(cronbackgroundservice_should));
+            .AddCronJobs(typeof(cronbackgroundservice_should));
 
         _serviceProvider = services.BuildServiceProvider();
         _cronJob = _serviceProvider.GetRequiredService<TestCronJob>();
@@ -73,7 +67,7 @@ public class cronbackgroundservice_should : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        _sut = new CronBackgroundService(_cronJob, _serviceScopeFactory, _logger, _options);
+        _sut = new CronBackgroundService(_cronJob, _serviceScopeFactory, _logger);
         await _sut.StartAsync(_cts.Token);
     }
 
@@ -97,4 +91,6 @@ public class TestCronJob : ICronJob
     }
 
     public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
+    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }

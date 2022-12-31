@@ -1,4 +1,4 @@
-﻿using Cronos;
+using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Pilgaard.CronJobs.Extensions;
 
@@ -42,4 +42,22 @@ public interface ICronJob
     /// <seealso href="https://crontab.guru/"/>
     /// </remarks>
     CronExpression CronSchedule { get; }
+
+
+    /// <summary>
+    /// The time zone to use for calculating the occurrences of <see cref="CronExpression"/>s.
+    /// </summary>
+    /// <value>
+    /// The time zone information.
+    /// </value>
+    TimeZoneInfo TimeZoneInfo { get; }
+
+    /// <summary>
+    /// Gets or sets the service lifetime of this 
+    /// <see cref="ICronJob"/>.
+    /// </summary>
+    /// <value>
+    /// The service lifetime.
+    /// </value>
+    ServiceLifetime ServiceLifetime { get; }
 }

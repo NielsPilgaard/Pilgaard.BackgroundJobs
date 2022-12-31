@@ -1,22 +1,15 @@
-﻿namespace Pilgaard.CronJobs.Configuration
-{
-    public class CronJobOptions
-    {
-        public CronJobOptions() { }
-        public Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; set; }
-        public System.TimeZoneInfo TimeZoneInfo { get; set; }
-    }
-}
-namespace Pilgaard.CronJobs
+﻿namespace Pilgaard.CronJobs
 {
     public class CronBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
     {
-        public CronBackgroundService(Pilgaard.CronJobs.ICronJob cronJob, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Microsoft.Extensions.Logging.ILogger<Pilgaard.CronJobs.CronBackgroundService> logger, Pilgaard.CronJobs.Configuration.CronJobOptions options) { }
+        public CronBackgroundService(Pilgaard.CronJobs.ICronJob cronJob, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Microsoft.Extensions.Logging.ILogger<Pilgaard.CronJobs.CronBackgroundService> logger) { }
         protected override System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken stoppingToken) { }
     }
     public interface ICronJob
     {
         Cronos.CronExpression CronSchedule { get; }
+        Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; }
+        System.TimeZoneInfo TimeZoneInfo { get; }
         System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 }
@@ -28,9 +21,5 @@ namespace Pilgaard.CronJobs.Extensions
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Reflection.Assembly[] assembliesToScan) { }
         [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Type[] types) { }
-        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
-        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Pilgaard.CronJobs.Configuration.CronJobOptions>? configuration = null, params System.Reflection.Assembly[] assembliesToScan) { }
-        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
-        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Pilgaard.CronJobs.Configuration.CronJobOptions>? configuration = null, params System.Type[] types) { }
     }
 }

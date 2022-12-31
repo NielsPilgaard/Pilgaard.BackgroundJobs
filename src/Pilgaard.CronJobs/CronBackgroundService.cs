@@ -3,7 +3,6 @@ using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Pilgaard.CronJobs.Configuration;
 using Pilgaard.CronJobs.Extensions;
 
 namespace Pilgaard.CronJobs;
@@ -24,7 +23,6 @@ public class CronBackgroundService : BackgroundService
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ICronJob _cronJob;
     private readonly ILogger<CronBackgroundService> _logger;
-    private readonly CronJobOptions _options;
     private readonly CronExpression _cronSchedule;
     private readonly string _cronJobName;
 
@@ -44,14 +42,11 @@ public class CronBackgroundService : BackgroundService
     /// <param name="cronJob">The cron job.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
-    /// <param name="options">The options.</param>
     public CronBackgroundService(
         ICronJob cronJob,
         IServiceScopeFactory serviceScopeFactory,
-        ILogger<CronBackgroundService> logger,
-        CronJobOptions options)
+        ILogger<CronBackgroundService> logger)
     {
-        _options = options;
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
         _cronJob = cronJob;
@@ -103,7 +98,7 @@ public class CronBackgroundService : BackgroundService
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
-        if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
+        if (_cronJob.ServiceLifetime is not ServiceLifetime.Singleton)
         {
             await GetScopedJobAndExecuteAsync(stoppingToken).ConfigureAwait(false);
             return;
@@ -121,7 +116,7 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
+        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _cronJob.TimeZoneInfo);
 
     /// <summary>
     ///     Gets the scoped <see cref="ICronJob"/> and executes it.
@@ -131,7 +126,7 @@ public class CronBackgroundService : BackgroundService
     {
         _logger.LogDebug(
             "Fetching a {serviceLifetime} instance of {cronJobName} from the ServiceProvider.",
-            _options.ServiceLifetime, _cronJobName);
+            _cronJob.ServiceLifetime, _cronJobName);
 
         using var scope = _serviceScopeFactory.CreateScope();
 

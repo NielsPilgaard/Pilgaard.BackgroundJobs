@@ -69,6 +69,7 @@ public class TestScheduledJob : IScheduledJob
     }
 
     public DateTime ScheduledTimeUtc => DateTime.UtcNow.AddSeconds(5);
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }
 
 internal class InternalScheduledJob : IScheduledJob
@@ -82,4 +83,5 @@ internal class InternalScheduledJob : IScheduledJob
     }
 
     public DateTime ScheduledTimeUtc => DateTime.UtcNow.AddSeconds(5);
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }

@@ -98,12 +98,12 @@ public static class ServiceCollectionExtensions
         services.Add(new ServiceDescriptor(
             typeof(IRecurringJob),
             concreteClass,
-            ServiceLifetime.Transient));
+            ServiceLifetime.Singleton));
 
         services.Add(new ServiceDescriptor(
             concreteClass,
             concreteClass,
-            ServiceLifetime.Transient));
+            ServiceLifetime.Singleton));
     }
 
     /// <summary>

@@ -17,5 +17,17 @@ public interface IScheduledJob
     /// <returns></returns>
     Task ExecuteAsync(CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// The date and time in UTC to run <see cref="ExecuteAsync"/>.
+    /// </summary>
     DateTime ScheduledTimeUtc { get; }
+
+    /// <summary>
+    /// Gets or sets the service lifetime of this 
+    /// <see cref="IScheduledJob"/>.
+    /// </summary>
+    /// <value>
+    /// The service lifetime.
+    /// </value>
+    ServiceLifetime ServiceLifetime { get; }
 }

@@ -2,7 +2,6 @@ using Cronos;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Pilgaard.CronJobs.Extensions;
-using Xunit;
 
 namespace Pilgaard.CronJobs.Tests.DependencyInjection;
 
@@ -71,6 +70,8 @@ public class TestCronJob : ICronJob
     }
 
     public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
+    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }
 
 internal class InternalCronJob : ICronJob
@@ -84,4 +85,6 @@ internal class InternalCronJob : ICronJob
     }
 
     public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
+    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }

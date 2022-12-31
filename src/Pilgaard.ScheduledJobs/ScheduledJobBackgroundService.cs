@@ -2,7 +2,6 @@ using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Pilgaard.ScheduledJobs.Configuration;
 using Pilgaard.ScheduledJobs.Extensions;
 
 namespace Pilgaard.ScheduledJobs;
@@ -23,7 +22,6 @@ public class ScheduledJobBackgroundService : BackgroundService
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IScheduledJob _job;
     private readonly ILogger<ScheduledJobBackgroundService> _logger;
-    private readonly ScheduledJobOptions _options;
     private readonly string _jobName;
 
     private static readonly Meter _meter = new(
@@ -42,14 +40,11 @@ public class ScheduledJobBackgroundService : BackgroundService
     /// <param name="job">The job.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
-    /// <param name="options">The options.</param>
     public ScheduledJobBackgroundService(
         IScheduledJob job,
         IServiceScopeFactory serviceScopeFactory,
-        ILogger<ScheduledJobBackgroundService> logger,
-        ScheduledJobOptions options)
+        ILogger<ScheduledJobBackgroundService> logger)
     {
-        _options = options;
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
         _job = job;
@@ -98,11 +93,11 @@ public class ScheduledJobBackgroundService : BackgroundService
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // Job from the ServiceProvider on every execution.
-        if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
+        if (_job.ServiceLifetime is not ServiceLifetime.Singleton)
         {
             _logger.LogDebug(
                 "Fetching a {serviceLifetime} instance of {jobName} from the IServiceScopeFactory.",
-                _options.ServiceLifetime, _jobName);
+                _job.ServiceLifetime, _jobName);
 
             using var scope = _serviceScopeFactory.CreateScope();
 
@@ -127,18 +122,6 @@ public class ScheduledJobBackgroundService : BackgroundService
     ///     <c>true</c> if <paramref name="nextTaskExecution"/>
     ///     is before <see cref="DateTime.UtcNow"/>, otherwise <c>false</c>
     /// </returns>
-    private static bool ScheduledTimeIsInThePast(DateTime? nextTaskExecution)
-        => DateTime.UtcNow > nextTaskExecution.GetValueOrDefault();
-
-    /// <summary>
-    ///     Gets the <see cref="TimeSpan"/> until the
-    ///     <see cref="IScheduledJob.ExecuteAsync"/> should be triggered.
-    /// </summary>
-    /// <param name="scheduledTime">The scheduled time.</param>
-    /// <returns>
-    ///     The <see cref="TimeSpan"/> until the
-    ///     <see cref="IScheduledJob.ExecuteAsync"/> should be triggered.
-    /// </returns>
-    private static TimeSpan TimeUntilNextOccurrence(DateTime scheduledTime)
-        => scheduledTime.Subtract(DateTime.UtcNow);
+    private static bool ScheduledTimeIsInThePast(DateTime nextTaskExecution)
+        => DateTime.UtcNow > nextTaskExecution;
 }

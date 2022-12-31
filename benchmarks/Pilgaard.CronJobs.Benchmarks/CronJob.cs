@@ -1,4 +1,5 @@
-﻿using Cronos;
+using Cronos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Pilgaard.CronJobs.Benchmarks;
 
@@ -10,4 +11,6 @@ public class CronJob : ICronJob
     }
 
     public CronExpression CronSchedule => CronExpression.Parse("* * * * *");
+    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }

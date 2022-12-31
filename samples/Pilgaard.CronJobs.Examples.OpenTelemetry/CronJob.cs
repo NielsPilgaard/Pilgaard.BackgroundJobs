@@ -27,4 +27,6 @@ public class CronJob : ICronJob
     /// Executes once every second
     /// </summary>
     public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
+    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
+    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
 }
