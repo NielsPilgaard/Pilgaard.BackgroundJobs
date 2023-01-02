@@ -4,6 +4,7 @@
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
 		<Description>Easily create jobs that run at a specific time and date.</Description>
 		<PackageTags>defferedjob;scheduledjob;backgroundservice;backgroundworker;scheduling</PackageTags>
+    <MinVerTagPrefix>scheduledjobs-v</MinVerTagPrefix>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">

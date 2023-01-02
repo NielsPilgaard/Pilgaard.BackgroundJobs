@@ -4,7 +4,8 @@
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
 		<Description>Easily create jobs that run based on Cron expressions.</Description>
 		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
-	</PropertyGroup>
+    <MinVerTagPrefix>cronjobs-v</MinVerTagPrefix>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cronos" Version="0.7.1" />
