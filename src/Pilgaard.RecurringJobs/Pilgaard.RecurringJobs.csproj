@@ -4,6 +4,7 @@
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
 		<Description>Easily create recurring jobs that run at intervals.</Description>
 		<PackageTags>interval;recurring;backgroundservice;backgroundworker;scheduling</PackageTags>
+    <MinVerTagPrefix>recurringjobs-v</MinVerTagPrefix>
 	</PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
