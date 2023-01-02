@@ -5,12 +5,65 @@
     <NetStandardVersion>netstandard2.0</NetStandardVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="Package information">
 		<LangVersion>latest</LangVersion>
 		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001;IDE1006</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Niels Pilgaard</Authors>
+    <Copyright>Copyright Niels Pilgaard</Copyright>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>logo_128x128.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <MinVerIgnoreHeight>true</MinVerIgnoreHeight>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Deterministic>true</Deterministic>
+    <RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.BackgroundJobs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.BackgroundJobs</PackageProjectUrl>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsPackable)' == 'true'">
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
+  
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
+    <Compile Include="../ApiMarker.cs" Link="ApiMarker.cs" />
+    <Compile Include="../Timer.cs" Link="Timer.cs" />
+    <Compile Include="../ValueStopwatch.cs" Link="ValueStopwatch.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName) == 'UnitTests'">
+    <PackageReference Include="FluentAssertions" Version="6.8.0" />
+    <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Shouldly" Version="4.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageReference Include="PublicApiGenerator" Version="10.3.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+
+    <Compile Include="../ApiApprovalTests.cs" Link="ApiApprovalTests.cs" />
+
+    <Using Include="Xunit" />
+  </ItemGroup>
 
 </Project>

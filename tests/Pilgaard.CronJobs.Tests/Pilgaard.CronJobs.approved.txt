@@ -1,0 +1,25 @@
+﻿namespace Pilgaard.CronJobs
+{
+    public class CronBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
+    {
+        public CronBackgroundService(Pilgaard.CronJobs.ICronJob cronJob, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Microsoft.Extensions.Logging.ILogger<Pilgaard.CronJobs.CronBackgroundService> logger) { }
+        protected override System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken stoppingToken) { }
+    }
+    public interface ICronJob
+    {
+        Cronos.CronExpression CronSchedule { get; }
+        Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; }
+        System.TimeZoneInfo TimeZoneInfo { get; }
+        System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+}
+namespace Pilgaard.CronJobs.Extensions
+{
+    public static class ServiceCollectionExtensions
+    {
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Reflection.Assembly[] assembliesToScan) { }
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddCronJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Type[] types) { }
+    }
+}

@@ -1,6 +1,6 @@
 using System.Diagnostics.Metrics;
 
-namespace Pilgaard.CronJobs.Extensions;
+namespace Pilgaard.ScheduledJobs.Extensions;
 
 internal static class HistogramExtensions
 {

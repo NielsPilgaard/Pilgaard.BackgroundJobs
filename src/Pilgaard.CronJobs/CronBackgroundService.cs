@@ -3,7 +3,6 @@ using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Pilgaard.CronJobs.Configuration;
 using Pilgaard.CronJobs.Extensions;
 
 namespace Pilgaard.CronJobs;
@@ -24,7 +23,6 @@ public class CronBackgroundService : BackgroundService
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ICronJob _cronJob;
     private readonly ILogger<CronBackgroundService> _logger;
-    private readonly CronJobOptions _options;
     private readonly CronExpression _cronSchedule;
     private readonly string _cronJobName;
 
@@ -33,9 +31,10 @@ public class CronBackgroundService : BackgroundService
         version: typeof(CronBackgroundService).Assembly.GetName().Version?.ToString());
 
     private static readonly Histogram<double> _histogram =
-        _meter.CreateHistogram<double>("cronjob.executeasync",
-            "milliseconds",
-            "Histogram over duration and count of ICronJob.ExecuteAsync.");
+        _meter.CreateHistogram<double>(
+            name: $"{nameof(ICronJob)}.{nameof(ExecuteAsync)}".ToLower(),
+            unit: "milliseconds",
+            description: $"Histogram over duration and count of {nameof(ICronJob)}.{nameof(ICronJob.ExecuteAsync)}.");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.
@@ -43,14 +42,11 @@ public class CronBackgroundService : BackgroundService
     /// <param name="cronJob">The cron job.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
-    /// <param name="options">The options.</param>
     public CronBackgroundService(
         ICronJob cronJob,
         IServiceScopeFactory serviceScopeFactory,
-        ILogger<CronBackgroundService> logger,
-        CronJobOptions options)
+        ILogger<CronBackgroundService> logger)
     {
-        _options = options;
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
         _cronJob = cronJob;
@@ -69,7 +65,7 @@ public class CronBackgroundService : BackgroundService
         {
             _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence}", _cronJobName, nextTaskOccurrence);
 
-            await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken);
+            await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken).ConfigureAwait(false);
 
             nextTaskOccurrence = GetNextOccurrence();
         }
@@ -92,7 +88,7 @@ public class CronBackgroundService : BackgroundService
 
         var delay = TimeUntilNextOccurrence(nextTaskExecution);
 
-        await Task.Delay(delay, stoppingToken);
+        await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
 
         // Measure duration of ExecuteAsync
         using var timer = _histogram.NewTimer(tags:
@@ -102,13 +98,13 @@ public class CronBackgroundService : BackgroundService
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
-        if (_options.ServiceLifetime is not ServiceLifetime.Singleton)
+        if (_cronJob.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-            await GetScopedJobAndExecuteAsync(stoppingToken);
+            await GetScopedJobAndExecuteAsync(stoppingToken).ConfigureAwait(false);
             return;
         }
 
-        await _cronJob.ExecuteAsync(stoppingToken);
+        await _cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -120,7 +116,7 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _options.TimeZoneInfo);
+        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _cronJob.TimeZoneInfo);
 
     /// <summary>
     ///     Gets the scoped <see cref="ICronJob"/> and executes it.
@@ -130,13 +126,13 @@ public class CronBackgroundService : BackgroundService
     {
         _logger.LogDebug(
             "Fetching a {serviceLifetime} instance of {cronJobName} from the ServiceProvider.",
-            _options.ServiceLifetime, _cronJobName);
+            _cronJob.ServiceLifetime, _cronJobName);
 
         using var scope = _serviceScopeFactory.CreateScope();
 
         var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType())!;
 
-        await cronJob.ExecuteAsync(stoppingToken);
+        await cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
 
         _logger.LogDebug("Successfully executed the CronJob {cronJobName}", _cronJobName);
     }

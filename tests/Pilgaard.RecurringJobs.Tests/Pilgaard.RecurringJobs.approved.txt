@@ -1,0 +1,26 @@
+﻿namespace Pilgaard.RecurringJobs.Extensions
+{
+    public static class ServiceCollectionExtensions
+    {
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddRecurringJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Reflection.Assembly[] assembliesToScan) { }
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddRecurringJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Type[] types) { }
+    }
+}
+namespace Pilgaard.RecurringJobs
+{
+    public interface IRecurringJob
+    {
+        System.TimeSpan InitialDelay { get; }
+        System.TimeSpan Interval { get; }
+        Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; }
+        System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+    public class RecurringJobBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
+    {
+        public RecurringJobBackgroundService(Pilgaard.RecurringJobs.IRecurringJob job, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Microsoft.Extensions.Logging.ILogger<Pilgaard.RecurringJobs.RecurringJobBackgroundService> logger) { }
+        public override void Dispose() { }
+        protected override System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken stoppingToken) { }
+    }
+}

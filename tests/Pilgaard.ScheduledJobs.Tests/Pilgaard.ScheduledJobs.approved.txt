@@ -1,0 +1,24 @@
+﻿namespace Pilgaard.ScheduledJobs.Extensions
+{
+    public static class ServiceCollectionExtensions
+    {
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddScheduledJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Reflection.Assembly[] assembliesToScan) { }
+        [System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("Calls System.Reflection.Assembly.ExportedTypes")]
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddScheduledJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, params System.Type[] types) { }
+    }
+}
+namespace Pilgaard.ScheduledJobs
+{
+    public interface IScheduledJob
+    {
+        System.DateTime ScheduledTimeUtc { get; }
+        Microsoft.Extensions.DependencyInjection.ServiceLifetime ServiceLifetime { get; }
+        System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+    public class ScheduledJobBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
+    {
+        public ScheduledJobBackgroundService(Pilgaard.ScheduledJobs.IScheduledJob job, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Microsoft.Extensions.Logging.ILogger<Pilgaard.ScheduledJobs.ScheduledJobBackgroundService> logger) { }
+        protected override System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken stoppingToken) { }
+    }
+}

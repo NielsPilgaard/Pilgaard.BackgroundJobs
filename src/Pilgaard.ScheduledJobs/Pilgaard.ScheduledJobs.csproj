@@ -2,16 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
-		<Description>Easily create jobs that run based on Cron expressions.</Description>
-		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
-    <MinVerTagPrefix>cronjobs-v</MinVerTagPrefix>
+		<Description>Easily create jobs that run at a specific time and date.</Description>
+		<PackageTags>defferedjob;scheduledjob;backgroundservice;backgroundworker;scheduling</PackageTags>
+    <MinVerTagPrefix>scheduledjobs-v</MinVerTagPrefix>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Cronos" Version="0.7.1" />
-  </ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
+  <ItemGroup Condition="'$(TargetFramework)' == '$(NetVersion)'">
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
