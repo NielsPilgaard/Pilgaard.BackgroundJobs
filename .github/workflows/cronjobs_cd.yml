@@ -1,8 +1,5 @@
 name: CronJobs CD
 
-env:
-  PROJECT_NAME: Pilgaard.CronJobs
-
 on:
   push:
     tags:
@@ -25,13 +22,13 @@ jobs:
           dotnet-version: "7.0.x"
 
       - name: Restore NuGet packages
-        run: dotnet restore ./src/$PROJECT_NAME/$PROJECT_NAME.csproj
+        run: dotnet restore ./src/Pilgaard.CronJobs/Pilgaard.CronJobs.csproj
 
       - name: Build
-        run: dotnet build ./src/$PROJECT_NAME/$PROJECT_NAME.csproj -c Release --no-restore
+        run: dotnet build ./src/Pilgaard.CronJobs/Pilgaard.CronJobs.csproj -c Release --no-restore
 
       - name: Package Nugets
-        run: dotnet pack ./src/$PROJECT_NAME/$PROJECT_NAME.csproj -c Release --no-build --no-restore --include-source
+        run: dotnet pack ./src/Pilgaard.CronJobs/Pilgaard.CronJobs.csproj -c Release --no-build --no-restore --include-source
 
       - name: Push Nugets
         run: dotnet nuget push "**/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate

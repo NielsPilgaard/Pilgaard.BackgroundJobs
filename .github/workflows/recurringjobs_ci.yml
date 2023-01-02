@@ -1,8 +1,5 @@
 name: RecurringJobs CI
 
-env:
-  PROJECT_NAME: Pilgaard.RecurringJobs
-
 on:
   workflow_dispatch:
   push:
@@ -41,13 +38,13 @@ jobs:
 
       - name: Restore NuGet packages
         run: |
-          dotnet restore ./src/$PROJECT_NAME/$PROJECT_NAME.csproj &&
-          dotnet restore ./tests/$PROJECT_NAME.Tests/$PROJECT_NAME.Tests.csproj
+          dotnet restore ./src/Pilgaard.RecurringJobs/Pilgaard.RecurringJobs.csproj &&
+          dotnet restore ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj
 
       - name: Build
         run: |
-          dotnet restore ./src/$PROJECT_NAME/$PROJECT_NAME.csproj --no-restore &&
-          dotnet restore ./tests/$PROJECT_NAME.Tests/$PROJECT_NAME.Tests.csproj --no-restore
+          dotnet restore ./src/Pilgaard.RecurringJobs/Pilgaard.RecurringJobs.csproj --no-restore &&
+          dotnet restore ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj --no-restore
 
       - name: Run Test
-        run: dotnet test ./tests/$PROJECT_NAME.Tests/$PROJECT_NAME.Tests.csproj --no-build --no-restore
+        run: dotnet test ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj --no-build --no-restore
