@@ -37,9 +37,17 @@ Each nuget has instructions on how to get started:
 
 [Pilgaard.ScheduledJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs)
 
-
 ---
 
+# Open Telemetry Compatibility
+
+Each project exposes histogram metrics, which allow monitoring the duration and count of `ExecuteAsync` invocations.
+
+The meter names match the project names.
+
+The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.CronJobs/tree/master/samples/Pilgaard.CronJobs.Examples.OpenTelemetry) shows how to collect CronJob metrics using the Prometheus Open Telemetry exporter.
+
+---
 
 ## Roadmap
 
