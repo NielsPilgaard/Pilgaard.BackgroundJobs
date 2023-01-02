@@ -1,6 +1,6 @@
 # Pilgaard.RecurringJobs
 
-[![CI](https://github.com/NillerMedDild/Pilgaard.BackgroundJobs/workflows/recurringjobs_ci/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/recurringjobs_ci.yml)
+[![CI](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/recurringjobs_ci.yml/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/recurringjobs_ci.yml)
 [![Downloads](https://img.shields.io/nuget/dt/Pilgaard.RecurringJobs.svg)](https://www.nuget.org/packages/Pilgaard.RecurringJobs)
 [![Version](https://img.shields.io/nuget/vpre/Pilgaard.RecurringJobs.svg)](https://www.nuget.org/packages/Pilgaard.RecurringJobs)
 

@@ -1,6 +1,6 @@
 # Pilgaard.ScheduledJobs
 
-[![CI](https://github.com/NillerMedDild/Pilgaard.BackgroundJobs/workflows/scheduledjobs_ci/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/scheduledjobs_ci.yml)
+[![CI](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/scheduledjobs_ci.yml/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/actions/workflows/scheduledjobs_ci.yml)
 [![Downloads](https://img.shields.io/nuget/dt/pilgaard.ScheduledJobs.svg)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs)
 [![Version](https://img.shields.io/nuget/vpre/pilgaard.ScheduledJobs.svg)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs)
 
