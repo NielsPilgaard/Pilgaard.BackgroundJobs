@@ -43,8 +43,8 @@ jobs:
 
       - name: Build
         run: |
-          dotnet restore ./src/Pilgaard.RecurringJobs/Pilgaard.RecurringJobs.csproj --no-restore &&
-          dotnet restore ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj --no-restore
+          dotnet build ./src/Pilgaard.RecurringJobs/Pilgaard.RecurringJobs.csproj --no-restore &&
+          dotnet build ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj --no-restore
 
       - name: Run Test
         run: dotnet test ./tests/Pilgaard.RecurringJobs.Tests/Pilgaard.RecurringJobs.Tests.csproj --no-build --no-restore

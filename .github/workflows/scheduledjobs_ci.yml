@@ -43,8 +43,8 @@ jobs:
 
       - name: Build
         run: |
-          dotnet restore ./src/Pilgaard.ScheduledJobs/Pilgaard.ScheduledJobs.csproj --no-restore &&
-          dotnet restore ./tests/Pilgaard.ScheduledJobs.Tests/Pilgaard.ScheduledJobs.Tests.csproj --no-restore
+          dotnet build ./src/Pilgaard.ScheduledJobs/Pilgaard.ScheduledJobs.csproj --no-restore &&
+          dotnet build ./tests/Pilgaard.ScheduledJobs.Tests/Pilgaard.ScheduledJobs.Tests.csproj --no-restore
 
       - name: Run Test
         run: dotnet test ./tests/Pilgaard.ScheduledJobs.Tests/Pilgaard.ScheduledJobs.Tests.csproj --no-build --no-restore

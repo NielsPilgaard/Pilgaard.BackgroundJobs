@@ -43,8 +43,8 @@ jobs:
 
       - name: Build
         run: |
-          dotnet restore ./src/Pilgaard.CronJobs/Pilgaard.CronJobs.csproj --no-restore &&
-          dotnet restore ./tests/Pilgaard.CronJobs.Tests/Pilgaard.CronJobs.Tests.csproj --no-restore
+          dotnet build ./src/Pilgaard.CronJobs/Pilgaard.CronJobs.csproj --no-restore &&
+          dotnet build ./tests/Pilgaard.CronJobs.Tests/Pilgaard.CronJobs.Tests.csproj --no-restore
 
       - name: Run Test
         run: dotnet test ./tests/Pilgaard.CronJobs.Tests/Pilgaard.CronJobs.Tests.csproj --no-build --no-restore
