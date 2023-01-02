@@ -69,9 +69,9 @@ public class ScheduledJobBackgroundService : BackgroundService
 
         _logger.LogDebug("Time until {jobName} triggers: {delay}", _jobName, delay);
 
-        await Task.Delay(delay, stoppingToken);
+        await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
 
-        await InternalExecuteAsync(stoppingToken);
+        await InternalExecuteAsync(stoppingToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class ScheduledJobBackgroundService : BackgroundService
             return;
         }
 
-        await _job.ExecuteAsync(stoppingToken);
+        await _job.ExecuteAsync(stoppingToken).ConfigureAwait(false);
     }
 
     /// <summary>
