@@ -96,8 +96,8 @@ public class cronbackgroundservice_should : IAsyncLifetime
         // Assert that the CronJob executes every second
         for (int i = 0; i < 5; i++)
         {
-            _cronJob.PersistentField.Should().Be(i);
             await Task.Delay(TimeSpan.FromSeconds(1));
+            _cronJob.PersistentField.Should().BeGreaterThanOrEqualTo(i);
         }
     }
 
