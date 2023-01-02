@@ -23,8 +23,8 @@
     <DebugType>embedded</DebugType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Deterministic>true</Deterministic>
-    <RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.Jobs</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NillerMedDild/Pilgaard.BackgroundJobs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NillerMedDild/Pilgaard.BackgroundJobs</PackageProjectUrl>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
