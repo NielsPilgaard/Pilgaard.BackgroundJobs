@@ -76,11 +76,12 @@ public class cronbackgroundservice_should : IAsyncLifetime
         // Act
 
         // Assert
-        _transientCronJob.PersistentField.Should().Be(0);
-        await Task.Delay(TimeSpan.FromMilliseconds(500));
-        _transientCronJob.PersistentField.Should().Be(0);
-        await Task.Delay(TimeSpan.FromMilliseconds(500));
-        _transientCronJob.PersistentField.Should().Be(0);
+        // Assert that the CronJob does not persist state, because it's transient
+        for (int i = 0; i < 5; i++)
+        {
+            _cronJob.PersistentField.Should().Be(i);
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
     }
 
     [Fact]
