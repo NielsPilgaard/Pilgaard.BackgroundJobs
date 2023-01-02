@@ -51,6 +51,7 @@ The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.CronJobs/t
 
 ## Roadmap
 
+- A separate UI project to help visualize when jobs trigger
 - More samples
   - Using Blazor
   - Using a Worker Service
