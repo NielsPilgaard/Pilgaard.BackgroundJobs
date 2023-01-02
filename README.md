@@ -1,86 +1,44 @@
-# Pilgaard.CronJobs
+# Pilgaard.BackgroundJobs
 
-[![CI](https://github.com/NillerMedDild/Pilgaard.CronJobs/workflows/Release/badge.svg)](https://github.com/NielsPilgaard/Pilgaard.CronJobs/actions/workflows/release.yml)
-[![NuGet](https://img.shields.io/nuget/dt/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
-[![NuGet](https://img.shields.io/nuget/vpre/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)
+Easily create jobs that run in the background, with multiple different scheduling methods.
 
+| Package 🔗           | Version & Downloads                                                                                                                                                       | Description |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| [CronJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.CronJobs) | [![Version](https://img.shields.io/nuget/vpre/pilgaard.cronjobs.svg)](https://www.nuget.org/packages/Pilgaard.CronJobs)[![Nuget](https://img.shields.io/nuget/dt/Pilgaard.CronJobs)](https://www.nuget.org/packages/Pilgaard.CronJobs) | Background Jobs that trigger based on [Cron Expressions](https://crontab.guru/)
+| [RecurringJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.RecurringJobs) | [![Version](https://img.shields.io/nuget/vpre/pilgaard.recurringjobs.svg)](https://www.nuget.org/packages/Pilgaard.RecurringJobs)[![Nuget](https://img.shields.io/nuget/dt/Pilgaard.RecurringJobs)](https://www.nuget.org/packages/Pilgaard.RecurringJobs) | Background Jobs that trigger based on intervals.
+| [ScheduledJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs) | [![Version](https://img.shields.io/nuget/vpre/pilgaard.scheduledjobs.svg)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs)[![Nuget](https://img.shields.io/nuget/dt/Pilgaard.ScheduledJobs)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs) | Background Jobs that trigger once at a specific date and time.
 
+---
 
-Easily schedule jobs to run at specific times, based on Cron expressions.
-
-
-
-
-
-## Installing
+# Installing
 
 With NuGet:
 
     Install-Package Pilgaard.CronJobs
+    Install-Package Pilgaard.RecurringJobs
+    Install-Package Pilgaard.ScheduledJobs
 
-With the .NET CLI:
+With the dotnet CLI:
 
     dotnet add package Pilgaard.CronJobs
+    dotnet add package Pilgaard.RecurringJobs
+    dotnet add package Pilgaard.ScheduledJobs
 
 Or through Package Manager Console.
 
 
+# Getting Started
+
+Each nuget has instructions on how to get started: 
+
+[Pilgaard.CronJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.CronJobs)
+
+[Pilgaard.RecurringJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.RecurringJobs)
+
+[Pilgaard.ScheduledJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs)
 
 
-
-## Usage
-
-Make CronJobs by implementing `ICronJob`:
-
-```csharp
-public class CronJob : ICronJob
-{
-    public Task ExecuteAsync(CancellationToken cancellationToken = default)
-    {
-        // Execute job
-
-        return Task.CompletedTask;
-    }
-
-    // This will execute once every minute
-    public CronExpression CronSchedule => CronExpression.Parse("* * * * *");
-}
-```
-
-
-
-
-
-### Registration
-
-Register all CronJobs with an `IServiceCollection` instance:
-
-```csharp
-services.AddCronJobs(typeof(Program));
-```
-
-
-
-This will scan the assembly of `Program` for all classes that implement `ICronJob`, and add them to the container.
-
-Each `ICronJob` found is then hosted in a [CronBackgroundService](https://github.com/NielsPilgaard/Pilgaard.CronJobs/blob/master/src/Pilgaard.CronJobs/CronBackgroundService.cs).
-
-
-
-
-
-### Configuration
-
-The following options are available for customizing `ICronJob` behaviour:
-
-```csharp
-services.AddCronJobs(options =>
-{
-    options.ServiceLifetime = ServiceLifetime.Singleton;
-    options.TimeZoneInfo = TimeZoneInfo.Utc;
-}, typeof(Program));
-```
-
+---
 
 
 ## Roadmap
@@ -93,11 +51,7 @@ services.AddCronJobs(options =>
   - Using RecurringJobs to manage data retention
   - Registering Jobs from an external assembly
 
-
-
 ---
-
-
 
 ## Thanks to
 
