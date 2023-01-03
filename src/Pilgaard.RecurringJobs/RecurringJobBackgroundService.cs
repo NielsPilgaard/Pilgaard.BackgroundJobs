@@ -109,6 +109,8 @@ public class RecurringJobBackgroundService : BackgroundService
         }
 
         await _job.ExecuteAsync(stoppingToken).ConfigureAwait(false);
+
+        _logger.LogDebug("Successfully executed the Job {jobName}", _jobName);
     }
 
     public override void Dispose()
