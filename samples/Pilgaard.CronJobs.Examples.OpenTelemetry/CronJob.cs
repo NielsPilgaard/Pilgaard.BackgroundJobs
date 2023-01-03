@@ -14,9 +14,7 @@ public class CronJob : ICronJob
 
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Executing CronJob {nameofApiCallerCronJob} at {timeNow}",
-            nameof(CronJob),
-            DateTime.UtcNow.ToString("T"));
+        _logger.LogInformation("{jobName} executed at {now:G}", nameof(CronJob), DateTime.Now);
 
         const string endpoint = "https://localhost:7243/weatherforecast";
 

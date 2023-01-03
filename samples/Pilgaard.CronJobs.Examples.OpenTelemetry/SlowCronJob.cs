@@ -13,9 +13,7 @@ public class SlowCronJob : ICronJob
 
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Executing CronJob {nameofApiCallerCronJob} at {timeNow}",
-            nameof(SlowCronJob),
-            DateTime.UtcNow.ToString("T"));
+        _logger.LogInformation("{jobName} executed at {now:G}", nameof(SlowCronJob), DateTime.Now);
 
         await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
     }

@@ -12,9 +12,7 @@ public class RecurringJob : IRecurringJob
 
     public async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Executing RecurringJob {nameofApiCallerJob} at {timeNow}",
-            nameof(RecurringJob),
-            DateTime.UtcNow.ToString("T"));
+        _logger.LogInformation("{jobName} executed at {now:G}", nameof(RecurringJob), DateTime.Now);
 
         const string endpoint = "https://localhost:7021/weatherforecast";
 
