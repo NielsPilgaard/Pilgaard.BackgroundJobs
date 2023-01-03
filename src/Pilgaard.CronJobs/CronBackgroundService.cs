@@ -21,10 +21,10 @@ namespace Pilgaard.CronJobs;
 public class CronBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ICronJob _cronJob;
+    private readonly ICronJob _job;
     private readonly ILogger<CronBackgroundService> _logger;
     private readonly CronExpression _cronSchedule;
-    private readonly string _cronJobName;
+    private readonly string _jobName;
 
     private static readonly Meter _meter = new(
         name: typeof(CronBackgroundService).Assembly.GetName().Name!,
@@ -39,21 +39,23 @@ public class CronBackgroundService : BackgroundService
     /// <summary>
     /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.
     /// </summary>
-    /// <param name="cronJob">The cron job.</param>
+    /// <param name="job">The cron job.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
     public CronBackgroundService(
-        ICronJob cronJob,
+        ICronJob job,
         IServiceScopeFactory serviceScopeFactory,
         ILogger<CronBackgroundService> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        _cronJob = cronJob;
-        _cronJobName = _cronJob.GetType().Name;
-        _cronSchedule = _cronJob.CronSchedule;
+        _job = job;
+        _jobName = _job.GetType().Name;
+        _cronSchedule = _job.CronSchedule;
 
-        _logger.LogInformation("Started CronBackgroundService with CronJob {cronJobName}", _cronJobName);
+
+        _logger.LogInformation("Started {className} with Job {job}",
+            nameof(CronBackgroundService), _jobName);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -63,7 +65,7 @@ public class CronBackgroundService : BackgroundService
         while (nextTaskOccurrence is not null &&
                stoppingToken.IsCancellationRequested is false)
         {
-            _logger.LogDebug("The next time {cronJobName} will execute is {nextTaskOccurrence}", _cronJobName, nextTaskOccurrence);
+            _logger.LogDebug("The next time {jobName} will execute is {nextTaskOccurrence}", _jobName, nextTaskOccurrence);
 
             await PerformTaskOnNextOccurrenceAsync(nextTaskOccurrence, stoppingToken).ConfigureAwait(false);
 
@@ -93,18 +95,32 @@ public class CronBackgroundService : BackgroundService
         // Measure duration of ExecuteAsync
         using var timer = _histogram.NewTimer(tags:
             new[]{
-                new KeyValuePair<string, object?>("job_name", _cronJobName)
+                new KeyValuePair<string, object?>("job_name", _jobName)
             });
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
-        if (_cronJob.ServiceLifetime is not ServiceLifetime.Singleton)
+        if (_job.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-            await GetScopedJobAndExecuteAsync(stoppingToken).ConfigureAwait(false);
+
+            _logger.LogDebug("Fetching a {serviceLifetime} instance of {jobName} from the ServiceProvider.",
+                _job.ServiceLifetime,
+                _jobName);
+
+            using var scope = _serviceScopeFactory.CreateScope();
+
+            var cronJob = (ICronJob)scope.ServiceProvider.GetRequiredService(_job.GetType());
+
+            await cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
+
+            _logger.LogDebug("Successfully executed the Job {jobName}", _jobName);
+
             return;
         }
 
-        await _cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
+        await _job.ExecuteAsync(stoppingToken).ConfigureAwait(false);
+
+        _logger.LogDebug("Successfully executed the Job {jobName}", _jobName);
     }
 
     /// <summary>
@@ -116,26 +132,7 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _cronJob.TimeZoneInfo);
-
-    /// <summary>
-    ///     Gets the scoped <see cref="ICronJob"/> and executes it.
-    /// </summary>
-    /// <param name="stoppingToken">The stopping token.</param>
-    private async Task GetScopedJobAndExecuteAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogDebug(
-            "Fetching a {serviceLifetime} instance of {cronJobName} from the ServiceProvider.",
-            _cronJob.ServiceLifetime, _cronJobName);
-
-        using var scope = _serviceScopeFactory.CreateScope();
-
-        var cronJob = (ICronJob)scope.ServiceProvider.GetService(_cronJob.GetType())!;
-
-        await cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
-
-        _logger.LogDebug("Successfully executed the CronJob {cronJobName}", _cronJobName);
-    }
+        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _job.TimeZoneInfo);
 
     /// <summary>
     ///     Checks whether the <paramref name="nextTaskExecution"/> is before
