@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Pilgaard.RecurringJobs.Examples.WorkerService": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
