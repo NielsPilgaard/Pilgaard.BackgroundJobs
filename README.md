@@ -54,7 +54,7 @@ The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.CronJobs/t
 - A separate UI project to help visualize when jobs trigger
 - More samples
   - Using Blazor
-  - Using a Worker Service
+  - ~~Using a Worker Service~~
   - Using IConfiguration in RecurringJobs
   - Using ScheduledJobs to control feature flags
   - Using RecurringJobs to manage data retention
