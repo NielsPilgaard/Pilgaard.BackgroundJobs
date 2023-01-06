@@ -1,5 +1,4 @@
 using System.Diagnostics.Metrics;
-using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -23,7 +22,6 @@ public class CronBackgroundService : BackgroundService
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ICronJob _job;
     private readonly ILogger<CronBackgroundService> _logger;
-    private readonly CronExpression _cronSchedule;
     private readonly string _jobName;
 
     private static readonly Meter _meter = new(
@@ -51,8 +49,6 @@ public class CronBackgroundService : BackgroundService
         _logger = logger;
         _job = job;
         _jobName = _job.GetType().Name;
-        _cronSchedule = _job.CronSchedule;
-
 
         _logger.LogInformation("Started {className} with Job {job}",
             nameof(CronBackgroundService), _jobName);
@@ -102,7 +98,6 @@ public class CronBackgroundService : BackgroundService
         // CronJob from the ServiceProvider on every execution.
         if (_job.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-
             _logger.LogDebug("Fetching a {serviceLifetime} instance of {jobName} from the ServiceProvider.",
                 _job.ServiceLifetime,
                 _jobName);
@@ -132,7 +127,7 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _job.TimeZoneInfo);
+        => _job.CronSchedule.GetNextOccurrence(DateTime.UtcNow, _job.TimeZoneInfo);
 
     /// <summary>
     ///     Checks whether the <paramref name="nextTaskExecution"/> is before

@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.ScheduledJobs.Tests", "tests\Pilgaard.ScheduledJobs.Tests\Pilgaard.ScheduledJobs.Tests.csproj", "{8BD25B6F-AD7E-49CE-8810-DD111528096E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pilgaard.RecurringJobs.Examples.WorkerService", "samples\Pilgaard.RecurringJobs.Examples.WorkerService\Pilgaard.RecurringJobs.Examples.WorkerService.csproj", "{C196C530-F4D8-4F3B-B3D2-E07F67B62274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Examples.WorkerService", "samples\Pilgaard.RecurringJobs.Examples.WorkerService\Pilgaard.RecurringJobs.Examples.WorkerService.csproj", "{C196C530-F4D8-4F3B-B3D2-E07F67B62274}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Examples.Configuration", "samples\Pilgaard.CronJobs.Examples.Configuration\Pilgaard.CronJobs.Examples.Configuration.csproj", "{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +116,7 @@ Global
 		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 		{8BD25B6F-AD7E-49CE-8810-DD111528096E} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 		{C196C530-F4D8-4F3B-B3D2-E07F67B62274} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
