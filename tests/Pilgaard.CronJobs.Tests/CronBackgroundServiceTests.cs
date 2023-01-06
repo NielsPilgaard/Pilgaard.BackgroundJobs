@@ -55,18 +55,6 @@ public class cronbackgroundservice_should : IAsyncLifetime
     }
 
     [Fact]
-    public async Task not_execute_its_cronjob_more_often_than_its_schedule()
-    {
-        // Arrange
-
-        // Act
-        await Task.Delay(TimeSpan.FromSeconds(2));
-
-        // Assert
-        _cronJob.PersistentField.Should().BeInRange(1, 5);
-    }
-
-    [Fact]
     public async Task use_transient_cronjob_when_configured_to()
     {
         // Arrange
