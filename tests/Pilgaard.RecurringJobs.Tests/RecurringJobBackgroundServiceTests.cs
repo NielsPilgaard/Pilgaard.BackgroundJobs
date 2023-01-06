@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Pilgaard.RecurringJobs.Extensions;
-using Xunit;
 
 namespace Pilgaard.RecurringJobs.Tests;
 
