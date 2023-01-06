@@ -1,5 +1,4 @@
 using System.Diagnostics.Metrics;
-using Cronos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,9 +20,8 @@ namespace Pilgaard.CronJobs;
 public class CronBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ICronJob _job;
+    private readonly ICronJob _cronJob;
     private readonly ILogger<CronBackgroundService> _logger;
-    private readonly CronExpression _cronSchedule;
     private readonly string _jobName;
 
     private static readonly Meter _meter = new(
@@ -39,22 +37,20 @@ public class CronBackgroundService : BackgroundService
     /// <summary>
     /// Initializes a new instance of the <see cref="CronBackgroundService"/> class.
     /// </summary>
-    /// <param name="job">The cron job.</param>
+    /// <param name="cronJob">The cronJob.</param>
     /// <param name="serviceScopeFactory">The service scope factory.</param>
     /// <param name="logger">The logger.</param>
     public CronBackgroundService(
-        ICronJob job,
+        ICronJob cronJob,
         IServiceScopeFactory serviceScopeFactory,
         ILogger<CronBackgroundService> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        _job = job;
-        _jobName = _job.GetType().Name;
-        _cronSchedule = _job.CronSchedule;
+        _cronJob = cronJob;
+        _jobName = _cronJob.GetType().Name;
 
-
-        _logger.LogInformation("Started {className} with Job {job}",
+        _logger.LogInformation("Started {className} with Job {jobName}",
             nameof(CronBackgroundService), _jobName);
     }
 
@@ -100,16 +96,15 @@ public class CronBackgroundService : BackgroundService
 
         // If ServiceLifetime is Transient or Scoped, we need to re-fetch the
         // CronJob from the ServiceProvider on every execution.
-        if (_job.ServiceLifetime is not ServiceLifetime.Singleton)
+        if (_cronJob.ServiceLifetime is not ServiceLifetime.Singleton)
         {
-
             _logger.LogDebug("Fetching a {serviceLifetime} instance of {jobName} from the ServiceProvider.",
-                _job.ServiceLifetime,
+                _cronJob.ServiceLifetime,
                 _jobName);
 
             using var scope = _serviceScopeFactory.CreateScope();
 
-            var cronJob = (ICronJob)scope.ServiceProvider.GetRequiredService(_job.GetType());
+            var cronJob = (ICronJob)scope.ServiceProvider.GetRequiredService(_cronJob.GetType());
 
             await cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
 
@@ -118,7 +113,7 @@ public class CronBackgroundService : BackgroundService
             return;
         }
 
-        await _job.ExecuteAsync(stoppingToken).ConfigureAwait(false);
+        await _cronJob.ExecuteAsync(stoppingToken).ConfigureAwait(false);
 
         _logger.LogDebug("Successfully executed the Job {jobName}", _jobName);
     }
@@ -132,7 +127,7 @@ public class CronBackgroundService : BackgroundService
     ///     <see cref="ICronJob.ExecuteAsync"/> should trigger.
     /// </returns>
     private DateTime? GetNextOccurrence()
-        => _cronSchedule.GetNextOccurrence(DateTime.UtcNow, _job.TimeZoneInfo);
+        => _cronJob.CronSchedule.GetNextOccurrence(DateTime.UtcNow, _cronJob.TimeZoneInfo);
 
     /// <summary>
     ///     Checks whether the <paramref name="nextTaskExecution"/> is before
