@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
+    <Description>Easily create background jobs that run based on Cron expressions, interval or absolute time.</Description>
+    <PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling;job;jobs;backgroundjobs</PackageTags>
+    <MinVerTagPrefix>backgroundjobs-v</MinVerTagPrefix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cronos" Version="0.7.1" />
+  </ItemGroup>
+
+</Project>
