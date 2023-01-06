@@ -51,6 +51,7 @@ The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.CronJobs/t
 
 ## Roadmap
 
+- Replace Assembly Scanning with registration similar to that of HealthChecks
 - A separate UI project to help visualize when jobs trigger
 - More samples
   - Using Blazor
