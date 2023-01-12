@@ -1,6 +1,10 @@
 ![Pilgaard BackgroundJobs Banner](https://user-images.githubusercontent.com/21295394/212175105-80087d36-42e3-436e-afbe-28c56173be60.png)
 
-Easily create jobs that run in the background, with multiple different scheduling methods.
+Multiple scheduling methods are supported:
+
+- [CronExpressions](https://crontab.guru/)
+- Recurringly at a set interval
+- Absolute time
 
 | Package 🔗           | Version & Downloads                                                                                                                                                       | Description |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
