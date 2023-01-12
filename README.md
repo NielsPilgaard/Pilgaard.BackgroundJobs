@@ -1,4 +1,4 @@
-# Pilgaard.BackgroundJobs
+![Pilgaard BackgroundJobs Banner](https://user-images.githubusercontent.com/21295394/212175105-80087d36-42e3-436e-afbe-28c56173be60.png)
 
 Easily create jobs that run in the background, with multiple different scheduling methods.
 
@@ -8,7 +8,22 @@ Easily create jobs that run in the background, with multiple different schedulin
 | [RecurringJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.RecurringJobs) | [![Version](https://img.shields.io/nuget/vpre/pilgaard.recurringjobs.svg)](https://www.nuget.org/packages/Pilgaard.RecurringJobs)[![Nuget](https://img.shields.io/nuget/dt/Pilgaard.RecurringJobs)](https://www.nuget.org/packages/Pilgaard.RecurringJobs) | Background Jobs that trigger based on intervals.
 | [ScheduledJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs) | [![Version](https://img.shields.io/nuget/vpre/pilgaard.scheduledjobs.svg)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs)[![Nuget](https://img.shields.io/nuget/dt/Pilgaard.ScheduledJobs)](https://www.nuget.org/packages/Pilgaard.ScheduledJobs) | Background Jobs that trigger once at a specific date and time.
 
+# Getting Started
+
+<ul>
+  <li>
+    <a href="https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.CronJobs" target="_blank" >CronJobs</a>
+  </li>
+  <li>
+    <a href="https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.RecurringJobs" target="_blank">RecurringJobs</a>
+  </li>
+  <li>
+    <a href="https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs" target="_blank">ScheduledJobs</a>
+  </li>
+</ul>
+
 ---
+
 
 # Installing
 
@@ -26,16 +41,6 @@ With the dotnet CLI:
 
 Or through Package Manager Console.
 
-
-# Getting Started
-
-Each nuget has instructions on how to get started: 
-
-[Pilgaard.CronJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.CronJobs)
-
-[Pilgaard.RecurringJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.RecurringJobs)
-
-[Pilgaard.ScheduledJobs](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/src/Pilgaard.ScheduledJobs)
 
 ---
 
