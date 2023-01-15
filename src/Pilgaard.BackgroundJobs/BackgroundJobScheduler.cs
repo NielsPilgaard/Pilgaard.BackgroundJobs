@@ -3,10 +3,11 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pilgaard.BackgroundJobs.Extensions;
 
 namespace Pilgaard.BackgroundJobs;
 
-internal sealed class BackgroundJobScheduler
+internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IOptions<BackgroundJobServiceOptions> _options;
@@ -29,14 +30,8 @@ internal sealed class BackgroundJobScheduler
 
         foreach (var (occurrence, backgroundJob) in backgroundJobOccurrences)
         {
-            if (occurrence is null)
-            {
-                // TODO: Add Logging
-                yield break;
-            }
-
             // TODO: Add Logging
-            var timeUntilNextOccurrence = occurrence.Value.Subtract(DateTime.UtcNow);
+            var timeUntilNextOccurrence = occurrence.Subtract(DateTime.UtcNow);
             await Task.Delay(timeUntilNextOccurrence, cancellationToken);
             yield return backgroundJob;
         }
@@ -46,23 +41,24 @@ internal sealed class BackgroundJobScheduler
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var backgroundJobOccurrences = Enumerable.Empty<BackgroundJobOccurrence>();
+        var backgroundJobOccurrences = new List<BackgroundJobOccurrence>();
         foreach (var registration in _options.Value.Registrations)
         {
             var backgroundJob = registration.Factory(scope.ServiceProvider);
 
-            backgroundJobOccurrences = backgroundJob
-                .GetOccurrences(toUtc)
-                .OrderBy(dateTime => dateTime)
-                .Select(occurrence =>
-                    new BackgroundJobOccurrence(occurrence, backgroundJob));
+            backgroundJobOccurrences.AddRange(
+                backgroundJob
+                    .GetOccurrences(toUtc)
+                    .OrderBy(dateTime => dateTime)
+                    .Select(occurrence =>
+                        new BackgroundJobOccurrence(occurrence, backgroundJob)));
         }
 
         // TODO: Add Logging
-        backgroundJobOccurrences = backgroundJobOccurrences
-            .OrderBy(backgroundJobOccurrence => backgroundJobOccurrence.Occurrence.GetValueOrDefault());
+        var orderedBackgroundJobOccurrences = backgroundJobOccurrences
+            .OrderBy(backgroundJobOccurrence => backgroundJobOccurrence.Occurrence);
 
-        foreach (var backgroundJobOccurrence in backgroundJobOccurrences)
+        foreach (var backgroundJobOccurrence in orderedBackgroundJobOccurrences)
         {
             yield return backgroundJobOccurrence;
         }
