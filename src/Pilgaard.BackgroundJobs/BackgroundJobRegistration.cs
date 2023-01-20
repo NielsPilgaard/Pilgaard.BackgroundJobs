@@ -2,7 +2,8 @@ namespace Pilgaard.BackgroundJobs;
 
 public sealed class BackgroundJobRegistration
 {
-    public BackgroundJobRegistration(IBackgroundJob instance,
+    public BackgroundJobRegistration(
+        IBackgroundJob instance,
         string? name = null,
         TimeSpan? timeout = null,
         IEnumerable<string>? tags = null)
@@ -21,7 +22,8 @@ public sealed class BackgroundJobRegistration
         Tags = new HashSet<string>(tags ?? Array.Empty<string>(), StringComparer.OrdinalIgnoreCase);
     }
 
-    public BackgroundJobRegistration(Func<IServiceProvider, IBackgroundJob> factory,
+    public BackgroundJobRegistration(
+        Func<IServiceProvider, IBackgroundJob> factory,
         string? name = null,
         TimeSpan? timeout = null,
         IEnumerable<string>? tags = null)
@@ -59,16 +61,4 @@ public sealed class BackgroundJobRegistration
     /// Gets a list of tags that can be used for filtering jobs.
     /// </summary>
     public ISet<string> Tags { get; }
-
-    /// <summary>
-    /// Gets the type of the job.
-    /// </summary>
-    public BackgroundJobType BackgroundJobType { get; }
-}
-
-public enum BackgroundJobType
-{
-    Cron = 0,
-    Recurring = 1,
-    Scheduled = 2
 }
