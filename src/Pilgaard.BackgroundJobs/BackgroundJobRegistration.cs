@@ -18,8 +18,6 @@ public sealed class BackgroundJobRegistration
         Factory = (_) => instance;
 
         Timeout = timeout ?? System.Threading.Timeout.InfiniteTimeSpan;
-
-        Tags = new HashSet<string>(tags ?? Array.Empty<string>(), StringComparer.OrdinalIgnoreCase);
     }
 
     public BackgroundJobRegistration(
@@ -38,8 +36,6 @@ public sealed class BackgroundJobRegistration
         Factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
         Timeout = timeout ?? System.Threading.Timeout.InfiniteTimeSpan;
-
-        Tags = new HashSet<string>(tags ?? Array.Empty<string>(), StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -56,9 +52,4 @@ public sealed class BackgroundJobRegistration
     /// Gets the timeout used for the job.
     /// </summary>
     public TimeSpan Timeout { get; }
-
-    /// <summary>
-    /// Gets a list of tags that can be used for filtering jobs.
-    /// </summary>
-    public ISet<string> Tags { get; }
 }
