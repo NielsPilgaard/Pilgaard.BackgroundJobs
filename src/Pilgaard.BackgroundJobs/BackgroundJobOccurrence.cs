@@ -1,7 +1,9 @@
 namespace Pilgaard.BackgroundJobs;
 
-internal readonly record struct BackgroundJobOccurrence(DateTime Occurrence, IBackgroundJob BackgroundJob)
+internal readonly record struct BackgroundJobOccurrence(
+    DateTime Occurrence,
+    BackgroundJobRegistration BackgroundJobRegistration)
 {
     public DateTime Occurrence { get; } = Occurrence;
-    public IBackgroundJob BackgroundJob { get; } = BackgroundJob;
+    public BackgroundJobRegistration BackgroundJobRegistration { get; } = BackgroundJobRegistration;
 }
