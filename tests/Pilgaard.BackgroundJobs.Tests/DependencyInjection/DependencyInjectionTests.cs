@@ -84,20 +84,35 @@ public class backgroundjob_registration_should
     }
 }
 
-internal class TestCronJob : ICronJob
+public class CronJob : ICronJob
 {
-    public Task RunJobAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
-    public CronExpression CronExpression => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine("Time to backup your databases!");
+
+        return Task.CompletedTask;
+    }
+    public CronExpression CronExpression => CronExpression.Parse("0 3 * * *");
 }
 
-internal class TestRecurringJob : IRecurringJob
+public class RecurringJob : IRecurringJob
 {
-    public Task RunJobAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
-    public TimeSpan Interval => TimeSpan.FromSeconds(10);
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine("This is your hourly reminder to stay hydrated.");
+
+        return Task.CompletedTask;
+    }
+    public TimeSpan Interval => TimeSpan.FromHours(1);
 }
 
-internal class TestOneTimeJob : IOneTimeJob
+public class OneTimeJob : IOneTimeJob
 {
-    public Task RunJobAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
-    public DateTime ScheduledTimeUtc => DateTime.UtcNow.AddSeconds(10);
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine("Happy New Year!");
+
+        return Task.CompletedTask;
+    }
+    public DateTime ScheduledTimeUtc => new(year: 2023, month: 12, day: 31, hour: 23, minute: 59, second: 59);
 }
