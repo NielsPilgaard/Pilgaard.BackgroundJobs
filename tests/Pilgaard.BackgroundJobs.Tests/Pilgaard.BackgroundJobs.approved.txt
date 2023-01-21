@@ -1,0 +1,82 @@
+﻿namespace Pilgaard.BackgroundJobs
+{
+    public sealed class BackgroundJobRegistration
+    {
+        public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string? name = null, System.TimeSpan? timeout = default, System.Collections.Generic.IEnumerable<string>? tags = null) { }
+        public BackgroundJobRegistration(System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> factory, string? name = null, System.TimeSpan? timeout = default, System.Collections.Generic.IEnumerable<string>? tags = null) { }
+        public System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> Factory { get; }
+        public string Name { get; }
+        public System.TimeSpan Timeout { get; }
+    }
+    public sealed class BackgroundJobServiceOptions
+    {
+        public BackgroundJobServiceOptions() { }
+        public System.Collections.Generic.ICollection<Pilgaard.BackgroundJobs.BackgroundJobRegistration> Registrations { get; }
+    }
+    public interface IBackgroundJob
+    {
+        System.Threading.Tasks.Task RunJobAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+    public interface IBackgroundJobService
+    {
+        System.Threading.Tasks.Task RunJobsAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+    public interface IBackgroundJobsBuilder
+    {
+        Microsoft.Extensions.DependencyInjection.IServiceCollection Services { get; }
+        Pilgaard.BackgroundJobs.IBackgroundJobsBuilder Add(Pilgaard.BackgroundJobs.BackgroundJobRegistration registration);
+    }
+    public interface ICronJob : Pilgaard.BackgroundJobs.IBackgroundJob
+    {
+        Cronos.CronExpression CronExpression { get; }
+    }
+    public interface IOneTimeJob : Pilgaard.BackgroundJobs.IBackgroundJob
+    {
+        System.DateTime ScheduledTimeUtc { get; }
+    }
+    public interface IRecurringJob : Pilgaard.BackgroundJobs.IBackgroundJob
+    {
+        System.TimeSpan Interval { get; }
+    }
+}
+namespace Pilgaard.BackgroundJobs.Extensions
+{
+    public static class BackgroundJobExtensions
+    {
+        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob, System.DateTime toUtc) { }
+    }
+    public static class BackgroundJobsBuilderDelegateExtensions
+    {
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+    }
+    public static class BackgroundJobsBuilderExtensions
+    {
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default)
+            where TJob :  class, Pilgaard.BackgroundJobs.IBackgroundJob { }
+    }
+    public static class CronJobExtensions
+    {
+        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.ICronJob cronJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.ICronJob cronJob, System.DateTime toUtc) { }
+    }
+    public static class OneTimeJobExtensions
+    {
+        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.IOneTimeJob oneTimeJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.IOneTimeJob oneTimeJob, System.DateTime toUtc) { }
+    }
+    public static class RecurringJobExtensions
+    {
+        public static System.DateTime GetNextOccurrence(this Pilgaard.BackgroundJobs.IRecurringJob recurringJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.IRecurringJob recurringJob, System.DateTime toUtc) { }
+    }
+    public static class ServiceCollectionExtensions
+    {
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddBackgroundJobs(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+    }
+}
