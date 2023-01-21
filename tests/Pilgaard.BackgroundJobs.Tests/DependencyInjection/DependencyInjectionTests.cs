@@ -16,7 +16,7 @@ public class backgroundjob_registration_should
 
         // Act
         services.AddBackgroundJobs()
-            .AddJob<TestCronJob>(nameof(TestCronJob));
+            .AddJob<CronJob>(nameof(CronJob));
 
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
@@ -28,7 +28,7 @@ public class backgroundjob_registration_should
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
-            .Should().BeOfType<TestCronJob>()
+            .Should().BeOfType<CronJob>()
             .And.BeAssignableTo<ICronJob>()
             .And.BeAssignableTo<IBackgroundJob>();
     }
@@ -41,7 +41,7 @@ public class backgroundjob_registration_should
 
         // Act
         services.AddBackgroundJobs()
-            .AddJob<TestRecurringJob>(nameof(TestRecurringJob));
+            .AddJob<RecurringJob>(nameof(RecurringJob));
 
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
@@ -53,7 +53,7 @@ public class backgroundjob_registration_should
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
-            .Should().BeOfType<TestRecurringJob>()
+            .Should().BeOfType<RecurringJob>()
             .And.BeAssignableTo<IRecurringJob>()
             .And.BeAssignableTo<IBackgroundJob>();
     }
@@ -66,7 +66,7 @@ public class backgroundjob_registration_should
 
         // Act
         services.AddBackgroundJobs()
-            .AddJob<TestOneTimeJob>(nameof(TestOneTimeJob));
+            .AddJob<OneTimeJob>(nameof(OneTimeJob));
 
         // Assert
         await using var serviceProvider = services.BuildServiceProvider();
@@ -78,7 +78,7 @@ public class backgroundjob_registration_should
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
-            .Should().BeOfType<TestOneTimeJob>()
+            .Should().BeOfType<OneTimeJob>()
             .And.BeAssignableTo<IOneTimeJob>()
             .And.BeAssignableTo<IBackgroundJob>();
     }

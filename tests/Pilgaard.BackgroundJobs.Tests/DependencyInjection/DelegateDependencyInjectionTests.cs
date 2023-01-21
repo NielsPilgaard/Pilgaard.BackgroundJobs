@@ -17,7 +17,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddJob(
-                name: nameof(TestCronJob),
+                name: nameof(CronJob),
                 job: () => Console.WriteLine("Hi!"),
                 cronExpression: CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds));
 
@@ -45,7 +45,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddJob(
-                name: nameof(TestRecurringJob),
+                name: nameof(RecurringJob),
                 job: () => Console.WriteLine("Hi!"),
                 interval: TimeSpan.FromSeconds(10));
 
@@ -73,7 +73,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddJob(
-                name: nameof(TestOneTimeJob),
+                name: nameof(OneTimeJob),
                 job: () => Console.WriteLine("Hi!"),
                 scheduledTimeUtc: DateTime.UtcNow.AddSeconds(10));
 
@@ -101,7 +101,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddAsyncJob(
-                name: nameof(TestCronJob),
+                name: nameof(CronJob),
                 job: (_) => Task.CompletedTask,
                 cronExpression: CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds));
 
@@ -129,7 +129,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddAsyncJob(
-                name: nameof(TestRecurringJob),
+                name: nameof(RecurringJob),
                 job: (_) => Task.CompletedTask,
                 interval: TimeSpan.FromSeconds(10));
 
@@ -157,7 +157,7 @@ public class backgroundjob_delegate_registration_should
         // Act
         services.AddBackgroundJobs()
             .AddAsyncJob(
-                name: nameof(TestOneTimeJob),
+                name: nameof(OneTimeJob),
                 job: (_) => Task.CompletedTask,
                 scheduledTimeUtc: DateTime.UtcNow.AddSeconds(10));
 
