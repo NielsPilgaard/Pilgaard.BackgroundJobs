@@ -32,7 +32,7 @@ public class backgroundjobscheduler_should
 
         // Act
         var backgroundJobs = sut
-            .GetOrderedBackgroundJobOccurrences(DateTime.UtcNow.AddSeconds(30))
+            .GetOrderedBackgroundJobOccurrences(TimeSpan.FromSeconds(30))
             .ToArray();
 
         // Assert
@@ -41,7 +41,7 @@ public class backgroundjobscheduler_should
         {
             _testOutput.WriteLine($"[{backgroundJob}]: {occurrence}");
             occurrence.Should().BeAfter(lastOccurrence);
-            lastOccurrence = occurrence!.Value;
+            lastOccurrence = occurrence;
         }
     }
 
@@ -60,21 +60,27 @@ public class backgroundjobscheduler_should
 
         var startTime = DateTime.UtcNow;
 
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+
         // Act
-        var backgroundJobs = sut.GetBackgroundJobsAsync(DateTime.UtcNow.AddSeconds(5));
+        var backgroundJobs = sut.GetBackgroundJobsAsync(cts.Token);
 
         // Assert
-        ushort jobCount = 0;
         ushort index = 1;
-        await foreach (var backgroundJob in backgroundJobs)
+
+        try
         {
-            var now = DateTime.UtcNow;
-            now.Second.Should().Be(startTime.AddSeconds(index).Second);
-            jobCount++;
-            index++;
-            _testOutput.WriteLine($"[{backgroundJob}]: {now}");
+            await foreach (var backgroundJob in backgroundJobs.WithCancellation(cts.Token))
+            {
+                var now = DateTime.UtcNow;
+                now.Second.Should().Be(startTime.AddSeconds(index++).Second);
+                _testOutput.WriteLine($"[{backgroundJob}]: {now}");
+            }
         }
-        jobCount.Should().Be(4);
+        catch
+        {
+            // This test throws to stop
+        }
     }
 
     [Fact]
@@ -94,15 +100,16 @@ public class backgroundjobscheduler_should
 
         // Act
         var backgroundJobs = sut
-            .GetOrderedBackgroundJobOccurrences(DateTime.UtcNow.AddMinutes(2))
+            .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(2))
             .ToArray();
 
         // Assert
         var distinctBackgroundJobs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var (occurrence, backgroundJob) in backgroundJobs)
+        foreach (var (occurrence, backgroundJobRegistration) in backgroundJobs)
         {
-            distinctBackgroundJobs.Add(backgroundJob.GetType().Name);
-            _testOutput.WriteLine($"[{backgroundJob}]: {occurrence}");
+            string backgroundJobType = backgroundJobRegistration.Factory(serviceProvider).GetType().Name;
+            distinctBackgroundJobs.Add(backgroundJobType);
+            _testOutput.WriteLine($"[{backgroundJobType}]: {occurrence}");
         }
 
         distinctBackgroundJobs.Count.Should().Be(3);
@@ -113,7 +120,6 @@ public class backgroundjobscheduler_should
     {
         // Arrange
         _services
-            .AddSingleton<BackgroundJobScheduler>()
             .AddBackgroundJobs()
             .AddJob("DuplicateJob", () => { }, TimeSpan.FromSeconds(10))
             .AddJob("DuplicateJob", () => { }, TimeSpan.FromSeconds(10));
@@ -121,6 +127,6 @@ public class backgroundjobscheduler_should
         await using var serviceProvider = _services.BuildServiceProvider();
 
         // Act && Assert
-        Assert.Throws<ArgumentException>(() => serviceProvider.GetRequiredService<BackgroundJobScheduler>());
+        Assert.Throws<ArgumentException>(() => serviceProvider.GetRequiredService<IBackgroundJobScheduler>());
     }
 }

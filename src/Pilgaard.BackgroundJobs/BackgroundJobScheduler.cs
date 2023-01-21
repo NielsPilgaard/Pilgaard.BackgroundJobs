@@ -24,21 +24,44 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         ValidateRegistrations(_options.Value.Registrations);
     }
 
-    public async IAsyncEnumerable<IBackgroundJob> GetBackgroundJobsAsync(DateTime toUtc, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<BackgroundJobRegistration> GetBackgroundJobsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var backgroundJobOccurrences = GetOrderedBackgroundJobOccurrences(toUtc);
+        var interval = TimeSpan.FromHours(1);
+
+        var backgroundJobOccurrences = GetOrderedBackgroundJobOccurrences(interval);
+
+        if (!backgroundJobOccurrences.Any())
+        {
+            var intervalMinus5Seconds = interval.Subtract(TimeSpan.FromSeconds(5));
+
+            _logger.LogDebug("No background job occurrences found in the TimeSpan {interval}, " +
+                             "waiting for TimeSpan {interval} until checking again.", interval, intervalMinus5Seconds);
+
+            await Task.Delay(intervalMinus5Seconds, cancellationToken);
+
+            yield break;
+        }
 
         foreach (var (occurrence, backgroundJob) in backgroundJobOccurrences)
         {
-            // TODO: Add Logging
             var timeUntilNextOccurrence = occurrence.Subtract(DateTime.UtcNow);
-            await Task.Delay(timeUntilNextOccurrence, cancellationToken);
+
+            _logger.LogDebug("Background job {jobName} will execute in {timeUntilNextOccurrence}",
+                backgroundJob.Name, timeUntilNextOccurrence);
+
+            if (timeUntilNextOccurrence > TimeSpan.Zero)
+            {
+                await Task.Delay(timeUntilNextOccurrence, cancellationToken);
+            }
+
             yield return backgroundJob;
         }
     }
 
-    internal IEnumerable<BackgroundJobOccurrence> GetOrderedBackgroundJobOccurrences(DateTime toUtc)
+    internal IEnumerable<BackgroundJobOccurrence> GetOrderedBackgroundJobOccurrences(TimeSpan fetchInterval)
     {
+        var toUtc = DateTime.UtcNow.Add(fetchInterval);
+
         using var scope = _scopeFactory.CreateScope();
 
         var backgroundJobOccurrences = new List<BackgroundJobOccurrence>();
@@ -51,10 +74,9 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
                     .GetOccurrences(toUtc)
                     .OrderBy(dateTime => dateTime)
                     .Select(occurrence =>
-                        new BackgroundJobOccurrence(occurrence, backgroundJob)));
+                        new BackgroundJobOccurrence(occurrence, registration)));
         }
 
-        // TODO: Add Logging
         var orderedBackgroundJobOccurrences = backgroundJobOccurrences
             .OrderBy(backgroundJobOccurrence => backgroundJobOccurrence.Occurrence);
 
