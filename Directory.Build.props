@@ -21,7 +21,6 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Deterministic>true</Deterministic>
     <RepositoryUrl>https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs</RepositoryUrl>
     <PackageProjectUrl>https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs</PackageProjectUrl>
