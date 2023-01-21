@@ -9,9 +9,9 @@ builder.Services.AddBackgroundJobs()
         name: "basic-cronjob",
         job: () => Console.WriteLine("I happened!"),
         cronExpression: CronExpression.Parse("* * * * *"))
-    .AddAsyncJob(
-        name: "async-recurringjob",
-        job: async (cancellationToken) => await new HttpClient().GetStringAsync("https://localhost:7149/weatherforecast", cancellationToken: cancellationToken),
+    .AddJob(
+        name: "basic-recurringjob",
+        job: () => Console.WriteLine("I happened!"),
         interval: TimeSpan.FromSeconds(3))
     .AddJob(
         name: "basic-onetimejob",
@@ -24,7 +24,7 @@ builder.Services.AddBackgroundJobs()
         cronExpression: CronExpression.Parse("* * * * *"))
     .AddAsyncJob(
         name: "async-recurringjob",
-        job: cancellationToken => Task.CompletedTask,
+        job: async (cancellationToken) => await new HttpClient().GetStringAsync("https://localhost:7149/weatherforecast", cancellationToken: cancellationToken),
         interval: TimeSpan.FromSeconds(3))
     .AddAsyncJob(
         name: "async-onetimejob",
