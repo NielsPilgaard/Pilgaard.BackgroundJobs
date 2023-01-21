@@ -2,8 +2,8 @@
 {
     public sealed class BackgroundJobRegistration
     {
-        public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string? name = null, System.TimeSpan? timeout = default, System.Collections.Generic.IEnumerable<string>? tags = null) { }
-        public BackgroundJobRegistration(System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> factory, string? name = null, System.TimeSpan? timeout = default, System.Collections.Generic.IEnumerable<string>? tags = null) { }
+        public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string? name = null, System.TimeSpan? timeout = default) { }
+        public BackgroundJobRegistration(System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> factory, string? name = null, System.TimeSpan? timeout = default) { }
         public System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> Factory { get; }
         public string Name { get; }
         public System.TimeSpan Timeout { get; }
@@ -48,16 +48,16 @@ namespace Pilgaard.BackgroundJobs.Extensions
     }
     public static class BackgroundJobsBuilderDelegateExtensions
     {
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
     }
     public static class BackgroundJobsBuilderExtensions
     {
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Collections.Generic.IEnumerable<string>? tags = null, System.TimeSpan? timeout = default)
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.TimeSpan? timeout = default)
             where TJob :  class, Pilgaard.BackgroundJobs.IBackgroundJob { }
     }
     public static class CronJobExtensions

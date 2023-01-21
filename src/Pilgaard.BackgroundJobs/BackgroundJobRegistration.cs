@@ -5,8 +5,7 @@ public sealed class BackgroundJobRegistration
     public BackgroundJobRegistration(
         IBackgroundJob instance,
         string? name = null,
-        TimeSpan? timeout = null,
-        IEnumerable<string>? tags = null)
+        TimeSpan? timeout = null)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
         {
@@ -23,8 +22,7 @@ public sealed class BackgroundJobRegistration
     public BackgroundJobRegistration(
         Func<IServiceProvider, IBackgroundJob> factory,
         string? name = null,
-        TimeSpan? timeout = null,
-        IEnumerable<string>? tags = null)
+        TimeSpan? timeout = null)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
         {

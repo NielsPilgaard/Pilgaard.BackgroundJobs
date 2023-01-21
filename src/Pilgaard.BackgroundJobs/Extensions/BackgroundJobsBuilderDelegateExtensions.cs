@@ -9,7 +9,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Action job,
         CronExpression cronExpression,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -33,7 +32,7 @@ public static class BackgroundJobsBuilderDelegateExtensions
             return Task.CompletedTask;
         }, cronExpression);
 
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
     public static IBackgroundJobsBuilder AddJob(
@@ -41,7 +40,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Action job,
         TimeSpan interval,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -65,7 +63,7 @@ public static class BackgroundJobsBuilderDelegateExtensions
             return Task.CompletedTask;
         }, interval);
 
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
     public static IBackgroundJobsBuilder AddJob(
@@ -73,7 +71,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Action job,
         DateTime scheduledTimeUtc,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -97,7 +94,7 @@ public static class BackgroundJobsBuilderDelegateExtensions
             return Task.CompletedTask;
         }, scheduledTimeUtc);
 
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
     public static IBackgroundJobsBuilder AddAsyncJob(
@@ -105,7 +102,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Func<CancellationToken, Task> job,
         CronExpression cronExpression,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -124,7 +120,7 @@ public static class BackgroundJobsBuilderDelegateExtensions
         }
 
         var instance = new DelegateCronJob(job, cronExpression);
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
     public static IBackgroundJobsBuilder AddAsyncJob(
@@ -132,7 +128,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Func<CancellationToken, Task> job,
         TimeSpan interval,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -151,7 +146,7 @@ public static class BackgroundJobsBuilderDelegateExtensions
         }
 
         var instance = new DelegateRecurringJob(job, interval);
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
     public static IBackgroundJobsBuilder AddAsyncJob(
@@ -159,7 +154,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         string name,
         Func<CancellationToken, Task> job,
         DateTime scheduledTimeUtc,
-        IEnumerable<string>? tags = null,
         TimeSpan? timeout = default)
     {
         if (builder is null)
@@ -178,6 +172,6 @@ public static class BackgroundJobsBuilderDelegateExtensions
         }
 
         var instance = new DelegateOneTimeJob(job, scheduledTimeUtc);
-        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, tags));
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 }
