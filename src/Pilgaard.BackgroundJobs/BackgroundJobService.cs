@@ -22,6 +22,7 @@ internal sealed class DefaultBackgroundJobService : BackgroundService, IBackgrou
             unit: "milliseconds",
             description: $"Histogram over duration and count of {nameof(DefaultBackgroundJobService)}.{nameof(RunJobAsync)}.");
 
+
     public DefaultBackgroundJobService(
         IServiceScopeFactory scopeFactory,
         ILogger<DefaultBackgroundJobService> logger,
@@ -47,6 +48,7 @@ internal sealed class DefaultBackgroundJobService : BackgroundService, IBackgrou
 
             await foreach (var registration in backgroundJobsToRun)
             {
+                // Don't await, otherwise the timing will be off for frequently run jobs
                 _ = Task.Run(async () => await RunJobAsync(registration, cancellationToken), cancellationToken);
             }
         }
