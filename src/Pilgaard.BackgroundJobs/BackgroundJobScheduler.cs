@@ -29,6 +29,8 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 
         var backgroundJobOccurrences = GetOrderedBackgroundJobOccurrences(interval);
 
+        // Check if there's anything to enumerate
+        // If false, sleep and return
         if (!backgroundJobOccurrences.Any())
         {
             var intervalMinus5Seconds = interval.Subtract(TimeSpan.FromSeconds(5));
@@ -38,6 +40,7 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 
             await Task.Delay(intervalMinus5Seconds, cancellationToken);
 
+            // When we yield break, GetBackgroundJobsAsync will be called again immediately
             yield break;
         }
 
