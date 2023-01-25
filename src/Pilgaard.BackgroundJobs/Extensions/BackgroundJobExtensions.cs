@@ -1,4 +1,4 @@
-namespace Pilgaard.BackgroundJobs.Extensions;
+namespace Pilgaard.BackgroundJobs;
 
 public static class BackgroundJobExtensions
 {
