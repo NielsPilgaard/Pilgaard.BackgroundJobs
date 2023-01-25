@@ -1,5 +1,10 @@
 ﻿namespace Pilgaard.BackgroundJobs
 {
+    public static class BackgroundJobExtensions
+    {
+        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob, System.DateTime toUtc) { }
+    }
     public sealed class BackgroundJobRegistration
     {
         public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string? name = null, System.TimeSpan? timeout = default) { }
@@ -12,6 +17,25 @@
     {
         public BackgroundJobServiceOptions() { }
         public System.Collections.Generic.ICollection<Pilgaard.BackgroundJobs.BackgroundJobRegistration> Registrations { get; }
+    }
+    public static class BackgroundJobsBuilderDelegateExtensions
+    {
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
+    }
+    public static class BackgroundJobsBuilderExtensions
+    {
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.TimeSpan? timeout = default)
+            where TJob :  class, Pilgaard.BackgroundJobs.IBackgroundJob { }
+    }
+    public static class CronJobExtensions
+    {
+        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.ICronJob cronJob) { }
+        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.ICronJob cronJob, System.DateTime toUtc) { }
     }
     public interface IBackgroundJob
     {
@@ -37,33 +61,6 @@
     public interface IRecurringJob : Pilgaard.BackgroundJobs.IBackgroundJob
     {
         System.TimeSpan Interval { get; }
-    }
-}
-namespace Pilgaard.BackgroundJobs.Extensions
-{
-    public static class BackgroundJobExtensions
-    {
-        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob) { }
-        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.IBackgroundJob backgroundJob, System.DateTime toUtc) { }
-    }
-    public static class BackgroundJobsBuilderDelegateExtensions
-    {
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
-    }
-    public static class BackgroundJobsBuilderExtensions
-    {
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.TimeSpan? timeout = default)
-            where TJob :  class, Pilgaard.BackgroundJobs.IBackgroundJob { }
-    }
-    public static class CronJobExtensions
-    {
-        public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.ICronJob cronJob) { }
-        public static System.Collections.Generic.IEnumerable<System.DateTime> GetOccurrences(this Pilgaard.BackgroundJobs.ICronJob cronJob, System.DateTime toUtc) { }
     }
     public static class OneTimeJobExtensions
     {
