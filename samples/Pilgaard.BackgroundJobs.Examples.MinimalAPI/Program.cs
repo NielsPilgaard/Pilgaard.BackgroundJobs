@@ -1,6 +1,6 @@
 using Cronos;
+using Pilgaard.BackgroundJobs;
 using Pilgaard.BackgroundJobs.Examples.MinimalAPI;
-using Pilgaard.BackgroundJobs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

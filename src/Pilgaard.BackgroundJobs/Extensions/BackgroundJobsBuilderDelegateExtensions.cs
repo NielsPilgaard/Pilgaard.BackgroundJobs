@@ -1,6 +1,6 @@
 using Cronos;
 
-namespace Pilgaard.BackgroundJobs.Extensions;
+namespace Pilgaard.BackgroundJobs;
 
 public static class BackgroundJobsBuilderDelegateExtensions
 {

@@ -2,7 +2,6 @@ using Cronos;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Pilgaard.BackgroundJobs.Extensions;
 
 namespace Pilgaard.BackgroundJobs.Tests.DependencyInjection;
 

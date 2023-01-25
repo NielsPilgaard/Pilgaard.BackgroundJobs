@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Pilgaard.BackgroundJobs.Extensions;
+namespace Pilgaard.BackgroundJobs;
 
 public static class ServiceCollectionExtensions
 {

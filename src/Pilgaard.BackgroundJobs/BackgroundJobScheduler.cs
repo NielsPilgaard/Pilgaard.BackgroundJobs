@@ -3,7 +3,6 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Pilgaard.BackgroundJobs.Extensions;
 
 namespace Pilgaard.BackgroundJobs;
 

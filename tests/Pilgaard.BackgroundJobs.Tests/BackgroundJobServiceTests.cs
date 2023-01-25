@@ -1,7 +1,6 @@
 using Cronos;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Pilgaard.BackgroundJobs.Extensions;
 using Xunit.Abstractions;
 
 namespace Pilgaard.BackgroundJobs.Tests;
