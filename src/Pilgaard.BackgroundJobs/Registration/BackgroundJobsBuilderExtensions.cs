@@ -10,14 +10,10 @@ public static class BackgroundJobsBuilderExtensions
         TimeSpan? timeout = default) where TJob : class, IBackgroundJob
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         return builder.Add(new BackgroundJobRegistration(GetServiceOrCreateInstance, name, timeout));
 

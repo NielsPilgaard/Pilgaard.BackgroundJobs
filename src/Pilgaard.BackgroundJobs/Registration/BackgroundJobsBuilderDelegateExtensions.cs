@@ -12,19 +12,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateCronJob(_ =>
         {
@@ -43,19 +37,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateRecurringJob(_ =>
         {
@@ -74,19 +62,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateOneTimeJob(_ =>
         {
@@ -105,19 +87,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateCronJob(job, cronExpression);
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
@@ -131,19 +107,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateRecurringJob(job, interval);
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
@@ -157,19 +127,13 @@ public static class BackgroundJobsBuilderDelegateExtensions
         TimeSpan? timeout = default)
     {
         if (builder is null)
-        {
             throw new ArgumentNullException(nameof(builder));
-        }
 
         if (name is null)
-        {
             throw new ArgumentNullException(nameof(name));
-        }
 
         if (job is null)
-        {
             throw new ArgumentNullException(nameof(job));
-        }
 
         var instance = new DelegateOneTimeJob(job, scheduledTimeUtc);
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));

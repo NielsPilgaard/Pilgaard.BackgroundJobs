@@ -1,38 +1,35 @@
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Pilgaard.BackgroundJobs;
 
-internal sealed class DefaultBackgroundJobService : BackgroundService, IBackgroundJobService
+internal sealed class BackgroundJobService : IBackgroundJobService
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<DefaultBackgroundJobService> _logger;
+    private readonly ILogger<BackgroundJobService> _logger;
     private readonly IBackgroundJobScheduler _backgroundJobScheduler;
 
     private static readonly Meter _meter = new(
-        name: typeof(DefaultBackgroundJobService).Assembly.GetName().Name!,
-        version: typeof(DefaultBackgroundJobService).Assembly.GetName().Version?.ToString());
+        name: typeof(BackgroundJobService).Assembly.GetName().Name!,
+        version: typeof(BackgroundJobService).Assembly.GetName().Version?.ToString());
 
     private static readonly Histogram<double> _histogram =
         _meter.CreateHistogram<double>(
-            name: $"{nameof(DefaultBackgroundJobService)}.{nameof(RunJobAsync)}".ToLower(),
+            name: $"{nameof(BackgroundJobService)}.{nameof(RunJobAsync)}".ToLower(),
             unit: "milliseconds",
-            description: $"Histogram over duration and count of {nameof(DefaultBackgroundJobService)}.{nameof(RunJobAsync)}.");
+            description: $"Histogram over duration and count of {nameof(BackgroundJobService)}.{nameof(RunJobAsync)}.");
 
 
-    public DefaultBackgroundJobService(
+    public BackgroundJobService(
         IServiceScopeFactory scopeFactory,
-        ILogger<DefaultBackgroundJobService> logger,
+        ILogger<BackgroundJobService> logger,
         IBackgroundJobScheduler backgroundJobScheduler)
     {
         _scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _backgroundJobScheduler = backgroundJobScheduler ?? throw new ArgumentNullException(nameof(backgroundJobScheduler));
     }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken) => await RunJobsAsync(stoppingToken);
 
     public async Task RunJobsAsync(CancellationToken cancellationToken = default)
     {

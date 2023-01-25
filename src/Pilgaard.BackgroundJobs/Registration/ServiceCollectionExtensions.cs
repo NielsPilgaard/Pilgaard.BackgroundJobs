@@ -7,9 +7,10 @@ public static class ServiceCollectionExtensions
 {
     public static IBackgroundJobsBuilder AddBackgroundJobs(this IServiceCollection services)
     {
-        services.TryAddSingleton<IBackgroundJobService, DefaultBackgroundJobService>();
-        services.AddHostedService<DefaultBackgroundJobService>();
+        services.TryAddSingleton<IBackgroundJobService, BackgroundJobService>();
+        services.TryAddSingleton<IRegistrationValidator, RegistrationValidator>();
         services.TryAddSingleton<IBackgroundJobScheduler, BackgroundJobScheduler>();
+        services.AddHostedService<BackgroundJobHostedService>();
         return new BackgroundJobsBuilder(services);
     }
 }
