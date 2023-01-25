@@ -7,7 +7,7 @@
 
   <PropertyGroup Label="Package information">
 		<LangVersion>latest</LangVersion>
-		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001;IDE1006</NoWarn>
+		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591;AD0001;IDE1006;</NoWarn>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -21,7 +21,6 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Deterministic>true</Deterministic>
     <RepositoryUrl>https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs</RepositoryUrl>
     <PackageProjectUrl>https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs</PackageProjectUrl>
@@ -32,8 +31,16 @@
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
+  <ItemGroup Label="Exposing Internals to Test Projects">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(MSBuildProjectName).Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(MSBuildProjectName).Benchmarks</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
   
-  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+  <ItemGroup Label="Shared Files and Packages for Nugets" Condition="'$(IsPackable)' == 'true'">
     <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
@@ -42,7 +49,6 @@
     <Compile Include="../Timer.cs" Link="Timer.cs" />
     <Compile Include="../ValueStopwatch.cs" Link="ValueStopwatch.cs" />
   </ItemGroup>
-
   
   <ItemGroup Label="Net Nugets" Condition="'$(TargetFramework)' == '$(NetVersion)'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
@@ -57,7 +63,7 @@
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName) == 'UnitTests'">
+  <ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageReference Include="FluentAssertions" Version="6.9.0" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
       <PrivateAssets>all</PrivateAssets>
