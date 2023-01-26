@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -59,7 +60,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs.Exa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{B5A9D89F-A4B1-4F68-AE5B-30C46A291954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pilgaard.BackgroundJobs.Benchmarks", "benchmarks\Pilgaard.BackgroundJobs.Benchmarks\Pilgaard.BackgroundJobs.Benchmarks.csproj", "{5E3DDADB-68A3-4218-B412-DA51E92B31DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs.Benchmarks", "benchmarks\Pilgaard.BackgroundJobs.Benchmarks\Pilgaard.BackgroundJobs.Benchmarks.csproj", "{5E3DDADB-68A3-4218-B412-DA51E92B31DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
