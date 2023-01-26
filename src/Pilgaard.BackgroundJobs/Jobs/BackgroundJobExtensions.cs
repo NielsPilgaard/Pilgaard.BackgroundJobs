@@ -23,7 +23,7 @@ public static class BackgroundJobExtensions
     /// </summary>
     /// <param name="backgroundJob">The background job to get the occurrences of.</param>
     /// <param name="toUtc">The date up to which to get occurrences.</param>
-    /// <returns><see cref="IEnumerable{DateTime}"/> of all occurrences, in <see cref="DateTime"/>.</returns>
+    /// <returns><see cref="IEnumerable{T}"/> of all occurrences.</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<DateTime> GetOccurrences(this IBackgroundJob backgroundJob, DateTime toUtc) =>
         backgroundJob switch
