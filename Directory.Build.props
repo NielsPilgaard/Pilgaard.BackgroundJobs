@@ -42,12 +42,9 @@
   
   <ItemGroup Label="Shared Files and Packages for Nugets" Condition="'$(IsPackable)' == 'true'">
     <None Include="README.md" Pack="true" PackagePath="" />
-    <None Include="..\..\assets\logo\logo_128x128.png" Pack="true" PackagePath="" />
+    <None Include="../../assets/logo/logo_128x128.png" Pack="true" PackagePath="" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
-    <Compile Include="../ApiMarker.cs" Link="ApiMarker.cs" />
-    <Compile Include="../Timer.cs" Link="Timer.cs" />
-    <Compile Include="../ValueStopwatch.cs" Link="ValueStopwatch.cs" />
   </ItemGroup>
   
   <ItemGroup Label="Net Nugets" Condition="'$(TargetFramework)' == '$(NetVersion)'">

@@ -1,0 +1,11 @@
+<Project>
+
+  <ItemGroup Label="Shared Files and Packages for Nugets" Condition="'$(IsPackable)' == 'true'">
+    <!-- These includes must be in the .targets file for late loading
+    https://github.com/MicrosoftDocs/visualstudio-docs/issues/2774#issuecomment-489685855 -->
+    <Compile Include="../ApiMarker.cs" Link="ApiMarker.cs" />
+    <Compile Include="../Timer.cs" Link="Timer.cs" />
+    <Compile Include="../ValueStopwatch.cs" Link="ValueStopwatch.cs" />
+  </ItemGroup>
+
+</Project>
