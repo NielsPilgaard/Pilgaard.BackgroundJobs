@@ -25,7 +25,7 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 
     public async IAsyncEnumerable<BackgroundJobRegistration> GetBackgroundJobsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var interval = TimeSpan.FromMinutes(1);
+        var interval = TimeSpan.FromSeconds(30);
 
         var backgroundJobOccurrences = GetOrderedBackgroundJobOccurrences(interval);
 
