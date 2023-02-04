@@ -13,13 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs", "src\Pi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Tests", "tests\Pilgaard.CronJobs.Tests\Pilgaard.CronJobs.Tests.csproj", "{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Examples.MinimalAPI", "samples\Pilgaard.CronJobs.Examples.MinimalAPI\Pilgaard.CronJobs.Examples.MinimalAPI.csproj", "{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5F1D0A72-5C44-41A8-BE35-3F1EB30C2EAC}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\backgroundjobs_cd.yml = .github\workflows\backgroundjobs_cd.yml
-		.github\workflows\cronjobs_cd.yml = .github\workflows\cronjobs_cd.yml
 		.github\workflows\backgroundjobs_ci.yml = .github\workflows\backgroundjobs_ci.yml
+		.github\workflows\cronjobs_cd.yml = .github\workflows\cronjobs_cd.yml
 		.github\workflows\cronjobs_ci.yml = .github\workflows\cronjobs_ci.yml
 		.github\workflows\github-release.yml = .github\workflows\github-release.yml
 		.github\workflows\recurringjobs_cd.yml = .github\workflows\recurringjobs_cd.yml
@@ -38,31 +36,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Examples.OpenTelemetry", "samples\Pilgaard.CronJobs.Examples.OpenTelemetry\Pilgaard.CronJobs.Examples.OpenTelemetry.csproj", "{6A2D35C0-DBF9-4467-900C-724313E3B15E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.ScheduledJobs", "src\Pilgaard.ScheduledJobs\Pilgaard.ScheduledJobs.csproj", "{4A99FD81-FA48-40D6-96CB-EA158905FA50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs", "src\Pilgaard.RecurringJobs\Pilgaard.RecurringJobs.csproj", "{159A0F23-706A-4757-84F1-6C77EA5ED7E1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Examples.MinimalAPI", "samples\Pilgaard.RecurringJobs.Examples.MinimalAPI\Pilgaard.RecurringJobs.Examples.MinimalAPI.csproj", "{4741F157-499C-4EBB-91D5-0CB5FED28B9B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Tests", "tests\Pilgaard.RecurringJobs.Tests\Pilgaard.RecurringJobs.Tests.csproj", "{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.ScheduledJobs.Tests", "tests\Pilgaard.ScheduledJobs.Tests\Pilgaard.ScheduledJobs.Tests.csproj", "{8BD25B6F-AD7E-49CE-8810-DD111528096E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.RecurringJobs.Examples.WorkerService", "samples\Pilgaard.RecurringJobs.Examples.WorkerService\Pilgaard.RecurringJobs.Examples.WorkerService.csproj", "{C196C530-F4D8-4F3B-B3D2-E07F67B62274}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Examples.Configuration", "samples\Pilgaard.CronJobs.Examples.Configuration\Pilgaard.CronJobs.Examples.Configuration.csproj", "{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs", "src\Pilgaard.BackgroundJobs\Pilgaard.BackgroundJobs.csproj", "{FA47EE48-CED8-41BF-BF8B-FE7B3D57DF89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs.Tests", "tests\Pilgaard.BackgroundJobs.Tests\Pilgaard.BackgroundJobs.Tests.csproj", "{497A30D3-9BB3-404D-B475-D2C7F93DF565}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs.Examples.MinimalAPI", "samples\Pilgaard.BackgroundJobs.Examples.MinimalAPI\Pilgaard.BackgroundJobs.Examples.MinimalAPI.csproj", "{9B720896-2825-4284-BA78-79E8BAD97DBD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{B5A9D89F-A4B1-4F68-AE5B-30C46A291954}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.BackgroundJobs.Benchmarks", "benchmarks\Pilgaard.BackgroundJobs.Benchmarks\Pilgaard.BackgroundJobs.Benchmarks.csproj", "{5E3DDADB-68A3-4218-B412-DA51E92B31DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundJobs.MinimalAPI", "samples\BackgroundJobs.MinimalAPI\BackgroundJobs.MinimalAPI.csproj", "{E520ABD6-2E85-4D93-83F5-3F91C48D5A12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJobs.Configuration", "samples\CronJobs.Configuration\CronJobs.Configuration.csproj", "{98ADDFAC-4A1B-44BB-806B-222A953B76C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJobs.MinimalAPI", "samples\CronJobs.MinimalAPI\CronJobs.MinimalAPI.csproj", "{C1CB5D27-9F6F-4645-853C-53D31ACB84A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronJobs.OpenTelemetry", "samples\CronJobs.OpenTelemetry\CronJobs.OpenTelemetry.csproj", "{D02A91A9-B703-4811-A096-D53EDE000EDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecurringJobs.MinimalAPI", "samples\RecurringJobs.MinimalAPI\RecurringJobs.MinimalAPI.csproj", "{8CFB70A2-163E-4581-9B1B-C65032953356}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecurringJobs.WorkerService", "samples\RecurringJobs.WorkerService\RecurringJobs.WorkerService.csproj", "{CB10C87B-D427-4916-939C-2C23E990218A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,14 +78,6 @@ Global
 		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A2D35C0-DBF9-4467-900C-724313E3B15E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A99FD81-FA48-40D6-96CB-EA158905FA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A99FD81-FA48-40D6-96CB-EA158905FA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A99FD81-FA48-40D6-96CB-EA158905FA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,10 +86,6 @@ Global
 		{159A0F23-706A-4757-84F1-6C77EA5ED7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{159A0F23-706A-4757-84F1-6C77EA5ED7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{159A0F23-706A-4757-84F1-6C77EA5ED7E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4741F157-499C-4EBB-91D5-0CB5FED28B9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,14 +94,6 @@ Global
 		{8BD25B6F-AD7E-49CE-8810-DD111528096E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BD25B6F-AD7E-49CE-8810-DD111528096E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BD25B6F-AD7E-49CE-8810-DD111528096E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C196C530-F4D8-4F3B-B3D2-E07F67B62274}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA47EE48-CED8-41BF-BF8B-FE7B3D57DF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA47EE48-CED8-41BF-BF8B-FE7B3D57DF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA47EE48-CED8-41BF-BF8B-FE7B3D57DF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -122,14 +102,34 @@ Global
 		{497A30D3-9BB3-404D-B475-D2C7F93DF565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{497A30D3-9BB3-404D-B475-D2C7F93DF565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{497A30D3-9BB3-404D-B475-D2C7F93DF565}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B720896-2825-4284-BA78-79E8BAD97DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B720896-2825-4284-BA78-79E8BAD97DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B720896-2825-4284-BA78-79E8BAD97DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B720896-2825-4284-BA78-79E8BAD97DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E3DDADB-68A3-4218-B412-DA51E92B31DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E3DDADB-68A3-4218-B412-DA51E92B31DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3DDADB-68A3-4218-B412-DA51E92B31DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E3DDADB-68A3-4218-B412-DA51E92B31DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E520ABD6-2E85-4D93-83F5-3F91C48D5A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E520ABD6-2E85-4D93-83F5-3F91C48D5A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E520ABD6-2E85-4D93-83F5-3F91C48D5A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E520ABD6-2E85-4D93-83F5-3F91C48D5A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98ADDFAC-4A1B-44BB-806B-222A953B76C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98ADDFAC-4A1B-44BB-806B-222A953B76C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98ADDFAC-4A1B-44BB-806B-222A953B76C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98ADDFAC-4A1B-44BB-806B-222A953B76C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1CB5D27-9F6F-4645-853C-53D31ACB84A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CB5D27-9F6F-4645-853C-53D31ACB84A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CB5D27-9F6F-4645-853C-53D31ACB84A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CB5D27-9F6F-4645-853C-53D31ACB84A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02A91A9-B703-4811-A096-D53EDE000EDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02A91A9-B703-4811-A096-D53EDE000EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02A91A9-B703-4811-A096-D53EDE000EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02A91A9-B703-4811-A096-D53EDE000EDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CFB70A2-163E-4581-9B1B-C65032953356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CFB70A2-163E-4581-9B1B-C65032953356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CFB70A2-163E-4581-9B1B-C65032953356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CFB70A2-163E-4581-9B1B-C65032953356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB10C87B-D427-4916-939C-2C23E990218A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB10C87B-D427-4916-939C-2C23E990218A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB10C87B-D427-4916-939C-2C23E990218A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB10C87B-D427-4916-939C-2C23E990218A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,19 +137,19 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B3362204-D247-446E-B499-AB8E12057A24} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
 		{7FB4DF28-49C9-4347-8CCC-0D0539649ADE} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
-		{8B798DE2-EF3C-4471-BA85-2AA4D1DC9AE9} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
-		{6A2D35C0-DBF9-4467-900C-724313E3B15E} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 		{4A99FD81-FA48-40D6-96CB-EA158905FA50} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
 		{159A0F23-706A-4757-84F1-6C77EA5ED7E1} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
-		{4741F157-499C-4EBB-91D5-0CB5FED28B9B} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 		{DEE9D29B-64E5-48E8-BA85-46A0D14D7C75} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
 		{8BD25B6F-AD7E-49CE-8810-DD111528096E} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
-		{C196C530-F4D8-4F3B-B3D2-E07F67B62274} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
-		{2A6A61FD-F63E-4F04-8989-F46CBFD4FEF6} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 		{FA47EE48-CED8-41BF-BF8B-FE7B3D57DF89} = {4D02AC2C-534F-4ACE-97D7-71F1A2773279}
 		{497A30D3-9BB3-404D-B475-D2C7F93DF565} = {AFBF3DFF-2BC5-47C9-A5B7-6CC93609FC4E}
-		{9B720896-2825-4284-BA78-79E8BAD97DBD} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 		{5E3DDADB-68A3-4218-B412-DA51E92B31DA} = {B5A9D89F-A4B1-4F68-AE5B-30C46A291954}
+		{E520ABD6-2E85-4D93-83F5-3F91C48D5A12} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{98ADDFAC-4A1B-44BB-806B-222A953B76C0} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{C1CB5D27-9F6F-4645-853C-53D31ACB84A8} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{D02A91A9-B703-4811-A096-D53EDE000EDA} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{8CFB70A2-163E-4581-9B1B-C65032953356} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
+		{CB10C87B-D427-4916-939C-2C23E990218A} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
