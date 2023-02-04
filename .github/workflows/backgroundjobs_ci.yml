@@ -1,13 +1,28 @@
-name: BackgroundJobs CD
+name: BackgroundJobs CI
 
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - "backgroundjobs-v*.*.*"
+    branches: [master]
+    paths:
+      - src/Pilgaard.BackgroundJobs/**
+      - tests/Pilgaard.BackgroundJobs.Tests/**
+      - tests/ApiApprovalTests.cs
+      - .github/workflows/BackgroundJobs_ci.yml
+      - Directory.Build.props
+
+  pull_request:
+    branches: [master]
+    paths:
+      - src/Pilgaard.BackgroundJobs/**
+      - tests/Pilgaard.BackgroundJobs.Tests/**
+      - tests/ApiApprovalTests.cs
+      - .github/workflows/BackgroundJobs_ci.yml
+      - Directory.Build.props
 
 jobs:
-  release:
-    name: Release
+  test:
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -22,13 +37,14 @@ jobs:
           dotnet-version: "7.0.x"
 
       - name: Restore NuGet packages
-        run: dotnet restore ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj
+        run: |
+          dotnet restore ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj &&
+          dotnet restore ./tests/Pilgaard.BackgroundJobs.Tests/Pilgaard.BackgroundJobs.Tests.csproj
 
       - name: Build
-        run: dotnet build ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj -c Release --no-restore
+        run: |
+          dotnet build ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj --no-restore &&
+          dotnet build ./tests/Pilgaard.BackgroundJobs.Tests/Pilgaard.BackgroundJobs.Tests.csproj --no-restore
 
-      - name: Package Nugets
-        run: dotnet pack ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj -c Release --no-build --no-restore --include-source
-
-      - name: Push Nugets
-        run: dotnet nuget push "**/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+      - name: Run Test
+        run: dotnet test ./tests/Pilgaard.BackgroundJobs.Tests/Pilgaard.BackgroundJobs.Tests.csproj --no-build --no-restore
