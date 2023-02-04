@@ -113,7 +113,10 @@ builder.Services.AddBackgroundJobs()
 
 | Sample 🔗 | Tags |
 | -- | -- |
+| [BackgroundJobs.Configuration](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/samples/BackgroundJobs.Configuration) | ASP.NET, Reloading, Configuration
 | [BackgroundJobs.MinimalAPI](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/samples/BackgroundJobs.MinimalAPI) | ASP.NET, MinimalAPI
+| [BackgroundJobs.OpenTelemetry](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/samples/BackgroundJobs.OpenTelemetry) | ASP.NET, Open Telemetry, Metrics, Logs
+| [BackgroundJobs.WorkerService](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/samples/BackgroundJobs.WorkerService) | Console, Worker Service
 
 ---
 
@@ -123,7 +126,7 @@ Each project exposes histogram metrics, which allow monitoring the duration and 
 
 The meter names match the project names.
 
-The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.CronJobs/tree/master/samples/Pilgaard.CronJobs.Examples.OpenTelemetry) shows how to collect CronJob metrics using the Prometheus Open Telemetry exporter.
+The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.BackgroundJobs/tree/master/samples/BackgroundJobs.OpenTelemetry) shows how to collect CronJob metrics using the Prometheus Open Telemetry exporter.
 
 ---
 
