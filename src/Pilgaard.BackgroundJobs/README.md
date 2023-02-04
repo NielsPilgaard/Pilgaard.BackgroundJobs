@@ -4,7 +4,11 @@
 [![Downloads](https://img.shields.io/nuget/dt/pilgaard.backgroundjobs.svg)](https://www.nuget.org/packages/Pilgaard.BackgroundJobs)
 [![Version](https://img.shields.io/nuget/vpre/pilgaard.backgroundjobs.svg)](https://www.nuget.org/packages/Pilgaard.BackgroundJobs)
 
-Easily create jobs that run in the background, with multiple different scheduling methods.
+Easily create jobs that run in the background, with multiple different scheduling methods:
+
+- [Cron Expressions](https://crontab.guru/)
+- Recurringly at a set interval
+- Absolute time
 
 # Installing
 
@@ -74,7 +78,7 @@ builder.Services.AddBackgroundJobs()
     .AddJob<SampleScheduledJob>();
 ```
 
-You can also register jobs in-line:
+You can also register jobs in-line for simple use-cases:
 
 ```csharp
 builder.Services.AddBackgroundJobs()
