@@ -1,4 +1,5 @@
 using Cronos;
+using Pilgaard.BackgroundJobs;
 
 namespace Pilgaard.CronJobs.Examples.Configuration;
 
@@ -13,18 +14,15 @@ public class ReloadableCronJob : ICronJob
         _logger = logger;
     }
 
-    public Task ExecuteAsync(CancellationToken cancellationToken = default)
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("ReloadableCronJob.CronSchedule: {cronSchedule}", CronSchedule);
+        _logger.LogInformation("ReloadableCronJob.CronSchedule: {cronSchedule}", CronExpression);
 
         return Task.CompletedTask;
     }
 
-    public CronExpression CronSchedule =>
+    public CronExpression CronExpression =>
         CronExpression.Parse(
             _configuration.GetValue<string>("ReloadableCronJob:CronSchedule"),
             _configuration.GetValue<CronFormat>("ReloadableCronJob:CronFormat"));
-
-    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
-    public ServiceLifetime ServiceLifetime => ServiceLifetime.Transient;
 }

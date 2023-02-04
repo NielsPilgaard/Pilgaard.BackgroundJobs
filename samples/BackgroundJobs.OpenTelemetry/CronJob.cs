@@ -1,4 +1,5 @@
 using Cronos;
+using Pilgaard.BackgroundJobs;
 
 namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
 
@@ -12,7 +13,7 @@ public class CronJob : ICronJob
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(CancellationToken cancellationToken = default)
+    public async Task RunJobAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("{jobName} executed at {now:G}", nameof(CronJob), DateTime.Now);
 
@@ -24,7 +25,5 @@ public class CronJob : ICronJob
     /// <summary>
     /// Executes once every second
     /// </summary>
-    public CronExpression CronSchedule => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
-    public TimeZoneInfo TimeZoneInfo => TimeZoneInfo.Local;
-    public ServiceLifetime ServiceLifetime => ServiceLifetime.Singleton;
+    public CronExpression CronExpression => CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds);
 }

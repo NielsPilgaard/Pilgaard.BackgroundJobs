@@ -5,6 +5,7 @@ using Pilgaard.BackgroundJobs.Examples.MinimalAPI;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBackgroundJobs()
+    .AddJob<CronJob>(name: nameof(CronJob))
     .AddJob(
         name: "basic-cronjob",
         job: () => Console.WriteLine("I happened!"),
@@ -17,7 +18,6 @@ builder.Services.AddBackgroundJobs()
         name: "basic-onetimejob",
         job: () => Console.WriteLine($"Triggered at {DateTime.Now}"),
         scheduledTimeUtc: DateTime.UtcNow.AddHours(1))
-    .AddJob<CronJob>(name: nameof(CronJob))
     .AddAsyncJob(
         name: "async-cronjob",
         job: cancellationToken => Task.CompletedTask,

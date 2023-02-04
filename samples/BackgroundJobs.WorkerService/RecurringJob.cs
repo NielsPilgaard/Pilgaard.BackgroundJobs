@@ -1,3 +1,5 @@
+using Pilgaard.BackgroundJobs;
+
 namespace Pilgaard.RecurringJobs.Examples.WorkerService;
 
 public class RecurringJob : IRecurringJob
@@ -8,7 +10,7 @@ public class RecurringJob : IRecurringJob
         _logger = logger;
     }
 
-    public Task ExecuteAsync(CancellationToken cancellationToken = default)
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("{jobName} executed at {now:G}", nameof(RecurringJob), DateTime.Now);
 
@@ -16,6 +18,4 @@ public class RecurringJob : IRecurringJob
     }
 
     public TimeSpan Interval => TimeSpan.FromMinutes(10);
-    public ServiceLifetime ServiceLifetime => ServiceLifetime.Transient;
-    public TimeSpan InitialDelay => TimeSpan.Zero;
 }
