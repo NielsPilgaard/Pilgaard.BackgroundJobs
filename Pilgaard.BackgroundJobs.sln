@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Examples.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5F1D0A72-5C44-41A8-BE35-3F1EB30C2EAC}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\backgroundjobs_cd.yml = .github\workflows\backgroundjobs_cd.yml
 		.github\workflows\cronjobs_cd.yml = .github\workflows\cronjobs_cd.yml
+		.github\workflows\backgroundjobs_ci.yml = .github\workflows\backgroundjobs_ci.yml
 		.github\workflows\cronjobs_ci.yml = .github\workflows\cronjobs_ci.yml
 		.github\workflows\github-release.yml = .github\workflows\github-release.yml
 		.github\workflows\recurringjobs_cd.yml = .github\workflows\recurringjobs_cd.yml
