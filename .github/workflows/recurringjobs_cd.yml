@@ -3,7 +3,7 @@ name: RecurringJobs CD
 on:
   push:
     tags:
-      - "recurringjobs-v*.*.*"
+      - recurringjobs-v*.*.*
 
 jobs:
   release:

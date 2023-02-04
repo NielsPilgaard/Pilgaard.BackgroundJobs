@@ -3,7 +3,7 @@ name: ScheduledJobs CD
 on:
   push:
     tags:
-      - "scheduledjobs-v*.*.*"
+      - scheduledjobs-v*.*.*
 
 jobs:
   release:

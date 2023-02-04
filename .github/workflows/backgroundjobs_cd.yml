@@ -3,7 +3,7 @@ name: BackgroundJobs CD
 on:
   push:
     tags:
-      - "backgroundjobs-v*.*.*"
+      - backgroundjobs-v*.*.*
 
 jobs:
   release:

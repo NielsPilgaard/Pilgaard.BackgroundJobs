@@ -3,7 +3,7 @@ name: CronJobs CD
 on:
   push:
     tags:
-      - "cronjobs-v*.*.*"
+      - cronjobs-v*.*.*
 
 jobs:
   release:
