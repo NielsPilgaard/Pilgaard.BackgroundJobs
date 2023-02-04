@@ -2,8 +2,21 @@ using Cronos;
 
 namespace Pilgaard.BackgroundJobs;
 
+/// <summary>
+/// Provides extension methods for adding background jobs to the <see cref="IBackgroundJobsBuilder"/>.
+/// </summary>
 public static class BackgroundJobsBuilderDelegateExtensions
 {
+    /// <summary>
+    /// Adds a delegate-based background job to the builder with a specified cron expression.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="cronExpression">The interval between recurring executions of the job.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddJob(
         this IBackgroundJobsBuilder builder,
         string name,
@@ -29,6 +42,16 @@ public static class BackgroundJobsBuilderDelegateExtensions
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
+    /// <summary>
+    /// Adds a delegate-based background job to the builder with a specified recurring interval.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="interval">The interval between recurring executions of the job.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddJob(
         this IBackgroundJobsBuilder builder,
         string name,
@@ -54,6 +77,16 @@ public static class BackgroundJobsBuilderDelegateExtensions
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
+    /// <summary>
+    /// Adds a delegate-based background job to the builder with a specified scheduled time.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="scheduledTimeUtc">The scheduled time for the job execution in UTC.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddJob(
         this IBackgroundJobsBuilder builder,
         string name,
@@ -79,6 +112,16 @@ public static class BackgroundJobsBuilderDelegateExtensions
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
+    /// <summary>
+    /// Adds an asynchronous delegate-based background job to the builder with a specified cron expression.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="cronExpression">The interval between recurring executions of the job.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddAsyncJob(
         this IBackgroundJobsBuilder builder,
         string name,
@@ -99,6 +142,16 @@ public static class BackgroundJobsBuilderDelegateExtensions
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
+    /// <summary>
+    /// Adds an asynchronous delegate-based background job to the builder with a specified recurring interval.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="interval">The interval between recurring executions of the job.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddAsyncJob(
         this IBackgroundJobsBuilder builder,
         string name,
@@ -119,6 +172,16 @@ public static class BackgroundJobsBuilderDelegateExtensions
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout));
     }
 
+    /// <summary>
+    /// Adds an asynchronous delegate-based background job to the builder with a specified scheduled time.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="scheduledTimeUtc">The scheduled time for the job execution in UTC.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
     public static IBackgroundJobsBuilder AddAsyncJob(
         this IBackgroundJobsBuilder builder,
         string name,

@@ -10,17 +10,19 @@ public class BackgroundJobSchedulerBenchmark
     private static ServiceProvider? _provider;
 
     [Params(1, 10, 100, 1000)]
-    public uint RecurringJobIntervalSeconds { get; set; }
+    public static uint RecurringJobIntervalSeconds { get; set; }
 
-    [Params(1, 10, 100, 1000)]
-    public uint BackgroundJobSchedulerFetchInterval { get; set; }
+    [Params(30)]
+    public static uint BackgroundJobSchedulerFetchIntervalSeconds { get; set; }
 
     [GlobalSetup]
-    public void GlobalSetup()
+    public static void GlobalSetup()
     {
         var services = new ServiceCollection();
 
-        services.AddBackgroundJobs()
+        services
+            .AddLogging()
+            .AddBackgroundJobs()
             .AddJob("recurring-job", () => { }, TimeSpan.FromSeconds(RecurringJobIntervalSeconds));
 
         _provider = services.BuildServiceProvider();
@@ -30,23 +32,15 @@ public class BackgroundJobSchedulerBenchmark
 
     [Benchmark]
     [BenchmarkCategory(nameof(BackgroundJobScheduler))]
-    public void GetOrderedBackgroundJobOccurrencesWithoutIteration()
-    {
-        var orderedBackgroundJobOccurrences = _backgroundServiceScheduler!
-            .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(BackgroundJobSchedulerFetchInterval));
-    }
-
-    [Benchmark]
-    [BenchmarkCategory(nameof(BackgroundJobScheduler))]
     public void GetOrderedBackgroundJobOccurrencesWithIteration()
     {
         foreach (var orderedBackgroundJobOccurrence in _backgroundServiceScheduler!
-                     .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(BackgroundJobSchedulerFetchInterval)))
+                     .GetOrderedBackgroundJobOccurrences(TimeSpan.FromSeconds(BackgroundJobSchedulerFetchIntervalSeconds)))
         {
 
         }
     }
 
     [GlobalCleanup]
-    public void GlobalCleanup() => _provider?.Dispose();
+    public static void GlobalCleanup() => _provider?.Dispose();
 }

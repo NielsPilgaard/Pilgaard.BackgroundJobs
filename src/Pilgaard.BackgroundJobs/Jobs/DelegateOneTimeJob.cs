@@ -7,6 +7,10 @@ namespace Pilgaard.BackgroundJobs;
 internal sealed class DelegateOneTimeJob : IOneTimeJob
 {
     private readonly Func<CancellationToken, Task> _job;
+
+    /// <summary>
+    /// Gets the scheduled time in UTC.
+    /// </summary>
     public DateTime ScheduledTimeUtc { get; }
 
     public DelegateOneTimeJob(Func<CancellationToken, Task> job, DateTime scheduledTimeUtc)
@@ -15,6 +19,11 @@ internal sealed class DelegateOneTimeJob : IOneTimeJob
         ScheduledTimeUtc = scheduledTimeUtc;
     }
 
+    /// <summary>
+    /// Runs the job.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns></returns>
     public Task RunJobAsync(CancellationToken cancellationToken = default)
         => _job(cancellationToken);
 

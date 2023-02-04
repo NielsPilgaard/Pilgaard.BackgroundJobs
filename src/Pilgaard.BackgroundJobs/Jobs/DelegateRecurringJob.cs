@@ -8,6 +8,9 @@ internal sealed class DelegateRecurringJob : IRecurringJob
 {
     private readonly Func<CancellationToken, Task> _job;
 
+    /// <summary>
+    /// Gets the interval.
+    /// </summary>
     public TimeSpan Interval { get; }
 
     public DelegateRecurringJob(Func<CancellationToken, Task> job, TimeSpan interval)
@@ -16,6 +19,11 @@ internal sealed class DelegateRecurringJob : IRecurringJob
         Interval = interval;
     }
 
+    /// <summary>
+    /// Runs the job.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns></returns>
     public Task RunJobAsync(CancellationToken cancellationToken = default)
         => _job(cancellationToken);
 }
