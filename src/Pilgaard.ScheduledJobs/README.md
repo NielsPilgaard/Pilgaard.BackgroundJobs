@@ -8,15 +8,11 @@ Easily create jobs that run at a specific time and date.
 
 # Installing
 
-With NuGet:
-
-    Install-Package Pilgaard.ScheduledJobs
-
 With the dotnet CLI:
 
     dotnet add package Pilgaard.ScheduledJobs
 
-Or through Package Manager Console.
+Or through Visual Studio or Rider.
 
 # Usage
 

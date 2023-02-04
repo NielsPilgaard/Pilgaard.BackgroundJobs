@@ -8,15 +8,11 @@ Easily create recurring jobs that run at intervals.
 
 # Installing
 
-With NuGet:
-
-    Install-Package Pilgaard.RecurringJobs
-
 With the dotnet CLI:
 
     dotnet add package Pilgaard.RecurringJobs
 
-Or through Package Manager Console.
+Or through Visual Studio or Rider.
 
 # Usage
 

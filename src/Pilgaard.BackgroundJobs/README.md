@@ -12,15 +12,11 @@ Easily create jobs that run in the background, with multiple different schedulin
 
 # Installing
 
-With NuGet:
-
-    Install-Package Pilgaard.BackgroundJobs
-
 With the dotnet CLI:
 
     dotnet add package Pilgaard.BackgroundJobs
 
-Or through Package Manager Console.
+Or through Visual Studio or Rider.
 
 # Usage
 

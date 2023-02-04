@@ -8,15 +8,11 @@ Easily schedule jobs to run at specific times, based on Cron expressions.
 
 # Installing
 
-With NuGet:
-
-    Install-Package Pilgaard.CronJobs
-
 With the dotnet CLI:
 
     dotnet add package Pilgaard.CronJobs
 
-Or through Package Manager Console.
+Or through Visual Studio or Rider.
 
 # Usage
 
