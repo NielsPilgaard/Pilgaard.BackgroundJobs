@@ -4,6 +4,25 @@ using Microsoft.Extensions.Logging;
 
 namespace Pilgaard.BackgroundJobs;
 
+/// <summary>
+/// A service which can be used to run background jobs registered in the application.
+/// </summary>
+/// <remarks>
+/// <para>
+/// The default implementation of <see cref="IBackgroundJobService"/> is registered in the dependency
+/// injection container as a singleton service by calling
+/// <see cref="ServiceCollectionExtensions.AddBackgroundJobs(IServiceCollection)"/>
+/// </para>
+/// <para>
+/// The <see cref="IBackgroundJobsBuilder"/> returned by
+/// <see cref="ServiceCollectionExtensions.AddBackgroundJobs(IServiceCollection)"/>
+/// provides a convenience API for registering health checks.
+/// </para>
+/// <para>
+/// <see cref="IBackgroundJob"/> implementations can be registered through extension methods provided by
+/// <see cref="IBackgroundJobsBuilder"/>.
+/// </para>
+/// </remarks>
 internal sealed class BackgroundJobService : IBackgroundJobService
 {
     private readonly IServiceScopeFactory _scopeFactory;
@@ -21,6 +40,12 @@ internal sealed class BackgroundJobService : IBackgroundJobService
             description: $"Histogram over duration and count of {nameof(BackgroundJobService)}.{nameof(RunJobAsync)}.");
 
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BackgroundJobService"/> class
+    /// </summary>
+    /// <param name="scopeFactory">The factory used when constructing background jobs.</param>
+    /// <param name="logger">The logger.</param>
+    /// <param name="backgroundJobScheduler">The background job scheduler used to retrieve jobs when they should be run.</param>
     public BackgroundJobService(
         IServiceScopeFactory scopeFactory,
         ILogger<BackgroundJobService> logger,
@@ -31,6 +56,14 @@ internal sealed class BackgroundJobService : IBackgroundJobService
         _backgroundJobScheduler = backgroundJobScheduler ?? throw new ArgumentNullException(nameof(backgroundJobScheduler));
     }
 
+    /// <summary>
+    /// Runs all the background jobs in the application.
+    /// </summary>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/>
+    /// which can be used to cancel the background jobs.</param>
+    /// <returns>
+    /// A <see cref="Task"/> which will complete when all background jobs have been run, and there are no more occurrences of any of them.
+    /// </returns>
     public async Task RunJobsAsync(CancellationToken cancellationToken = default)
     {
         while (!cancellationToken.IsCancellationRequested)
@@ -50,6 +83,12 @@ internal sealed class BackgroundJobService : IBackgroundJobService
         }
     }
 
+    /// <summary>
+    /// Constructs the background job using <see cref="BackgroundJobRegistration.Factory"/> and runs it.
+    /// </summary>
+    /// <param name="registration">The background job registration.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/> which can be used to cancel the background job.</param>
+    /// <returns></returns>
     internal async Task RunJobAsync(BackgroundJobRegistration registration, CancellationToken cancellationToken)
     {
         using var scope = _scopeFactory.CreateScope();

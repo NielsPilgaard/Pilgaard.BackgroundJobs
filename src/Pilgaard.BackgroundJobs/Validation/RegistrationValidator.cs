@@ -2,6 +2,9 @@ using System.Text;
 
 namespace Pilgaard.BackgroundJobs;
 
+/// <summary>
+/// The default implementation of <see cref="IRegistrationValidator"/>.
+/// </summary>
 internal sealed class RegistrationValidator : IRegistrationValidator
 {
     /// <summary>

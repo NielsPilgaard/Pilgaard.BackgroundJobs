@@ -5,12 +5,22 @@ using Microsoft.Extensions.Options;
 
 namespace Pilgaard.BackgroundJobs;
 
+/// <summary>
+/// BackgroundJobScheduler is a class responsible for scheduling background jobs.
+/// </summary>
 internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IOptions<BackgroundJobServiceOptions> _options;
     private readonly ILogger<BackgroundJobScheduler> _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BackgroundJobScheduler"/> class
+    /// </summary>
+    /// <param name="scopeFactory">The factory used when constructing background jobs.</param>
+    /// <param name="options">The options used for accessing background job registrations.</param>
+    /// <param name="registrationsValidator">The validator used for validating the background job registrations.</param>
+    /// <param name="logger">The logger.</param>
     public BackgroundJobScheduler(IServiceScopeFactory scopeFactory,
         IOptions<BackgroundJobServiceOptions> options,
         IRegistrationValidator registrationsValidator,
@@ -23,6 +33,14 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         registrationsValidator.Validate(_options.Value.Registrations);
     }
 
+    /// <summary>
+    /// Asynchronously retrieves an ordered enumerable of background job registrations.
+    /// <para>
+    /// Each background job registration is returned when it should be run.
+    /// </para>
+    /// </summary>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used for cancelling the enumeration.</param>
+    /// <returns>An asynchronous enumerable of background job registrations.</returns>
     public async IAsyncEnumerable<BackgroundJobRegistration> GetBackgroundJobsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var interval = TimeSpan.FromSeconds(30);
@@ -60,6 +78,11 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         }
     }
 
+    /// <summary>
+    /// Gets an ordered enumerable of background job occurrences within the specified <paramref name="fetchInterval"/>.
+    /// </summary>
+    /// <param name="fetchInterval">The interval to get occurrences for.</param>
+    /// <returns></returns>
     internal IEnumerable<BackgroundJobOccurrence> GetOrderedBackgroundJobOccurrences(TimeSpan fetchInterval)
     {
         var toUtc = DateTime.UtcNow.Add(fetchInterval);
@@ -89,6 +112,11 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
     }
 }
 
+/// <summary>
+/// A background job registration and one of it's occurrences.
+/// </summary>
+/// <param name="Occurrence">The time the background job should run.</param>
+/// <param name="BackgroundJobRegistration">The background job registration.</param>
 internal readonly record struct BackgroundJobOccurrence(
     DateTime Occurrence,
     BackgroundJobRegistration BackgroundJobRegistration)

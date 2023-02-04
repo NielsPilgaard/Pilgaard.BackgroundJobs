@@ -1,16 +1,24 @@
 namespace Pilgaard.BackgroundJobs;
 
+/// <summary>
+/// Represents a registration for a background job.
+/// </summary>
 public sealed class BackgroundJobRegistration
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BackgroundJobRegistration"/> class.
+    /// </summary>
+    /// <param name="instance">The instance of the background job.</param>
+    /// <param name="name">The name of the background job.</param>
+    /// <param name="timeout">The timeout for the background job. (optional)</param>
     public BackgroundJobRegistration(
         IBackgroundJob instance,
-        string? name = null,
+        string name,
         TimeSpan? timeout = null)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
-        {
             throw new ArgumentOutOfRangeException(nameof(timeout));
-        }
+
 
         Name = name ?? throw new ArgumentNullException(nameof(name));
 
@@ -19,15 +27,19 @@ public sealed class BackgroundJobRegistration
         Timeout = timeout ?? System.Threading.Timeout.InfiniteTimeSpan;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BackgroundJobRegistration"/> class.
+    /// </summary>
+    /// <param name="factory">The factory used to create the background job instance.</param>
+    /// <param name="name">The name of the background job.</param>
+    /// <param name="timeout">The timeout for the background job. (optional)</param>
     public BackgroundJobRegistration(
         Func<IServiceProvider, IBackgroundJob> factory,
-        string? name = null,
+        string name,
         TimeSpan? timeout = null)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
-        {
             throw new ArgumentOutOfRangeException(nameof(timeout));
-        }
 
         Name = name ?? throw new ArgumentNullException(nameof(name));
 
