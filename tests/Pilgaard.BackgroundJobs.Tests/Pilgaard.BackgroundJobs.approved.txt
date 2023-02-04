@@ -7,8 +7,8 @@
     }
     public sealed class BackgroundJobRegistration
     {
-        public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string? name = null, System.TimeSpan? timeout = default) { }
-        public BackgroundJobRegistration(System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> factory, string? name = null, System.TimeSpan? timeout = default) { }
+        public BackgroundJobRegistration(Pilgaard.BackgroundJobs.IBackgroundJob instance, string name, System.TimeSpan? timeout = default) { }
+        public BackgroundJobRegistration(System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> factory, string name, System.TimeSpan? timeout = default) { }
         public System.Func<System.IServiceProvider, Pilgaard.BackgroundJobs.IBackgroundJob> Factory { get; }
         public string Name { get; }
         public System.TimeSpan Timeout { get; }
