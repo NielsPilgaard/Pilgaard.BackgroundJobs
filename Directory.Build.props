@@ -44,7 +44,7 @@
     <None Include="README.md" Pack="true" PackagePath="" />
     <None Include="../../assets/logo/logo_128x128.png" Pack="true" PackagePath="" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="MinVer" Version="4.2.0" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="4.3.0" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup Label="Net Nugets" Condition="'$(TargetFramework)' == '$(NetVersion)'">
