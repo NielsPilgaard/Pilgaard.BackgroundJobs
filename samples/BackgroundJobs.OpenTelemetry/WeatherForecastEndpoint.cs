@@ -1,4 +1,4 @@
-namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
+namespace BackgroundJobs.OpenTelemetry;
 
 public class WeatherForecastEndpoint
 {

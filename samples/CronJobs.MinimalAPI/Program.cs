@@ -1,4 +1,4 @@
-using Pilgaard.CronJobs.Examples.MinimalAPI;
+using CronJobs.MinimalAPI;
 using Pilgaard.CronJobs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

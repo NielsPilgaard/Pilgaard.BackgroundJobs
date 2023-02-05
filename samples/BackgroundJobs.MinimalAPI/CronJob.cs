@@ -1,6 +1,7 @@
 using Cronos;
+using Pilgaard.BackgroundJobs;
 
-namespace Pilgaard.BackgroundJobs.Examples.MinimalAPI;
+namespace BackgroundJobs.MinimalAPI;
 
 public class CronJob : ICronJob
 {

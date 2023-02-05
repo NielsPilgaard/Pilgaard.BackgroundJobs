@@ -1,6 +1,6 @@
 using Pilgaard.BackgroundJobs;
 
-namespace Pilgaard.RecurringJobs.Examples.WorkerService;
+namespace BackgroundJobs.WorkerService;
 
 public class RecurringJob : IRecurringJob
 {

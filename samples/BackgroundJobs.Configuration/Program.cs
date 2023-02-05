@@ -1,5 +1,5 @@
+using BackgroundJobs.Configuration;
 using Pilgaard.BackgroundJobs;
-using Pilgaard.CronJobs.Examples.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

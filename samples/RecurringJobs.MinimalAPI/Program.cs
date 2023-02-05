@@ -1,5 +1,5 @@
-using Pilgaard.RecurringJobs.Examples.MinimalAPI;
 using Pilgaard.RecurringJobs.Extensions;
+using RecurringJobs.MinimalAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 

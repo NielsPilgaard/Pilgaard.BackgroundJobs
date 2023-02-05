@@ -1,7 +1,7 @@
 using Cronos;
 using Pilgaard.BackgroundJobs;
 
-namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
+namespace BackgroundJobs.OpenTelemetry;
 
 public class SlowCronJob : ICronJob
 {

@@ -2,7 +2,7 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 
-namespace Pilgaard.CronJobs.Examples.OpenTelemetry;
+namespace BackgroundJobs.OpenTelemetry;
 
 internal static class OpenTelemetryExtensions
 {

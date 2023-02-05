@@ -1,4 +1,4 @@
-namespace Pilgaard.RecurringJobs.Examples.MinimalAPI;
+namespace RecurringJobs.MinimalAPI;
 
 public class WeatherForecastEndpoint
 {

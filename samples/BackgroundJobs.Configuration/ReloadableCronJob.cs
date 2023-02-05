@@ -1,7 +1,7 @@
 using Cronos;
 using Pilgaard.BackgroundJobs;
 
-namespace Pilgaard.CronJobs.Examples.Configuration;
+namespace BackgroundJobs.Configuration;
 
 public class ReloadableCronJob : ICronJob
 {

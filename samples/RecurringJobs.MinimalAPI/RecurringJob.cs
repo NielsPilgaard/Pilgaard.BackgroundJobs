@@ -1,4 +1,6 @@
-namespace Pilgaard.RecurringJobs.Examples.MinimalAPI;
+using Pilgaard.RecurringJobs;
+
+namespace RecurringJobs.MinimalAPI;
 
 public class RecurringJob : IRecurringJob
 {

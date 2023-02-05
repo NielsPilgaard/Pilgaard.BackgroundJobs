@@ -1,5 +1,5 @@
+using BackgroundJobs.OpenTelemetry;
 using Pilgaard.BackgroundJobs;
-using Pilgaard.CronJobs.Examples.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
