@@ -1,4 +1,4 @@
-name: Background Jobs QA
+name: BackgroundJobs QA
 
 on:
   workflow_dispatch:
