@@ -29,7 +29,7 @@
     }
     public static class BackgroundJobsBuilderExtensions
     {
-        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.TimeSpan? timeout = default)
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob<TJob>(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string? name = null, System.TimeSpan? timeout = default)
             where TJob :  class, Pilgaard.BackgroundJobs.IBackgroundJob { }
     }
     public static class CronJobExtensions
