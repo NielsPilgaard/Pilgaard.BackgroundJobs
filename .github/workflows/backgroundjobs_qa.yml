@@ -1,4 +1,4 @@
-name: Qodana Scan
+name: Background Jobs Quality Assurance
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ on:
 
 jobs:
   scan:
-    name: Quality Control
+    name: Quality Assurance
     runs-on: ubuntu-latest
 
     steps:
@@ -37,3 +37,5 @@ jobs:
       uses: JetBrains/qodana-action@main
       env:
         QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+      with:
+        args: --project-dir,src/Pilgaard.BackgroundJobs
