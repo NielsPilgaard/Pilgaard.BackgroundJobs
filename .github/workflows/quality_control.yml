@@ -1,0 +1,34 @@
+name: Qodana Scan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - src/Pilgaard.BackgroundJobs/**
+      - tests/Pilgaard.BackgroundJobs.Tests/**
+      - tests/ApiApprovalTests.cs
+      - .github/workflows/qodana_scan.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+
+  pull_request:
+    branches: [master]
+    paths:
+      - src/Pilgaard.BackgroundJobs/**
+      - tests/Pilgaard.BackgroundJobs.Tests/**
+      - tests/ApiApprovalTests.cs
+      - .github/workflows/qodana_scan.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+
+jobs:
+  scan:
+    name: Quality Control
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Qodana Scan'
+      uses: JetBrains/qodana-action@main
+      env:
+        QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
