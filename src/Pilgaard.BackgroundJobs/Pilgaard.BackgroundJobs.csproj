@@ -18,7 +18,6 @@
   <ItemGroup Label="NetStandard Nugets" Condition="'$(TargetFramework)' == '$(NetStandardVersion)'">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.18" />
 
-
   </ItemGroup>
 
 </Project>
