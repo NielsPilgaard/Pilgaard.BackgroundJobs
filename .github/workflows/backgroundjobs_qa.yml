@@ -6,21 +6,15 @@ on:
     branches: [master]
     paths:
       - src/Pilgaard.BackgroundJobs/**
-      - tests/Pilgaard.BackgroundJobs.Tests/**
-      - tests/ApiApprovalTests.cs
       - .github/workflows/qodana_scan.yml
-      - Directory.Build.props
-      - Directory.Build.targets
+      - qodana.yaml
 
   pull_request:
     branches: [master]
     paths:
       - src/Pilgaard.BackgroundJobs/**
-      - tests/Pilgaard.BackgroundJobs.Tests/**
-      - tests/ApiApprovalTests.cs
       - .github/workflows/qodana_scan.yml
-      - Directory.Build.props
-      - Directory.Build.targets
+      - qodana.yaml
 
 jobs:
   scan:
