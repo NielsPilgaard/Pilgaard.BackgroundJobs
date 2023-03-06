@@ -1,4 +1,3 @@
-using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 
@@ -16,15 +15,11 @@ internal static class OpenTelemetryExtensions
 
         builder.Services
             .AddOpenTelemetry()
-            .WithMetrics(metrics =>
-            {
-                metrics
-                    .AddPrometheusExporter()
-                    .AddConsoleExporter()
-                    .SetResourceBuilder(resourceBuilder)
-                    .AddMeter("Pilgaard.BackgroundJobs");
-            })
-            .StartWithHost();
+            .WithMetrics(metrics => metrics
+                .AddPrometheusExporter()
+                .AddConsoleExporter()
+                .SetResourceBuilder(resourceBuilder)
+                .AddMeter("Pilgaard.BackgroundJobs"));
 
         return builder;
     }
