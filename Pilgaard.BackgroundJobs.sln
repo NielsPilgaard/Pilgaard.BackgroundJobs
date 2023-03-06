@@ -13,19 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs", "src\Pi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pilgaard.CronJobs.Tests", "tests\Pilgaard.CronJobs.Tests\Pilgaard.CronJobs.Tests.csproj", "{7FB4DF28-49C9-4347-8CCC-0D0539649ADE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5F1D0A72-5C44-41A8-BE35-3F1EB30C2EAC}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\backgroundjobs_cd.yml = .github\workflows\backgroundjobs_cd.yml
-		.github\workflows\backgroundjobs_ci.yml = .github\workflows\backgroundjobs_ci.yml
-		.github\workflows\cronjobs_cd.yml = .github\workflows\cronjobs_cd.yml
-		.github\workflows\cronjobs_ci.yml = .github\workflows\cronjobs_ci.yml
-		.github\workflows\github-release.yml = .github\workflows\github-release.yml
-		.github\workflows\recurringjobs_cd.yml = .github\workflows\recurringjobs_cd.yml
-		.github\workflows\recurringjobs_ci.yml = .github\workflows\recurringjobs_ci.yml
-		.github\workflows\scheduledjobs_cd.yml = .github\workflows\scheduledjobs_cd.yml
-		.github\workflows\scheduledjobs_ci.yml = .github\workflows\scheduledjobs_ci.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41A9DE41-AEDF-46F5-BCB5-3E953A32B905}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
