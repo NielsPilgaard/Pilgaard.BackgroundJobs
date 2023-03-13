@@ -5,8 +5,6 @@
     <Description>Easily create background jobs that run based on Cron expressions, interval or absolute time.</Description>
     <PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling;job;jobs;backgroundjobs</PackageTags>
     <MinVerTagPrefix>backgroundjobs-v</MinVerTagPrefix>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
