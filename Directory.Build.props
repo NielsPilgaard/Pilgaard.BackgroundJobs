@@ -19,8 +19,6 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <MinVerIgnoreHeight>true</MinVerIgnoreHeight>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
     <Deterministic>true</Deterministic>
