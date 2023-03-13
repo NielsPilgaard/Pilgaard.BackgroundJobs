@@ -28,7 +28,7 @@ jobs:
         run: dotnet build ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj -c Release --no-restore
 
       - name: Package Nugets
-        run: dotnet pack ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj -c Release --no-build --no-restore --include-source
+        run: dotnet pack ./src/Pilgaard.BackgroundJobs/Pilgaard.BackgroundJobs.csproj -c Release --no-build --no-restore
 
       - name: Push Nugets
         run: dotnet nuget push "**/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
