@@ -1,12 +1,15 @@
 using BackgroundJobs.WorkerService;
 using Pilgaard.BackgroundJobs;
 
-IHost host = Host.CreateDefaultBuilder(args)
+Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddBackgroundJobs()
-            .AddJob<RecurringJob>(nameof(RecurringJob));
+            .AddJob<RecurringJobEvery1Minute>()
+            .AddJob<RecurringJobEvery5Minutes>()
+            .AddJob<RecurringJobEvery10Minutes>()
+            .AddJob<RecurringJobEvery30Minutes>()
+            .AddJob<CronJob>()
+            .AddJob<OneTimeJob>();
     })
-    .Build();
-
-host.Run();
+    .Build().Run();
