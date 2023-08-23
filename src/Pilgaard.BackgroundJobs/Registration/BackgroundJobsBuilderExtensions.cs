@@ -21,11 +21,11 @@ public static class BackgroundJobsBuilderExtensions
         TimeSpan? timeout = default) where TJob : class, IBackgroundJob
     {
         if (builder is null)
+        {
             throw new ArgumentNullException(nameof(builder));
+        }
 
-
-
-        return builder.Add(new BackgroundJobRegistration(GetServiceOrCreateInstance, name ?? typeof(TJob).Name, timeout));
+        return builder.Add(new BackgroundJobRegistration(GetServiceOrCreateInstance, name ?? typeof(TJob).Name, timeout, typeof(TJob).ImplementsRecurringJob()));
 
         static TJob GetServiceOrCreateInstance(IServiceProvider serviceProvider) =>
             ActivatorUtilities.GetServiceOrCreateInstance<TJob>(serviceProvider);
