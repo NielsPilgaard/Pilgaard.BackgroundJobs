@@ -101,9 +101,14 @@ public class backgroundjobscheduler_should
         var backgroundJobs = sut
             .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(2))
             .ToArray();
+        var recurringJobs = sut.GetRecurringJobs();
 
         // Assert
-        var distinctBackgroundJobs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var distinctBackgroundJobs = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            // Recurring jobs are returned separately, add it to the list manually
+            recurringJobs.FirstOrDefault()!.Name
+        };
         foreach (var (occurrence, backgroundJobRegistration) in backgroundJobs)
         {
             string backgroundJobType = backgroundJobRegistration.Factory(serviceProvider).GetType().Name;
