@@ -107,9 +107,12 @@ internal sealed class BackgroundJobService : IBackgroundJobService
                 continue;
             }
 
-            var dueTime = recurringJob is IRecurringJobWithInitialDelay recurringJobWithInitialDelay
-                ? recurringJobWithInitialDelay.InitialDelay
-                : recurringJob.Interval;
+            var dueTime = recurringJob switch
+            {
+                IRecurringJobWithInitialDelay recurringJobWithInitialDelay => recurringJobWithInitialDelay.InitialDelay,
+                IRecurringJobWithNoInitialDelay => TimeSpan.Zero,
+                _ => recurringJob.Interval
+            };
 
             var recurringJobTimer = new System.Threading.Timer(_ => RecurringJobTimerTriggered?.Invoke(this, EventArgs.Empty, jobRegistration, cancellationToken),
                 state: null,
