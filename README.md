@@ -21,7 +21,7 @@ A dotnet library for running background jobs in a scalable and performant manner
 - Recurringly at a set interval after an initial delay using `IRecurringJobWithInitialDelay`
 - Once at an absolute time using `IOneTimeJob`
 
-## Use Cases
+## Use Case examples
 - Sending emails 
 - Processing data
 - Enforcing data retention
