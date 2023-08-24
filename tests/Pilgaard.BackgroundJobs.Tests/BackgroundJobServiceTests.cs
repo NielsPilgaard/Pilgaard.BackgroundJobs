@@ -21,12 +21,16 @@ public class backgroundjobservice_should
         // Arrange
         string? output1 = null;
         string? output2 = null;
+        string? output3 = null;
+        string? output4 = null;
 
         _services
             .AddSingleton<BackgroundJobScheduler>()
             .AddBackgroundJobs()
             .AddJob("FastRecurringJob", () => output1 = "not empty", TimeSpan.FromSeconds(1))
-            .AddJob("FasterRecurringJob", () => output2 = "not empty", CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds));
+            .AddJob("FastRecurringJobWithInitialDelay", () => output2 = "not empty", TimeSpan.FromSeconds(1), TimeSpan.Zero)
+            .AddJob("FastCronJob", () => output3 = "not empty", CronExpression.Parse("* * * * * *", CronFormat.IncludeSeconds))
+            .AddJob("FastOneTimeJob", () => output4 = "not empty", DateTime.UtcNow.AddSeconds(1));
 
         await using var serviceProvider = _services.BuildServiceProvider();
 
@@ -47,5 +51,7 @@ public class backgroundjobservice_should
         // Assert
         output1.Should().NotBeNull();
         output2.Should().NotBeNull();
+        output3.Should().NotBeNull();
+        output4.Should().NotBeNull();
     }
 }
