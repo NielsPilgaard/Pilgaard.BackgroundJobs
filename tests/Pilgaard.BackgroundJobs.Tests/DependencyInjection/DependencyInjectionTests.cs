@@ -22,8 +22,11 @@ public class backgroundjob_registration_should
 
         var backgroundJobServiceOptions = serviceProvider.GetRequiredService<IOptions<BackgroundJobServiceOptions>>();
 
-        backgroundJobServiceOptions.Value.Registrations.FirstOrDefault()
-            .Should().NotBeNull();
+        backgroundJobServiceOptions.Value.Registrations
+            .FirstOrDefault().Should().NotBeNull();
+
+        backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
@@ -51,6 +54,9 @@ public class backgroundjob_registration_should
             .Should().NotBeNull();
 
         backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeTrue();
+
+        backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
             .Should().BeOfType<RecurringJob>()
             .And.BeAssignableTo<IRecurringJob>()
@@ -74,6 +80,9 @@ public class backgroundjob_registration_should
 
         backgroundJobServiceOptions.Value.Registrations.FirstOrDefault()
             .Should().NotBeNull();
+
+        backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
@@ -113,5 +122,5 @@ public class OneTimeJob : IOneTimeJob
 
         return Task.CompletedTask;
     }
-    public DateTime ScheduledTimeUtc => new(year: 2023, month: 12, day: 31, hour: 23, minute: 59, second: 59);
+    public DateTime ScheduledTimeUtc => new(year: 2025, month: 12, day: 31, hour: 23, minute: 59, second: 59);
 }

@@ -29,6 +29,9 @@ public class backgroundjob_delegate_registration_should
             .Should().NotBeNull();
 
         backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
+
+        backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
             .Should().BeOfType<DelegateCronJob>()
             .And.BeAssignableTo<ICronJob>()
@@ -55,6 +58,9 @@ public class backgroundjob_delegate_registration_should
 
         backgroundJobServiceOptions.Value.Registrations.FirstOrDefault()
             .Should().NotBeNull();
+
+        backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeTrue();
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
@@ -85,6 +91,9 @@ public class backgroundjob_delegate_registration_should
             .Should().NotBeNull();
 
         backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
+
+        backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
             .Should().BeOfType<DelegateOneTimeJob>()
             .And.BeAssignableTo<IOneTimeJob>()
@@ -111,6 +120,9 @@ public class backgroundjob_delegate_registration_should
 
         backgroundJobServiceOptions.Value.Registrations.FirstOrDefault()
             .Should().NotBeNull();
+
+        backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
@@ -141,6 +153,9 @@ public class backgroundjob_delegate_registration_should
             .Should().NotBeNull();
 
         backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeTrue();
+
+        backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
             .Should().BeOfType<DelegateRecurringJob>()
             .And.BeAssignableTo<IRecurringJob>()
@@ -167,6 +182,9 @@ public class backgroundjob_delegate_registration_should
 
         backgroundJobServiceOptions.Value.Registrations.FirstOrDefault()
             .Should().NotBeNull();
+
+        backgroundJobServiceOptions.Value.Registrations
+            .First().IsRecurringJob.Should().BeFalse();
 
         backgroundJobServiceOptions.Value.Registrations
             .First().Factory(serviceProvider)
