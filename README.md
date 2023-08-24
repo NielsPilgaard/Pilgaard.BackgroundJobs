@@ -18,6 +18,7 @@ A dotnet library for running background jobs in a scalable and performant manner
 ## Scheduling Methods
 - Cron expressions using `ICronJob`
 - Recurringly at a set interval using `IRecurringJob`
+- Recurringly at a set interval after an initial delay using `IRecurringJobWithInitialDelay`
 - Once at an absolute time using `IOneTimeJob`
 
 ## Use Cases
@@ -54,6 +55,19 @@ public class RecurringJob : IRecurringJob
 }
 ```
 ```csharp
+public class RecurringJobWithInitialDelay : IRecurringJobWithInitialDelay
+{
+    public Task RunJobAsync(CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine("This is your hourly reminder to stay hydrated.");
+
+        return Task.CompletedTask;
+    }
+    public TimeSpan Interval => TimeSpan.FromHours(1);
+    public TimeSpan InitialDelay => TimeSpan.Zero;
+}
+```
+```csharp
 public class OneTimeJob : IOneTimeJob
 {
     public Task RunJobAsync(CancellationToken cancellationToken = default)
@@ -75,6 +89,7 @@ Call `AddBackgroundJobs()` on an `IServiceCollection`, and then add jobs:
 builder.Services.AddBackgroundJobs()
     .AddJob<CronJob>()
     .AddJob<RecurringJob>()
+    .AddJob<RecurringJobWithInitialDelay>()
     .AddJob<OneTimeJob>();
 ```
 
@@ -91,6 +106,11 @@ builder.Services.AddBackgroundJobs()
         job: () => {},
         interval: TimeSpan.FromSeconds(3))
     .AddJob(
+        name: "basic-recurringjob-withinitialdelay",
+        job: () => {},
+        interval: TimeSpan.FromSeconds(3),
+        initialDelay: TimeSpan.Zero)
+    .AddJob(
         name: "basic-onetimejob",
         job: () => {},
         scheduledTimeUtc: DateTime.UtcNow.AddHours(1))
@@ -102,6 +122,11 @@ builder.Services.AddBackgroundJobs()
         name: "async-recurringjob",
         job: cancellationToken => Task.CompletedTask,
         interval: TimeSpan.FromSeconds(3))
+    .AddAsyncJob(
+        name: "async-recurringjob-withinitialdelay",
+        job: cancellationToken => Task.CompletedTask,
+        interval: TimeSpan.FromSeconds(3),
+        initialDelay: TimeSpan.Zero)
     .AddAsyncJob(
         name: "async-onetimejob",
         job: cancellationToken => Task.CompletedTask,
@@ -134,6 +159,7 @@ The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.Background
 
 - ~~Replace Assembly Scanning with registration similar to that of HealthChecks~~
 - A separate UI project to help visualize when jobs trigger
+- Utilize dotnet 8's new TimeProvider instead of `DateTime.UtcNow`
 - More samples
   - Using Blazor Server
   - ~~Using a Worker Service~~
