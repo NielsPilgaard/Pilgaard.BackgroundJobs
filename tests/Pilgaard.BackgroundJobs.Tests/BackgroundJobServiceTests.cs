@@ -25,7 +25,6 @@ public class backgroundjobservice_should
         string? output4 = null;
 
         _services
-            .AddSingleton<BackgroundJobScheduler>()
             .AddBackgroundJobs()
             .AddJob("FastRecurringJob", () => output1 = "not empty", TimeSpan.FromSeconds(1))
             .AddJob("FastRecurringJobWithInitialDelay", () => output2 = "not empty", TimeSpan.FromSeconds(1), TimeSpan.Zero)
