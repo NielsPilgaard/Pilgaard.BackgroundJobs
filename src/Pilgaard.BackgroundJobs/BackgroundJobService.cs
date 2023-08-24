@@ -110,7 +110,6 @@ internal sealed class BackgroundJobService : IBackgroundJobService
             var dueTime = recurringJob switch
             {
                 IRecurringJobWithInitialDelay recurringJobWithInitialDelay => recurringJobWithInitialDelay.InitialDelay,
-                IRecurringJobWithNoInitialDelay => TimeSpan.Zero,
                 _ => recurringJob.Interval
             };
 
