@@ -29,6 +29,9 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     private readonly ILogger<BackgroundJobService> _logger;
     private readonly IBackgroundJobScheduler _backgroundJobScheduler;
 
+    private event Func<object, EventArgs, BackgroundJobRegistration, CancellationToken, Task>? RecurringJobTimerTriggered;
+    private static readonly List<IDisposable> _recurringJobTimers = new();
+
     private static readonly Meter _meter = new(
         name: typeof(BackgroundJobService).Assembly.GetName().Name!,
         version: typeof(BackgroundJobService).Assembly.GetName().Version?.ToString());
@@ -66,6 +69,8 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     /// </returns>
     public async Task RunJobsAsync(CancellationToken cancellationToken = default)
     {
+        ScheduleRecurringJobs(cancellationToken);
+
         while (!cancellationToken.IsCancellationRequested)
         {
             _logger.LogDebug("Scheduling background jobs.");
@@ -82,6 +87,56 @@ internal sealed class BackgroundJobService : IBackgroundJobService
             }
         }
     }
+
+    internal void ScheduleRecurringJobs(CancellationToken cancellationToken)
+    {
+        var recurringJobRegistrations = _backgroundJobScheduler.GetRecurringJobs();
+        if (recurringJobRegistrations.Any())
+        {
+            RecurringJobTimerTriggered += RunRecurringJobAsync;
+        }
+
+        using var scope = _scopeFactory.CreateScope();
+        foreach (var jobRegistration in recurringJobRegistrations)
+        {
+            if (jobRegistration.Factory(scope.ServiceProvider) is not IRecurringJob recurringJob)
+            {
+                _logger.LogError("Failed to schedule recurring job {@jobRegistration}. " +
+                                 "It does not implement {recurringJobInterface}",
+                    jobRegistration, typeof(IRecurringJob));
+                continue;
+            }
+
+            var dueTime = recurringJob switch
+            {
+                IRecurringJobWithInitialDelay recurringJobWithInitialDelay => recurringJobWithInitialDelay.InitialDelay,
+                _ => recurringJob.Interval
+            };
+
+            var recurringJobTimer = new System.Threading.Timer(_ => RecurringJobTimerTriggered?.Invoke(this, EventArgs.Empty, jobRegistration, cancellationToken),
+                state: null,
+                dueTime: dueTime,
+                period: recurringJob.Interval);
+
+            _recurringJobTimers.Add(recurringJobTimer);
+
+            _logger.LogInformation("RecurringJob {jobName} has been scheduled to run every {interval}. " +
+                                   "The first run will be in {dueTime}",
+                jobRegistration.Name, recurringJob.Interval, dueTime);
+        }
+    }
+
+#pragma warning disable IDE0060    
+    /// <summary>
+    /// Runs the recurring job.
+    /// </summary>
+    /// <param name="sender">The sender. This is not used.</param>
+    /// <param name="eventArgs">The <see cref="EventArgs"/> instance containing the event data. This is not used.</param>
+    /// <param name="registration">The background job registration.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/> which can be used to cancel the background job.</param>
+    internal async Task RunRecurringJobAsync(object sender, EventArgs eventArgs, BackgroundJobRegistration registration, CancellationToken cancellationToken)
+        => await RunJobAsync(registration, cancellationToken);
+#pragma warning restore IDE0060
 
     /// <summary>
     /// Constructs the background job using <see cref="BackgroundJobRegistration.Factory"/> and runs it.
@@ -135,6 +190,14 @@ internal sealed class BackgroundJobService : IBackgroundJobService
         finally
         {
             timeoutCancellationTokenSource?.Dispose();
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var disposable in _recurringJobTimers)
+        {
+            disposable.Dispose();
         }
     }
 }

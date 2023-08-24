@@ -7,13 +7,10 @@ public static class OneTimeJobExtensions
     /// </summary>
     /// <param name="oneTimeJob">The one-time job to get the next occurrence of.</param>
     /// <returns>The next (and only) occurrence of the one-time job, or <c>null</c> if the occurrence is in the past.</returns>
-    public static DateTime? GetNextOccurrence(this IOneTimeJob oneTimeJob)
-    {
-        if (DateTime.UtcNow > oneTimeJob.ScheduledTimeUtc)
-            return null;
-
-        return oneTimeJob.ScheduledTimeUtc;
-    }
+    public static DateTime? GetNextOccurrence(this IOneTimeJob oneTimeJob) =>
+        DateTime.UtcNow > oneTimeJob.ScheduledTimeUtc
+            ? null
+            : oneTimeJob.ScheduledTimeUtc;
 
     /// <summary>
     /// Get the next occurrence of the one-time job, as an <see cref="IEnumerable{T}"/>.
@@ -25,12 +22,13 @@ public static class OneTimeJobExtensions
     {
         // If toUtc is less than the scheduled time, it's not within the range of occurrences to return
         if (toUtc < oneTimeJob.ScheduledTimeUtc)
+        {
             return Enumerable.Empty<DateTime>();
+        }
 
         // If the current time is higher than the scheduled time, there is no next occurrence
-        if (DateTime.UtcNow > oneTimeJob.ScheduledTimeUtc)
-            return Enumerable.Empty<DateTime>();
-
-        return new[] { oneTimeJob.ScheduledTimeUtc };
+        return DateTime.UtcNow > oneTimeJob.ScheduledTimeUtc
+            ? Enumerable.Empty<DateTime>()
+            : new[] { oneTimeJob.ScheduledTimeUtc };
     }
 }

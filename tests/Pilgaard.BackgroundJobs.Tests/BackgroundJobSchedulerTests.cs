@@ -101,9 +101,14 @@ public class backgroundjobscheduler_should
         var backgroundJobs = sut
             .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(2))
             .ToArray();
+        var recurringJobs = sut.GetRecurringJobs();
 
         // Assert
-        var distinctBackgroundJobs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var distinctBackgroundJobs = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            // Recurring jobs are returned separately, add it to the list manually
+            recurringJobs.FirstOrDefault()!.Name
+        };
         foreach (var (occurrence, backgroundJobRegistration) in backgroundJobs)
         {
             string backgroundJobType = backgroundJobRegistration.Factory(serviceProvider).GetType().Name;
@@ -127,5 +132,27 @@ public class backgroundjobscheduler_should
 
         // Act && Assert
         Assert.Throws<ArgumentException>(() => serviceProvider.GetRequiredService<IBackgroundJobScheduler>());
+    }
+
+    [Fact]
+    public async Task not_return_more_cronjob_occurrences_than_there_are()
+    {
+        // Arrange
+        _services
+            .AddSingleton<BackgroundJobScheduler>()
+            .AddBackgroundJobs()
+            // Run every 5 seconds
+            .AddJob("CronJob", () => { }, CronExpression.Parse("*/5 * * * * *", CronFormat.IncludeSeconds));
+
+        await using var serviceProvider = _services.BuildServiceProvider();
+        var sut = serviceProvider.GetRequiredService<BackgroundJobScheduler>();
+
+        // Act
+        var backgroundJobs = sut
+            .GetOrderedBackgroundJobOccurrences(TimeSpan.FromMinutes(1))
+            .ToArray();
+
+        // Assert
+        backgroundJobs.Length.Should().Be(60 / 5);
     }
 }

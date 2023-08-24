@@ -29,7 +29,9 @@ internal sealed class BackgroundJobsBuilder : IBackgroundJobsBuilder
     public IBackgroundJobsBuilder Add(BackgroundJobRegistration registration)
     {
         if (registration == null)
+        {
             throw new ArgumentNullException(nameof(registration));
+        }
 
         Services.Configure<BackgroundJobServiceOptions>(options => options.Registrations.Add(registration));
 

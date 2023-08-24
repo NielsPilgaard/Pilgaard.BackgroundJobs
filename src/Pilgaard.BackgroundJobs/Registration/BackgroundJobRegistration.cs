@@ -11,20 +11,25 @@ public sealed class BackgroundJobRegistration
     /// <param name="instance">The instance of the background job.</param>
     /// <param name="name">The name of the background job.</param>
     /// <param name="timeout">The timeout for the background job. (optional)</param>
+    /// <param name="isRecurringJob">Whether the <see cref="IBackgroundJob"/> implements <see cref="IRecurringJob"/> or not.</param>
     public BackgroundJobRegistration(
         IBackgroundJob instance,
         string name,
-        TimeSpan? timeout = null)
+        TimeSpan? timeout = null,
+        bool isRecurringJob = false)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
+        {
             throw new ArgumentOutOfRangeException(nameof(timeout));
-
+        }
 
         Name = name ?? throw new ArgumentNullException(nameof(name));
 
         Factory = (_) => instance;
 
         Timeout = timeout ?? System.Threading.Timeout.InfiniteTimeSpan;
+
+        IsRecurringJob = isRecurringJob;
     }
 
     /// <summary>
@@ -33,19 +38,25 @@ public sealed class BackgroundJobRegistration
     /// <param name="factory">The factory used to create the background job instance.</param>
     /// <param name="name">The name of the background job.</param>
     /// <param name="timeout">The timeout for the background job. (optional)</param>
+    /// <param name="isRecurringJob">Whether the <see cref="IBackgroundJob"/> implements <see cref="IRecurringJob"/> or not.</param>
     public BackgroundJobRegistration(
         Func<IServiceProvider, IBackgroundJob> factory,
         string name,
-        TimeSpan? timeout = null)
+        TimeSpan? timeout = null,
+        bool isRecurringJob = false)
     {
         if (timeout <= TimeSpan.Zero && timeout != System.Threading.Timeout.InfiniteTimeSpan)
+        {
             throw new ArgumentOutOfRangeException(nameof(timeout));
+        }
 
         Name = name ?? throw new ArgumentNullException(nameof(name));
 
         Factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
         Timeout = timeout ?? System.Threading.Timeout.InfiniteTimeSpan;
+
+        IsRecurringJob = isRecurringJob;
     }
 
     /// <summary>
@@ -62,4 +73,9 @@ public sealed class BackgroundJobRegistration
     /// Gets the timeout used for the job.
     /// </summary>
     public TimeSpan Timeout { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether this instance implements <see cref="IRecurringJob"/> or not.
+    /// </summary>
+    internal bool IsRecurringJob { get; } = false;
 }

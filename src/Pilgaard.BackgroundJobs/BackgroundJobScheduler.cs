@@ -30,17 +30,14 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         _options = options ?? throw new ArgumentNullException(nameof(options));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+        if (registrationsValidator is null)
+        {
+            throw new ArgumentNullException(nameof(registrationsValidator));
+        }
+
         registrationsValidator.Validate(_options.Value.Registrations);
     }
 
-    /// <summary>
-    /// Asynchronously retrieves an ordered enumerable of background job registrations.
-    /// <para>
-    /// Each background job registration is returned when it should be run.
-    /// </para>
-    /// </summary>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used for cancelling the enumeration.</param>
-    /// <returns>An asynchronous enumerable of background job registrations.</returns>
     public async IAsyncEnumerable<BackgroundJobRegistration> GetBackgroundJobsAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var interval = TimeSpan.FromSeconds(30);
@@ -53,7 +50,7 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         {
             var intervalMinus5Seconds = interval.Subtract(TimeSpan.FromSeconds(5));
 
-            _logger.LogDebug("No background job occurrences found in the TimeSpan {interval}, " +
+            _logger.LogDebug("No CronJob or OneTimeJob occurrences found in the TimeSpan {interval}, " +
                              "waiting for TimeSpan {interval} until checking again.", interval, intervalMinus5Seconds);
 
             await Task.Delay(intervalMinus5Seconds, cancellationToken);
@@ -78,6 +75,9 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         }
     }
 
+
+    public IEnumerable<BackgroundJobRegistration> GetRecurringJobs() => _options.Value.Registrations.Where(registration => registration.IsRecurringJob);
+
     /// <summary>
     /// Gets an ordered enumerable of background job occurrences within the specified <paramref name="fetchInterval"/>.
     /// </summary>
@@ -90,7 +90,8 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
         using var scope = _scopeFactory.CreateScope();
 
         var backgroundJobOccurrences = new List<BackgroundJobOccurrence>();
-        foreach (var registration in _options.Value.Registrations)
+
+        foreach (var registration in _options.Value.Registrations.Where(registration => !registration.IsRecurringJob))
         {
             var backgroundJob = registration.Factory(scope.ServiceProvider);
 

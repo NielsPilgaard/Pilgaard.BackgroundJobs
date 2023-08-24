@@ -29,6 +29,8 @@ internal sealed class RegistrationValidator : IRegistrationValidator
         }
 
         if (builder is not null)
+        {
             throw new ArgumentException(builder.ToString(0, builder.Length - 2), nameof(registrations));
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Pilgaard.BackgroundJobs;
 /// <see cref="IBackgroundJobsBuilder"/>.
 /// </para>
 /// </remarks>
-public interface IBackgroundJobService
+public interface IBackgroundJobService : IDisposable
 {
     /// <summary>
     /// Runs all the background jobs in the application.
