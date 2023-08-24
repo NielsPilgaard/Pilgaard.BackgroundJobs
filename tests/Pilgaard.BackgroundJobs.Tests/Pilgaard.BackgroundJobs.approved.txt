@@ -23,9 +23,11 @@
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddAsyncJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> job, System.TimeSpan interval, System.TimeSpan initialDelay, System.TimeSpan? timeout = default) { }
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, Cronos.CronExpression cronExpression, System.TimeSpan? timeout = default) { }
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.DateTime scheduledTimeUtc, System.TimeSpan? timeout = default) { }
         public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.TimeSpan? timeout = default) { }
+        public static Pilgaard.BackgroundJobs.IBackgroundJobsBuilder AddJob(this Pilgaard.BackgroundJobs.IBackgroundJobsBuilder builder, string name, System.Action job, System.TimeSpan interval, System.TimeSpan initialDelay, System.TimeSpan? timeout = default) { }
     }
     public static class BackgroundJobsBuilderExtensions
     {
@@ -66,7 +68,6 @@
     {
         System.TimeSpan InitialDelay { get; }
     }
-    public interface IRecurringJobWithNoInitialDelay : Pilgaard.BackgroundJobs.IBackgroundJob, Pilgaard.BackgroundJobs.IRecurringJob { }
     public static class OneTimeJobExtensions
     {
         public static System.DateTime? GetNextOccurrence(this Pilgaard.BackgroundJobs.IOneTimeJob oneTimeJob) { }
