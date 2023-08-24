@@ -18,5 +18,5 @@ public class CronJob : ICronJob
         return Task.CompletedTask;
     }
 
-    public CronExpression CronExpression => Cronos.CronExpression.Parse("* * * * *");
+    public CronExpression CronExpression => CronExpression.Parse("* * * * *");
 }
