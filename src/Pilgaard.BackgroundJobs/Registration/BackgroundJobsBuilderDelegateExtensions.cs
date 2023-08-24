@@ -90,6 +90,49 @@ public static class BackgroundJobsBuilderDelegateExtensions
     }
 
     /// <summary>
+    /// Adds a delegate-based background job to the builder with a specified recurring interval and initial delay.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="interval">The interval between recurring executions of the job.</param>
+    /// <param name="initialDelay">The initial delay before the first execution of the job. Set to <see cref="TimeSpan.Zero"/> to execute the job on startup.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
+    public static IBackgroundJobsBuilder AddJob(
+        this IBackgroundJobsBuilder builder,
+        string name,
+        Action job,
+        TimeSpan interval,
+        TimeSpan initialDelay,
+        TimeSpan? timeout = default)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (name is null)
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        if (job is null)
+        {
+            throw new ArgumentNullException(nameof(job));
+        }
+
+        var instance = new DelegateRecurringJobWithInitialDelay(_ =>
+        {
+            job();
+            return Task.CompletedTask;
+        }, interval, initialDelay);
+
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, isRecurringJob: true));
+    }
+
+    /// <summary>
     /// Adds a delegate-based background job to the builder with a specified scheduled time.
     /// </summary>
     /// <param name="builder">The builder to add the job to.</param>
@@ -199,6 +242,44 @@ public static class BackgroundJobsBuilderDelegateExtensions
         }
 
         var instance = new DelegateRecurringJob(job, interval);
+        return builder.Add(new BackgroundJobRegistration(instance, name, timeout, isRecurringJob: true));
+    }
+
+    /// <summary>
+    /// Adds an asynchronous delegate-based background job to the builder with a specified recurring interval and initial delay.
+    /// </summary>
+    /// <param name="builder">The builder to add the job to.</param>
+    /// <param name="name">The name of the job.</param>
+    /// <param name="job">The delegate to be executed as the job.</param>
+    /// <param name="interval">The interval between recurring executions of the job.</param>
+    /// <param name="initialDelay">The initial delay before the first execution of the job. Set to <see cref="TimeSpan.Zero"/> to execute the job on startup.</param>
+    /// <param name="timeout">The timeout for the job execution, or null to use the default timeout.</param>
+    /// <returns>The updated builder.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if builder, name, or job is null.</exception>
+    public static IBackgroundJobsBuilder AddAsyncJob(
+        this IBackgroundJobsBuilder builder,
+        string name,
+        Func<CancellationToken, Task> job,
+        TimeSpan interval,
+        TimeSpan initialDelay,
+        TimeSpan? timeout = default)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (name is null)
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        if (job is null)
+        {
+            throw new ArgumentNullException(nameof(job));
+        }
+
+        var instance = new DelegateRecurringJobWithInitialDelay(job, interval, initialDelay);
         return builder.Add(new BackgroundJobRegistration(instance, name, timeout, isRecurringJob: true));
     }
 
