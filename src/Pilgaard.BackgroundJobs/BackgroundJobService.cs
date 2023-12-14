@@ -126,7 +126,6 @@ internal sealed class BackgroundJobService : IBackgroundJobService
         }
     }
 
-#pragma warning disable IDE0060    
     /// <summary>
     /// Runs the recurring job.
     /// </summary>
@@ -136,7 +135,6 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> which can be used to cancel the background job.</param>
     internal async Task RunRecurringJobAsync(object sender, EventArgs eventArgs, BackgroundJobRegistration registration, CancellationToken cancellationToken)
         => await RunJobAsync(registration, cancellationToken);
-#pragma warning restore IDE0060
 
     /// <summary>
     /// Constructs the background job using <see cref="BackgroundJobRegistration.Factory"/> and runs it.
