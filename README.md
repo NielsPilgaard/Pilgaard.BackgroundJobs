@@ -171,4 +171,5 @@ The [Open Telemetry Sample](https://github.com/NielsPilgaard/Pilgaard.Background
 
 ## Thanks to
 
-The developers of [Cronos](https://github.com/HangfireIO/Cronos) for their excellent Cron expression library.
+- The developers of [Cronos](https://github.com/HangfireIO/Cronos) for their excellent Cron expression library.
+- JetBrains for providing me with a free license to their products, through their [Open Source Support program](https://jb.gg/OpenSourceSupport).
