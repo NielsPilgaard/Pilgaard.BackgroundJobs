@@ -69,7 +69,7 @@ public class backgroundjobscheduler_should
 
         try
         {
-            await foreach (var backgroundJob in backgroundJobs.WithCancellation(cts.Token))
+            await foreach (var backgroundJob in backgroundJobs)
             {
                 var now = DateTime.UtcNow;
                 now.Second.Should().Be(startTime.AddSeconds(index++).Second);
@@ -116,7 +116,7 @@ public class backgroundjobscheduler_should
             _testOutput.WriteLine($"[{backgroundJobType}]: {occurrence}");
         }
 
-        distinctBackgroundJobs.Count.Should().Be(3);
+        distinctBackgroundJobs.Should().HaveCount(3);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class backgroundjobscheduler_should
         await using var serviceProvider = _services.BuildServiceProvider();
 
         // Act && Assert
-        Assert.Throws<ArgumentException>(() => serviceProvider.GetRequiredService<IBackgroundJobScheduler>());
+        Assert.Throws<ArgumentException>(serviceProvider.GetRequiredService<IBackgroundJobScheduler>);
     }
 
     [Fact]
