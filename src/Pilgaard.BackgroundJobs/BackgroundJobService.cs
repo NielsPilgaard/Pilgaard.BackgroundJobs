@@ -1,6 +1,7 @@
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Pilgaard.BackgroundJobs;
 
@@ -28,9 +29,10 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<BackgroundJobService> _logger;
     private readonly IBackgroundJobScheduler _backgroundJobScheduler;
+    private readonly BackgroundJobServiceOptions _backgroundJobServiceOptions;
 
     private event Func<object, EventArgs, BackgroundJobRegistration, CancellationToken, Task>? RecurringJobTimerTriggered;
-    private static readonly List<IDisposable> _recurringJobTimers = new();
+    private static readonly List<IDisposable> _recurringJobTimers = [];
 
     private static readonly Meter _meter = new(
         name: typeof(BackgroundJobService).Assembly.GetName().Name!,
@@ -49,14 +51,17 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     /// <param name="scopeFactory">The factory used when constructing background jobs.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="backgroundJobScheduler">The background job scheduler used to retrieve jobs when they should be run.</param>
+    /// <param name="backgroundJobServiceOptions">The options holding all <see cref="BackgroundJobRegistration"/>s, used to determine whether the <see cref="BackgroundJobService"/> should begin polling for occurrences or not.</param>
     public BackgroundJobService(
         IServiceScopeFactory scopeFactory,
         ILogger<BackgroundJobService> logger,
-        IBackgroundJobScheduler backgroundJobScheduler)
+        IBackgroundJobScheduler backgroundJobScheduler,
+        IOptions<BackgroundJobServiceOptions> backgroundJobServiceOptions)
     {
         _scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _backgroundJobScheduler = backgroundJobScheduler ?? throw new ArgumentNullException(nameof(backgroundJobScheduler));
+        _backgroundJobServiceOptions = backgroundJobServiceOptions.Value;
     }
 
     /// <summary>
@@ -65,11 +70,20 @@ internal sealed class BackgroundJobService : IBackgroundJobService
     /// <param name="cancellationToken">A <see cref="CancellationToken"/>
     /// which can be used to cancel the background jobs.</param>
     /// <returns>
-    /// A <see cref="Task"/> which will complete when all background jobs have been run, and there are no more occurrences of any of them.
+    /// A <see cref="Task"/> which will complete when all background jobs have been run, and there are no more occurrences of them.
     /// </returns>
     public async Task RunJobsAsync(CancellationToken cancellationToken = default)
     {
         ScheduleRecurringJobs(cancellationToken);
+
+        if (_backgroundJobServiceOptions
+                .Registrations
+                .Count(registration => registration.IsRecurringJob is false) is 0)
+        {
+            _logger.LogInformation("No {OneTimeJob} or {CronJob} have been registered.",
+                nameof(IOneTimeJob), nameof(ICronJob));
+            return;
+        }
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -77,7 +91,6 @@ internal sealed class BackgroundJobService : IBackgroundJobService
 
             var backgroundJobsToRun = _backgroundJobScheduler
                 .GetBackgroundJobsAsync(cancellationToken)
-                .WithCancellation(cancellationToken)
                 .ConfigureAwait(false);
 
             await foreach (var registration in backgroundJobsToRun)

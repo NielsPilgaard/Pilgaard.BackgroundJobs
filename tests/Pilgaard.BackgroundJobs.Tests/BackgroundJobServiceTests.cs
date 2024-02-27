@@ -1,17 +1,14 @@
 using Cronos;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
 
 namespace Pilgaard.BackgroundJobs.Tests;
 public class backgroundjobservice_should
 {
-    private readonly ITestOutputHelper _testOutput;
     private readonly IServiceCollection _services;
 
-    public backgroundjobservice_should(ITestOutputHelper testOutput)
+    public backgroundjobservice_should()
     {
-        _testOutput = testOutput;
         _services = new ServiceCollection().AddLogging();
     }
 
@@ -52,5 +49,25 @@ public class backgroundjobservice_should
         output2.Should().NotBeNull();
         output3.Should().NotBeNull();
         output4.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task return_early_when_only_recurring_jobs_are_registered()
+    {
+        // Arrange
+        _services.AddBackgroundJobs()
+            .AddJob("FastRecurringJob", () => { }, TimeSpan.FromSeconds(1))
+            .AddJob("FastRecurringJobWithInitialDelay", () => { }, TimeSpan.FromSeconds(1), TimeSpan.Zero);
+
+        await using var serviceProvider = _services.BuildServiceProvider();
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+
+        var sut = serviceProvider.GetRequiredService<IBackgroundJobService>();
+
+        // Act
+        await sut.RunJobsAsync(cts.Token);
+
+        // The assertion is that RunJobsAsync does not keep running, because it returns early
     }
 }
