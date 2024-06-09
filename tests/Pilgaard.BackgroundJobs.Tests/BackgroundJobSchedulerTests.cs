@@ -4,16 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
 namespace Pilgaard.BackgroundJobs.Tests;
-public class backgroundjobscheduler_should
+public class BackgroundJobSchedulerTests(ITestOutputHelper testOutput)
 {
-	private readonly ITestOutputHelper _testOutput;
-	private readonly IServiceCollection _services;
-
-	public backgroundjobscheduler_should(ITestOutputHelper testOutput)
-	{
-		_testOutput = testOutput;
-		_services = new ServiceCollection().AddLogging();
-	}
+	private readonly IServiceCollection _services = new ServiceCollection().AddLogging();
 
 	[Fact]
 	public async Task return_background_jobs_in_order_of_occurrence()
@@ -38,7 +31,7 @@ public class backgroundjobscheduler_should
 		var lastOccurrence = DateTime.MinValue;
 		foreach (var (occurrence, backgroundJob) in backgroundJobs)
 		{
-			_testOutput.WriteLine($"[{backgroundJob}]: {occurrence}");
+			testOutput.WriteLine($"[{backgroundJob}]: {occurrence}");
 			occurrence.Should().BeAfter(lastOccurrence);
 			lastOccurrence = occurrence;
 		}
@@ -73,7 +66,7 @@ public class backgroundjobscheduler_should
 			{
 				var now = DateTime.UtcNow;
 				now.Second.Should().Be(startTime.AddSeconds(index++).Second);
-				_testOutput.WriteLine($"[{backgroundJob}]: {now}");
+				testOutput.WriteLine($"[{backgroundJob}]: {now}");
 			}
 		}
 		catch
@@ -111,9 +104,9 @@ public class backgroundjobscheduler_should
 		};
 		foreach (var (occurrence, backgroundJobRegistration) in backgroundJobs)
 		{
-			string backgroundJobType = backgroundJobRegistration.Factory(serviceProvider).GetType().Name;
+			var backgroundJobType = backgroundJobRegistration.Factory(serviceProvider).GetType().Name;
 			distinctBackgroundJobs.Add(backgroundJobType);
-			_testOutput.WriteLine($"[{backgroundJobType}]: {occurrence}");
+			testOutput.WriteLine($"[{backgroundJobType}]: {occurrence}");
 		}
 
 		distinctBackgroundJobs.Should().HaveCount(3);
@@ -153,7 +146,7 @@ public class backgroundjobscheduler_should
 			.ToArray();
 
 		// Assert
-		backgroundJobs.Length.Should().Be(60 / 5);
+		backgroundJobs.Should().HaveCount(60 / 5);
 	}
 
 	[Fact]
