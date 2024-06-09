@@ -76,7 +76,6 @@ internal sealed class BackgroundJobScheduler : IBackgroundJobScheduler
 		}
 	}
 
-
 	public IEnumerable<BackgroundJobRegistration> GetRecurringJobs() => _options.Value.Registrations.Where(registration => registration.IsRecurringJob);
 
 	/// <summary>
