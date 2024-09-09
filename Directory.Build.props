@@ -43,7 +43,7 @@
 	<ItemGroup Label="Shared Files and Packages for Nugets" Condition="'$(IsPackable)' == 'true'">
 		<None Include="README.md" Pack="true" PackagePath="" />
 		<None Include="../../assets/logo/logo_128x128.png" Pack="true" PackagePath="" />
-		<PackageReference Include="MinVer" Version="5.0.0" PrivateAssets="All" />
+		<PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup Label="Net Nugets" Condition="'$(TargetFramework)' == '$(NetVersion)'">
