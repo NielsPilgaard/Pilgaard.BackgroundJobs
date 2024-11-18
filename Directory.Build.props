@@ -53,10 +53,10 @@
 	</ItemGroup>
 
 	<ItemGroup Label="NetStandard Nugets" Condition="'$(TargetFramework)' == '$(NetStandardVersion)'">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.18" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.18" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.18" />
-		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Label="Test Projects" Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
