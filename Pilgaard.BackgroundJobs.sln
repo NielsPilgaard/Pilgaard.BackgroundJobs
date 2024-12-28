@@ -139,6 +139,7 @@ Global
 		{69CCFA55-D43E-43B1-8659-F8A4BD909471} = {F80C4EC1-D73B-4602-9B01-BD98ECDE3905}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		FileExplorer = .github\workflows\
 		SolutionGuid = {AE30DB9E-1DB2-4346-9C9E-A487459AA94B}
 	EndGlobalSection
 EndGlobal
