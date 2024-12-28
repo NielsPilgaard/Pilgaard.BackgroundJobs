@@ -4,11 +4,18 @@
 		<TargetFrameworks>$(NetStandardVersion);$(NetVersion)</TargetFrameworks>
 		<Description>Easily create jobs that run based on Cron expressions.</Description>
 		<PackageTags>cron;cronjobs;backgroundservice;backgroundworker;scheduling</PackageTags>
-    <MinVerTagPrefix>cronjobs-v</MinVerTagPrefix>
-  </PropertyGroup>
+		<MinVerTagPrefix>cronjobs-v</MinVerTagPrefix>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Cronos" Version="0.9.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Cronos" Version="0.9.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Label="NetStandard Nugets" Condition="'$(TargetFramework)' == '$(NetStandardVersion)'">
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.0" />
+	</ItemGroup>
 
 </Project>
