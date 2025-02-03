@@ -10,7 +10,7 @@
 	<ItemGroup>
 		<PackageReference Include="Cronos" Version="0.9.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
 	</ItemGroup>
 
