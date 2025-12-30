@@ -9,13 +9,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Cronos" Version="0.9.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Label="NetStandard Nugets" Condition="'$(TargetFramework)' == '$(NetStandardVersion)'">
-		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.1" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.0" />
 	</ItemGroup>
 
 </Project>
